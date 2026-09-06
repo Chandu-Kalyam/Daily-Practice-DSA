@@ -1,0 +1,497 @@
+Leetcode:
+1. 1480. Running Sum of 1d Array
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an array nums. We define a running sum of an array as runningSum[i] = sum(nums[0]…nums[i]).
+Return the running sum of nums.
+Example 1:
+Input: nums = [1,2,3,4]
+Output: [1,3,6,10]
+Explanation: Running sum is obtained as follows: [1, 1+2, 1+2+3, 1+2+3+4].
+Example 2:
+Input: nums = [1,1,1,1,1]
+Output: [1,2,3,4,5]
+Explanation: Running sum is obtained as follows: [1, 1+1, 1+1+1, 1+1+1+1, 1+1+1+1+1].
+Example 3:
+Input: nums = [3,1,2,10,1]
+Output: [3,4,6,16,17]
+Constraints:
+1 <= nums.length <= 1000
+-10^6 <= nums[i] <= 10^6
+solution:
+class Solution:
+    def runningSum(self, nums: List[int]) -> List[int]:
+        output = [nums[0]]
+        for i in range(1, len(nums)):
+            num = output[-1] + nums[i]
+            output.append(num)
+
+        return output
+
+2. 2114. Maximum Number of Words Found in Sentences
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A sentence is a list of words that are separated by a single space with no leading or trailing spaces.
+
+You are given an array of strings sentences, where each sentences[i] represents a single sentence.
+
+Return the maximum number of words that appear in a single sentence.
+
+ 
+
+Example 1:
+
+Input: sentences = ["alice and bob love leetcode", "i think so too", "this is great thanks very much"]
+Output: 6
+Explanation: 
+- The first sentence, "alice and bob love leetcode", has 5 words in total.
+- The second sentence, "i think so too", has 4 words in total.
+- The third sentence, "this is great thanks very much", has 6 words in total.
+Thus, the maximum number of words in a single sentence comes from the third sentence, which has 6 words.
+Example 2:
+
+Input: sentences = ["please wait", "continue to fight", "continue to win"]
+Output: 3
+Explanation: It is possible that multiple sentences contain the same number of words. 
+In this example, the second and third sentences (underlined) have the same number of words.
+ 
+
+Constraints:
+
+1 <= sentences.length <= 100
+1 <= sentences[i].length <= 100
+sentences[i] consists only of lowercase English letters and ' ' only.
+sentences[i] does not have leading or trailing spaces.
+All the words in sentences[i] are separated by a single space.
+solution:
+class Solution:
+    def mostWordsFound(self, sentences: List[str]) -> int:
+        maxi = []
+        for sentence in sentences:
+            length = len(sentence.split(" "))
+            maxi.append(length)
+
+        return max(maxi)
+
+3. 1773. Count Items Matching a Rule
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an array items, where each items[i] = [typei, colori, namei] describes the type, color, and name of the ith item. You are also given a rule represented by two strings, ruleKey and ruleValue.
+
+The ith item is said to match the rule if one of the following is true:
+
+ruleKey == "type" and ruleValue == typei.
+ruleKey == "color" and ruleValue == colori.
+ruleKey == "name" and ruleValue == namei.
+Return the number of items that match the given rule.
+
+ 
+
+Example 1:
+
+Input: items = [["phone","blue","pixel"],["computer","silver","lenovo"],["phone","gold","iphone"]], ruleKey = "color", ruleValue = "silver"
+Output: 1
+Explanation: There is only one item matching the given rule, which is ["computer","silver","lenovo"].
+Example 2:
+
+Input: items = [["phone","blue","pixel"],["computer","silver","phone"],["phone","gold","iphone"]], ruleKey = "type", ruleValue = "phone"
+Output: 2
+Explanation: There are only two items matching the given rule, which are ["phone","blue","pixel"] and ["phone","gold","iphone"]. Note that the item ["computer","silver","phone"] does not match.
+ 
+
+Constraints:
+
+1 <= items.length <= 104
+1 <= typei.length, colori.length, namei.length, ruleValue.length <= 10
+ruleKey is equal to either "type", "color", or "name".
+All strings consist only of lowercase letters.
+solution:
+class Solution:
+    def countMatches(self, items: List[List[str]], ruleKey: str, ruleValue: str) -> int:
+        count = 0
+        
+        for item in items:
+            if ruleKey == "type" and item[0] == ruleValue:
+                count += 1
+            elif ruleKey == "color" and item[1] == ruleValue:
+                count += 1
+            elif ruleKey == "name" and item[2] == ruleValue:
+                count += 1
+        
+        return count
+
+        return count
+4. 1281. Subtract the Product and Sum of Digits of an Integer
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an integer number n, return the difference between the product of its digits and the sum of its digits.
+ 
+
+Example 1:
+
+Input: n = 234
+Output: 15 
+Explanation: 
+Product of digits = 2 * 3 * 4 = 24 
+Sum of digits = 2 + 3 + 4 = 9 
+Result = 24 - 9 = 15
+Example 2:
+
+Input: n = 4421
+Output: 21
+Explanation: 
+Product of digits = 4 * 4 * 2 * 1 = 32 
+Sum of digits = 4 + 4 + 2 + 1 = 11 
+Result = 32 - 11 = 21
+ 
+
+Constraints:
+
+1 <= n <= 10^5
+solution:
+class Solution:
+    def subtractProductAndSum(self, n: int) -> int:
+        product = 1
+        summ = 0
+        for num in str(n):
+            product *= int(num)
+            summ += int(num)
+
+        return product - summ
+
+5. 1688. Count of Matches in Tournament
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer n, the number of teams in a tournament that has strange rules:
+
+If the current number of teams is even, each team gets paired with another team. A total of n / 2 matches are played, and n / 2 teams advance to the next round.
+If the current number of teams is odd, one team randomly advances in the tournament, and the rest gets paired. A total of (n - 1) / 2 matches are played, and (n - 1) / 2 + 1 teams advance to the next round.
+Return the number of matches played in the tournament until a winner is decided.
+
+ 
+
+Example 1:
+
+Input: n = 7
+Output: 6
+Explanation: Details of the tournament: 
+- 1st Round: Teams = 7, Matches = 3, and 4 teams advance.
+- 2nd Round: Teams = 4, Matches = 2, and 2 teams advance.
+- 3rd Round: Teams = 2, Matches = 1, and 1 team is declared the winner.
+Total number of matches = 3 + 2 + 1 = 6.
+Example 2:
+
+Input: n = 14
+Output: 13
+Explanation: Details of the tournament:
+- 1st Round: Teams = 14, Matches = 7, and 7 teams advance.
+- 2nd Round: Teams = 7, Matches = 3, and 4 teams advance.
+- 3rd Round: Teams = 4, Matches = 2, and 2 teams advance.
+- 4th Round: Teams = 2, Matches = 1, and 1 team is declared the winner.
+Total number of matches = 7 + 3 + 2 + 1 = 13.
+ 
+
+Constraints:
+
+1 <= n <= 200
+solution:
+class Solution:
+    def numberOfMatches(self, n: int) -> int:
+        return n - 1
+
+HackerRank:
+1. sum
+
+The sum tool returns the sum of array elements over a given axis.
+
+import numpy
+
+my_array = numpy.array([ [1, 2], [3, 4] ])
+
+print numpy.sum(my_array, axis = 0)         #Output : [4 6]
+print numpy.sum(my_array, axis = 1)         #Output : [3 7]
+print numpy.sum(my_array, axis = None)      #Output : 10
+print numpy.sum(my_array)                   #Output : 10
+By default, the axis value is None. Therefore, it performs a sum over all the dimensions of the input array.
+
+prod
+
+The prod tool returns the product of array elements over a given axis.
+
+import numpy
+
+my_array = numpy.array([ [1, 2], [3, 4] ])
+
+print numpy.prod(my_array, axis = 0)            #Output : [3 8]
+print numpy.prod(my_array, axis = 1)            #Output : [ 2 12]
+print numpy.prod(my_array, axis = None)         #Output : 24
+print numpy.prod(my_array)                      #Output : 24
+By default, the axis value is None. Therefore, it performs the product over all the dimensions of the input array.
+
+Task
+
+You are given a 2-D array with dimensions X.
+Your task is to perform the  tool over axis  and then find the  of that result.
+
+Input Format
+
+The first line of input contains space separated values of  and .
+The next  lines contains  space separated integers.
+
+Output Format
+
+Compute the sum along axis . Then, print the product of that sum.
+
+Sample Input
+
+2 2
+1 2
+3 4
+Sample Output
+
+24
+Explanation
+
+The sum along axis  = [ ]
+The product of this sum = 
+solution:
+import numpy as np
+
+N, M = map(int, input().split())
+nums = np.array([input().split() for _ in range(N)], int)
+sums = np.sum(nums, axis=0)
+product = np.prod(sums)
+print(product)
+
+2. identity
+
+The identity tool returns an identity array. An identity array is a square matrix with all the main diagonal elements as  and the rest as . The default type of elements is float.
+
+import numpy
+print numpy.identity(3) #3 is for  dimension 3 X 3
+
+#Output
+[[ 1.  0.  0.]
+ [ 0.  1.  0.]
+ [ 0.  0.  1.]]
+eye
+
+The eye tool returns a 2-D array with 's as the diagonal and 's elsewhere. The diagonal can be main, upper or lower depending on the optional parameter . A positive  is for the upper diagonal, a negative  is for the lower, and a   (default) is for the main diagonal.
+
+import numpy
+print numpy.eye(8, 7, k = 1)    # 8 X 7 Dimensional array with first upper diagonal 1.
+
+#Output
+[[ 0.  1.  0.  0.  0.  0.  0.]
+ [ 0.  0.  1.  0.  0.  0.  0.]
+ [ 0.  0.  0.  1.  0.  0.  0.]
+ [ 0.  0.  0.  0.  1.  0.  0.]
+ [ 0.  0.  0.  0.  0.  1.  0.]
+ [ 0.  0.  0.  0.  0.  0.  1.]
+ [ 0.  0.  0.  0.  0.  0.  0.]
+ [ 0.  0.  0.  0.  0.  0.  0.]]
+
+print numpy.eye(8, 7, k = -2)   # 8 X 7 Dimensional array with second lower diagonal 1.
+Task
+
+Your task is to print an array of size X with its main diagonal elements as 's and 's everywhere else.
+
+Note
+
+In order to get alignment correct, please insert the line  below the numpy import.
+
+Input Format
+
+A single line containing the space separated values of  and .
+ denotes the rows.
+ denotes the columns.
+
+Output Format
+
+Print the desired X array.
+
+Sample Input
+
+3 3
+Sample Output
+
+[[ 1.  0.  0.]
+ [ 0.  1.  0.]
+ [ 0.  0.  1.]]
+solution:
+import numpy as np
+np.set_printoptions(legacy='1.13')
+
+N, M = map(int, input().split())
+print(np.eye(N, M))
+
+
+3. min
+
+The tool min returns the minimum value along a given axis.
+
+import numpy
+
+my_array = numpy.array([[2, 5], 
+                        [3, 7],
+                        [1, 3],
+                        [4, 0]])
+
+print numpy.min(my_array, axis = 0)         #Output : [1 0]
+print numpy.min(my_array, axis = 1)         #Output : [2 3 1 0]
+print numpy.min(my_array, axis = None)      #Output : 0
+print numpy.min(my_array)                   #Output : 0
+By default, the axis value is None. Therefore, it finds the minimum over all the dimensions of the input array.
+
+max
+
+The tool max returns the maximum value along a given axis.
+
+import numpy
+
+my_array = numpy.array([[2, 5], 
+                        [3, 7],
+                        [1, 3],
+                        [4, 0]])
+
+print numpy.max(my_array, axis = 0)         #Output : [4 7]
+print numpy.max(my_array, axis = 1)         #Output : [5 7 3 4]
+print numpy.max(my_array, axis = None)      #Output : 7
+print numpy.max(my_array)                   #Output : 7
+By default, the axis value is None. Therefore, it finds the maximum over all the dimensions of the input array.
+
+Task
+
+You are given a 2-D array with dimensions X.
+Your task is to perform the min function over axis  and then find the max of that.
+
+Input Format
+
+The first line of input contains the space separated values of  and .
+The next  lines contains  space separated integers.
+
+Output Format
+
+Compute the min along axis  and then print the max of that result.
+
+Sample Input
+
+4 2
+2 5
+3 7
+1 3
+4 0
+Sample Output
+
+3
+Explanation
+
+The min along axis 1 = [2, 3, 1, 0]
+The max of [2, 3, 1, 0] = 3
+solution:
+import numpy as np
+
+N, M = map(int, input().split())
+nums = np.array([input().split() for _ in range(N)], int)
+
+mini = np.min(nums, axis=1)
+maxi = np.max(mini)
+print(maxi)
+
+4. zeros
+
+The zeros tool returns a new array with a given shape and type filled with 's.
+
+import numpy
+
+print numpy.zeros((1,2))                    #Default type is float
+#Output : [[ 0.  0.]] 
+
+print numpy.zeros((1,2), dtype = numpy.int) #Type changes to int
+#Output : [[0 0]]
+ones
+
+The ones tool returns a new array with a given shape and type filled with 's.
+
+import numpy
+
+print numpy.ones((1,2))                    #Default type is float
+#Output : [[ 1.  1.]] 
+
+print numpy.ones((1,2), dtype = numpy.int) #Type changes to int
+#Output : [[1 1]]   
+Task
+
+You are given the shape of the array in the form of space-separated integers, each integer representing the size of different dimensions, your task is to print an array of the given shape and integer type using the tools numpy.zeros and numpy.ones.
+
+Input Format
+
+A single line containing the space-separated integers.
+
+Constraints
+
+
+Output Format
+
+First, print the array using the numpy.zeros tool and then print the array with the numpy.ones tool.
+
+Sample Input 0
+
+3 3 3
+Sample Output 0
+
+[[[0 0 0]
+  [0 0 0]
+  [0 0 0]]
+
+ [[0 0 0]
+  [0 0 0]
+  [0 0 0]]
+
+ [[0 0 0]
+  [0 0 0]
+  [0 0 0]]]
+[[[1 1 1]
+  [1 1 1]
+  [1 1 1]]
+
+ [[1 1 1]
+  [1 1 1]
+  [1 1 1]]
+
+ [[1 1 1]
+  [1 1 1]
+  [1 1 1]]]
+Explanation 0
+
+Print the array built using numpy.zeros and numpy.ones tools and you get the result as shown.
+solution:
+import numpy as np
+
+dims = tuple(map(int, input().split()))
+
+zeros_result = np.zeros(dims, dtype=int)
+print(zeros_result)
+
+ones_result = np.ones(dims, dtype=int)
+print(ones_result)

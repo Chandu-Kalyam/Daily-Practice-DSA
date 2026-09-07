@@ -1,0 +1,389 @@
+Leetcode:
+1. 2000. Reverse Prefix of Word
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a 0-indexed string word and a character ch, reverse the segment of word that starts at index 0 and ends at the index of the first occurrence of ch (inclusive). If the character ch does not exist in word, do nothing.
+
+For example, if word = "abcdefd" and ch = "d", then you should reverse the segment that starts at 0 and ends at 3 (inclusive). The resulting string will be "dcbaefd".
+Return the resulting string.
+
+ 
+
+Example 1:
+
+Input: word = "abcdefd", ch = "d"
+Output: "dcbaefd"
+Explanation: The first occurrence of "d" is at index 3. 
+Reverse the part of word from 0 to 3 (inclusive), the resulting string is "dcbaefd".
+Example 2:
+
+Input: word = "xyxzxe", ch = "z"
+Output: "zxyxxe"
+Explanation: The first and only occurrence of "z" is at index 3.
+Reverse the part of word from 0 to 3 (inclusive), the resulting string is "zxyxxe".
+Example 3:
+
+Input: word = "abcd", ch = "z"
+Output: "abcd"
+Explanation: "z" does not exist in word.
+You should not do any reverse operation, the resulting string is "abcd".
+ 
+
+Constraints:
+
+1 <= word.length <= 250
+word consists of lowercase English letters.
+ch is a lowercase English letter.
+solution:
+class Solution:
+    def reversePrefix(self, word: str, ch: str) -> str:
+        index = word.find(ch)
+        if index == -1:
+            return word
+
+        return word[:index+1][::-1] + word[index + 1:]
+
+2. 3285. Find Indices of Stable Mountains
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+There are n mountains in a row, and each mountain has a height. You are given an integer array height where height[i] represents the height of mountain i, and an integer threshold.
+
+A mountain is called stable if the mountain just before it (if it exists) has a height strictly greater than threshold. Note that mountain 0 is not stable.
+
+Return an array containing the indices of all stable mountains in any order.
+
+ 
+
+Example 1:
+
+Input: height = [1,2,3,4,5], threshold = 2
+
+Output: [3,4]
+
+Explanation:
+
+Mountain 3 is stable because height[2] == 3 is greater than threshold == 2.
+Mountain 4 is stable because height[3] == 4 is greater than threshold == 2.
+Example 2:
+
+Input: height = [10,1,10,1,10], threshold = 3
+
+Output: [1,3]
+
+Example 3:
+
+Input: height = [10,1,10,1,10], threshold = 10
+
+Output: []
+
+ 
+
+Constraints:
+
+2 <= n == height.length <= 100
+1 <= height[i] <= 100
+1 <= threshold <= 100
+solution:
+class Solution:
+    def stableMountains(self, height: List[int], threshold: int) -> List[int]:
+        index = []
+        for i in range(1, len(height)):
+            if height[i-1] > threshold:
+                index.append(i)
+
+        return index
+
+3. 2652. Sum Multiples
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a positive integer n, find the sum of all integers in the range [1, n] inclusive that are divisible by 3, 5, or 7.
+
+Return an integer denoting the sum of all numbers in the given range satisfying the constraint.
+
+ 
+
+Example 1:
+
+Input: n = 7
+Output: 21
+Explanation: Numbers in the range [1, 7] that are divisible by 3, 5, or 7 are 3, 5, 6, 7. The sum of these numbers is 21.
+Example 2:
+
+Input: n = 10
+Output: 40
+Explanation: Numbers in the range [1, 10] that are divisible by 3, 5, or 7 are 3, 5, 6, 7, 9, 10. The sum of these numbers is 40.
+Example 3:
+
+Input: n = 9
+Output: 30
+Explanation: Numbers in the range [1, 9] that are divisible by 3, 5, or 7 are 3, 5, 6, 7, 9. The sum of these numbers is 30.
+ 
+
+Constraints:
+
+1 <= n <= 103
+solution:
+class Solution:
+    def sumOfMultiples(self, n: int) -> int:
+        sum = 0
+        for i in range(1,n+1):
+            if i%3==0 or i%5==0 or i%7==0:
+                sum+= i
+
+        return sum
+
+4. 1662. Check If Two String Arrays are Equivalent
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given two string arrays word1 and word2, return true if the two arrays represent the same string, and false otherwise.
+
+A string is represented by an array if the array elements concatenated in order forms the string.
+
+ 
+
+Example 1:
+
+Input: word1 = ["ab", "c"], word2 = ["a", "bc"]
+Output: true
+Explanation:
+word1 represents string "ab" + "c" -> "abc"
+word2 represents string "a" + "bc" -> "abc"
+The strings are the same, so return true.
+Example 2:
+
+Input: word1 = ["a", "cb"], word2 = ["ab", "c"]
+Output: false
+Example 3:
+
+Input: word1  = ["abc", "d", "defg"], word2 = ["abcddefg"]
+Output: true
+ 
+
+Constraints:
+
+1 <= word1.length, word2.length <= 103
+1 <= word1[i].length, word2[i].length <= 103
+1 <= sum(word1[i].length), sum(word2[i].length) <= 103
+word1[i] and word2[i] consist of lowercase letters.
+solution:
+class Solution:
+    def arrayStringsAreEqual(self, word1: List[str], word2: List[str]) -> bool:
+        string1 = "".join(word1)
+        string2 = "".join(word2)
+        return string1 == string2
+5. 1313. Decompress Run-Length Encoded List
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+We are given a list nums of integers representing a list compressed with run-length encoding.
+
+Consider each adjacent pair of elements [freq, val] = [nums[2*i], nums[2*i+1]] (with i >= 0).  For each such pair, there are freq elements with value val concatenated in a sublist. Concatenate all the sublists from left to right to generate the decompressed list.
+
+Return the decompressed list.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,4]
+Output: [2,4,4,4]
+Explanation: The first pair [1,2] means we have freq = 1 and val = 2 so we generate the array [2].
+The second pair [3,4] means we have freq = 3 and val = 4 so we generate [4,4,4].
+At the end the concatenation [2] + [4,4,4] is [2,4,4,4].
+Example 2:
+
+Input: nums = [1,1,2,3]
+Output: [1,3,3]
+ 
+
+Constraints:
+
+2 <= nums.length <= 100
+nums.length % 2 == 0
+1 <= nums[i] <= 100
+solution:
+class Solution:
+    def decompressRLElist(self, nums: List[int]) -> List[int]:
+        output = []
+        for i in range(0,len(nums),2):
+            freq, val = nums[i], nums[i+1]
+            output.extend([val] * freq)
+
+        return output
+
+HackerRank:
+1. Basic mathematical functions operate element-wise on arrays. They are available both as operator overloads and as functions in the NumPy module.
+
+import numpy
+
+a = numpy.array([1,2,3,4], float)
+b = numpy.array([5,6,7,8], float)
+
+print a + b                     #[  6.   8.  10.  12.]
+print numpy.add(a, b)           #[  6.   8.  10.  12.]
+
+print a - b                     #[-4. -4. -4. -4.]
+print numpy.subtract(a, b)      #[-4. -4. -4. -4.]
+
+print a * b                     #[  5.  12.  21.  32.]
+print numpy.multiply(a, b)      #[  5.  12.  21.  32.]
+
+print a / b                     #[ 0.2         0.33333333  0.42857143  0.5       ]
+print numpy.divide(a, b)        #[ 0.2         0.33333333  0.42857143  0.5       ]
+
+print a % b                     #[ 1.  2.  3.  4.]
+print numpy.mod(a, b)           #[ 1.  2.  3.  4.]
+
+print a**b                      #[  1.00000000e+00   6.40000000e+01   2.18700000e+03   6.55360000e+04]
+print numpy.power(a, b)         #[  1.00000000e+00   6.40000000e+01   2.18700000e+03   6.55360000e+04]
+Task
+
+You are given two integer arrays,  and  of dimensions X.
+Your task is to perform the following operations:
+
+Add ( + )
+Subtract ( - )
+Multiply ( * )
+Integer Division ( / )
+Mod ( % )
+Power ( ** )
+Note
+There is a method numpy.floor_divide() that works like numpy.divide() except it performs a floor division.
+
+Input Format
+
+The first line contains two space separated integers,  and .
+The next  lines contains  space separated integers of array .
+The following  lines contains  space separated integers of array .
+
+Output Format
+
+Print the result of each operation in the given order under Task.
+
+Sample Input
+
+1 4
+1 2 3 4
+5 6 7 8
+Sample Output
+
+[[ 6  8 10 12]]
+[[-4 -4 -4 -4]]
+[[ 5 12 21 32]]
+[[0 0 0 0]]
+[[1 2 3 4]]
+[[    1    64  2187 65536]] 
+Use // for division in Python 3.
+solution:
+import numpy as np 
+
+N,M = map(int, input().split())
+a = np.array([input().split()], int)
+b = np.array([input().split()], int)
+print(a+b)
+print(a-b)
+print(a*b)
+print(a//b)
+print(a%b)
+print(a**b)
+
+
+2. mean
+
+The mean tool computes the arithmetic mean along the specified axis.
+
+import numpy
+
+my_array = numpy.array([ [1, 2], [3, 4] ])
+
+print numpy.mean(my_array, axis = 0)        #Output : [ 2.  3.]
+print numpy.mean(my_array, axis = 1)        #Output : [ 1.5  3.5]
+print numpy.mean(my_array, axis = None)     #Output : 2.5
+print numpy.mean(my_array)                  #Output : 2.5
+By default, the axis is None. Therefore, it computes the mean of the flattened array.
+
+var
+
+The var tool computes the arithmetic variance along the specified axis.
+
+import numpy
+
+my_array = numpy.array([ [1, 2], [3, 4] ])
+
+print numpy.var(my_array, axis = 0)         #Output : [ 1.  1.]
+print numpy.var(my_array, axis = 1)         #Output : [ 0.25  0.25]
+print numpy.var(my_array, axis = None)      #Output : 1.25
+print numpy.var(my_array)                   #Output : 1.25
+By default, the axis is None. Therefore, it computes the variance of the flattened array.
+
+std
+
+The std tool computes the arithmetic standard deviation along the specified axis.
+
+import numpy
+
+my_array = numpy.array([ [1, 2], [3, 4] ])
+
+print numpy.std(my_array, axis = 0)         #Output : [ 1.  1.]
+print numpy.std(my_array, axis = 1)         #Output : [ 0.5  0.5]
+print numpy.std(my_array, axis = None)      #Output : 1.11803398875
+print numpy.std(my_array)                   #Output : 1.11803398875
+By default, the axis is None. Therefore, it computes the standard deviation of the flattened array.
+
+Task
+
+You are given a 2-D array of size X.
+Your task is to find:
+
+The mean along axis 
+The var along axis 
+The std along axis 
+Input Format
+
+The first line contains the space separated values of  and .
+The next  lines contains  space separated integers.
+
+Output Format
+
+First, print the mean.
+Second, print the var.
+Third, print the std.
+
+Sample Input
+
+2 2
+1 2
+3 4
+Sample Output
+
+[ 1.5  3.5]
+[ 1.  1.]
+1.11803398875
+solution:
+import numpy as np
+
+N, M = map(int, input().split())
+arr = np.array([input().split() for _ in range(N)], int)
+
+print(np.mean(arr, axis=1))
+print(np.var(arr, axis=0))
+print(np.std(arr))
+

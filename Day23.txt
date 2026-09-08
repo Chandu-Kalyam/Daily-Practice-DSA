@@ -1,0 +1,483 @@
+Leetcode:
+1. 3162. Find the Number of Good Pairs I
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given 2 integer arrays nums1 and nums2 of lengths n and m respectively. You are also given a positive integer k.
+
+A pair (i, j) is called good if nums1[i] is divisible by nums2[j] * k (0 <= i <= n - 1, 0 <= j <= m - 1).
+
+Return the total number of good pairs.
+
+ 
+
+Example 1:
+
+Input: nums1 = [1,3,4], nums2 = [1,3,4], k = 1
+
+Output: 5
+
+Explanation:
+
+The 5 good pairs are (0, 0), (1, 0), (1, 1), (2, 0), and (2, 2).
+Example 2:
+
+Input: nums1 = [1,2,4,12], nums2 = [2,4], k = 3
+
+Output: 2
+
+Explanation:
+
+The 2 good pairs are (3, 0) and (3, 1).
+
+ 
+
+Constraints:
+
+1 <= n, m <= 50
+1 <= nums1[i], nums2[j] <= 50
+1 <= k <= 50
+solution:
+class Solution:
+    def numberOfPairs(self, nums1: List[int], nums2: List[int], k: int) -> int:
+        total = 0
+        for i in range(len(nums1)):
+            for j in range(len(nums2)):
+                if (nums1[i] % (nums2[j] * k))==0:
+                    total += 1
+                
+
+        return total
+
+2. 1967. Number of Strings That Appear as Substrings in Word
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an array of strings patterns and a string word, return the number of strings in patterns that exist as a substring in word.
+
+A substring is a contiguous sequence of characters within a string.
+
+ 
+
+Example 1:
+
+Input: patterns = ["a","abc","bc","d"], word = "abc"
+Output: 3
+Explanation:
+- "a" appears as a substring in "abc".
+- "abc" appears as a substring in "abc".
+- "bc" appears as a substring in "abc".
+- "d" does not appear as a substring in "abc".
+3 of the strings in patterns appear as a substring in word.
+Example 2:
+
+Input: patterns = ["a","b","c"], word = "aaaaabbbbb"
+Output: 2
+Explanation:
+- "a" appears as a substring in "aaaaabbbbb".
+- "b" appears as a substring in "aaaaabbbbb".
+- "c" does not appear as a substring in "aaaaabbbbb".
+2 of the strings in patterns appear as a substring in word.
+Example 3:
+
+Input: patterns = ["a","a","a"], word = "ab"
+Output: 3
+Explanation: Each of the patterns appears as a substring in word "ab".
+ 
+
+Constraints:
+
+1 <= patterns.length <= 100
+1 <= patterns[i].length <= 100
+1 <= word.length <= 100
+patterns[i] and word consist of lowercase English letters.
+solution:
+class Solution:
+    def numOfStrings(self, patterns: List[str], word: str) -> int:
+        count = 0
+        for pattern in patterns:
+            if pattern in word:
+                count+=1
+
+        return count
+
+3. 2520. Count the Digits That Divide a Number
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an integer num, return the number of digits in num that divide num.
+
+An integer val divides nums if nums % val == 0.
+
+ 
+
+Example 1:
+
+Input: num = 7
+Output: 1
+Explanation: 7 divides itself, hence the answer is 1.
+Example 2:
+
+Input: num = 121
+Output: 2
+Explanation: 121 is divisible by 1, but not 2. Since 1 occurs twice as a digit, we return 2.
+Example 3:
+
+Input: num = 1248
+Output: 4
+Explanation: 1248 is divisible by all of its digits, hence the answer is 4.
+ 
+
+Constraints:
+
+1 <= num <= 109
+num does not contain 0 as one of its digits.
+solution:
+class Solution:
+    def countDigits(self, num: int) -> int:
+        count = 0
+        string_num = str(num)
+        for val in string_num:
+            if num%int(val)==0:
+                count += 1
+
+        
+        return count
+
+4. 3875. Construct Uniform Parity Array I
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an array nums1 of n distinct integers.
+
+You want to construct another array nums2 of length n such that the elements in nums2 are either all odd or all even.
+
+For each index i, you must choose exactly one of the following (in any order):
+
+nums2[i] = nums1[i]
+nums2[i] = nums1[i] - nums1[j], for an index j != i
+Return true if it is possible to construct such an array, otherwise, return false.
+
+ 
+
+Example 1:
+
+Input: nums1 = [2,3]
+
+Output: true
+
+Explanation:
+
+Choose nums2[0] = nums1[0] - nums1[1] = 2 - 3 = -1.
+Choose nums2[1] = nums1[1] = 3.
+nums2 = [-1, 3], and both elements are odd. Thus, the answer is true​​​​​​​.
+Example 2:
+
+Input: nums1 = [4,6]
+
+Output: true
+
+Explanation:​​​​​​​
+
+Choose nums2[0] = nums1[0] = 4.
+Choose nums2[1] = nums1[1] = 6.
+nums2 = [4, 6], and all elements are even. Thus, the answer is true.
+ 
+
+Constraints:
+
+1 <= n == nums1.length <= 100
+1 <= nums1[i] <= 100
+nums1 consists of distinct integers.
+solution:
+class Solution:
+    def uniformArray(self, nums1: list[int]) -> bool:
+        return True
+
+5. 1342. Number of Steps to Reduce a Number to Zero
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an integer num, return the number of steps to reduce it to zero.
+
+In one step, if the current number is even, you have to divide it by 2, otherwise, you have to subtract 1 from it.
+
+ 
+
+Example 1:
+
+Input: num = 14
+Output: 6
+Explanation: 
+Step 1) 14 is even; divide by 2 and obtain 7. 
+Step 2) 7 is odd; subtract 1 and obtain 6.
+Step 3) 6 is even; divide by 2 and obtain 3. 
+Step 4) 3 is odd; subtract 1 and obtain 2. 
+Step 5) 2 is even; divide by 2 and obtain 1. 
+Step 6) 1 is odd; subtract 1 and obtain 0.
+Example 2:
+
+Input: num = 8
+Output: 4
+Explanation: 
+Step 1) 8 is even; divide by 2 and obtain 4. 
+Step 2) 4 is even; divide by 2 and obtain 2. 
+Step 3) 2 is even; divide by 2 and obtain 1. 
+Step 4) 1 is odd; subtract 1 and obtain 0.
+Example 3:
+
+Input: num = 123
+Output: 12
+ 
+
+Constraints:
+
+0 <= num <= 106
+solution:
+class Solution:
+    def numberOfSteps(self, num: int) -> int:
+        count = 0
+        while(num>0):
+            if num%2==0:
+                num = num//2
+            else:
+                num = num - 1
+    
+            count += 1
+
+        return count
+
+Hackerrank:
+1. inner
+
+The inner tool returns the inner product of two arrays.
+
+import numpy
+
+A = numpy.array([0, 1])
+B = numpy.array([3, 4])
+
+print numpy.inner(A, B)     #Output : 4
+outer
+
+The outer tool returns the outer product of two arrays.
+
+import numpy
+
+A = numpy.array([0, 1])
+B = numpy.array([3, 4])
+
+print numpy.outer(A, B)     #Output : [[0 0]
+                            #          [3 4]]
+Task
+
+You are given two arrays:  and .
+Your task is to compute their inner and outer product.
+
+Input Format
+
+The first line contains the space separated elements of array .
+The second line contains the space separated elements of array .
+
+Output Format
+
+First, print the inner product.
+Second, print the outer product.
+
+Sample Input
+
+0 1
+2 3
+Sample Output
+
+3
+[[0 0]
+ [2 3]]
+solution:
+import numpy as np
+
+A = np.array(input().split(), int)
+B = np.array(input().split(), int)
+print(np.inner(A, B))
+print(np.outer(A, B))
+
+2. n this challenge, the task is to debug the existing code to successfully execute all provided test files.
+
+Python supports a useful concept of default argument values. For each keyword argument of a function, we can assign a default value which is going to be used as the value of said argument if the function is called without it. For example, consider the following increment function:
+
+def increment_by(n, increment=1):
+    return n + increment
+The functions works like this:
+
+>>> increment_by(5, 2)
+7
+>>> increment_by(4)
+5
+>>>
+Debug the given function print_from_stream using the default value of one of its arguments.
+
+The function has the following signature:
+
+def print_from_stream(n, stream)
+This function should print the first  values returned by get_next() method of stream object provided as an argument. Each of these values should be printed in a separate line.
+
+Whenever the function is called without the stream argument, it should use an instance of EvenStream class defined in the code stubs below as the value of stream.
+
+Your function will be tested on several cases by the locked template code.
+
+Input Format
+
+The input is read by the provided locked code template. In the first line, there is a single integer  denoting the number of queries. Each of the following  lines contains a stream_name followed by integer , and it corresponds to a single test for your function.
+
+Constraints
+
+Output Format
+
+The output is produced by the provided and locked code template. For each of the queries (stream_name, n), if the stream_name is even then print_from_stream(n) is called. Otherwise, if the stream_name is odd, then print_from_stream(n, OddStream()) is called.
+
+Sample Input 0
+
+3
+odd 2
+even 3
+odd 5
+Sample Output 0
+
+1
+3
+0
+2
+4
+1
+3
+5
+7
+9
+Explanation 0
+
+There are  queries in the sample.
+
+In the first query, the function print_from_stream(2, OddStream()) is exectuted, which leads to printing values  and  in separated lines as the first two non-negative odd numbers.
+
+In the second query, the function print_from_stream(3) is exectuted, which leads to printing values  and  in separated lines as the first three non-negative even numbers.
+
+In the third query, the function print_from_stream(5, OddStream()) is exectuted, which leads to printing values  and  in separated lines as the first five non-negative odd numbers.
+solution:
+class EvenStream(object):
+    def __init__(self):
+        self.current = 0
+
+    def get_next(self):
+        to_return = self.current
+        self.current += 2
+        return to_return
+
+class OddStream(object):
+    def __init__(self):
+        self.current = 1
+
+    def get_next(self):
+        to_return = self.current
+        self.current += 2
+        return to_return
+
+def print_from_stream(n, stream=EvenStream()):
+    for _ in range(n):
+        print(stream.get_next())
+
+
+queries = int(input())
+for _ in range(queries):
+    stream_name, n = input().split()
+    n = int(n)
+    if stream_name == "even":
+        print_from_stream(n)
+    else:
+        print_from_stream(n, OddStream())
+
+3. You are given an integer  followed by  email addresses. Your task is to print a list containing only valid email addresses in lexicographical order.
+
+
+Valid email addresses must follow these rules:
+
+It must have the username@websitename.extension format type.
+The username can only contain letters, digits, dashes and underscores .
+The website name can only have letters and digits .
+The extension can only contain letters .
+The maximum length of the extension is .
+
+Concept
+
+A filter takes a function returning True or False and applies it to a sequence, returning a list of only those members of the sequence where the function returned True. A Lambda function can be used with filters.
+
+Let's say you have to make a list of the squares of integers from  to  (both included).
+
+>> l = list(range(10))
+>> l = list(map(lambda x:x*x, l))
+Now, you only require those elements that are greater than  but less than .
+
+>> l = list(filter(lambda x: x > 10 and x < 80, l))
+Easy, isn't it?
+
+Example
+
+Complete the function fun in the editor below.
+
+fun has the following paramters:
+
+string s: the string to test
+Returns
+
+boolean: whether the string is a valid email or not
+Input Format
+
+The first line of input is the integer , the number of email addresses.
+ lines follow, each containing a string.
+
+Constraints
+
+Each line is a non-empty string.
+
+Sample Input
+
+3
+lara@hackerrank.com
+brian-23@hackerrank.com
+britts_54@hackerrank.com
+Sample Output
+
+['brian-23@hackerrank.com', 'britts_54@hackerrank.com', 'l
+solution:
+import re
+def fun(s):
+    # return True if s is a valid email, else return False
+    pattern = r'^[a-zA-Z0-9_-]+@[a-zA-Z0-9]+\.[a-zA-Z]{1,3}$'
+    return bool(re.match(pattern, s))
+    
+def filter_mail(emails):
+    return list(filter(fun, emails))
+
+if __name__ == '__main__':
+    n = int(input())
+    emails = []
+    for _ in range(n):
+        emails.append(input())
+
+filtered_emails = filter_mail(emails)
+filtered_emails.sort()
+print(filtered_emails)

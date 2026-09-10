@@ -1,0 +1,865 @@
+Leetcode:
+1. 2006. Count Number of Pairs With Absolute Difference K
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an integer array nums and an integer k, return the number of pairs (i, j) where i < j such that |nums[i] - nums[j]| == k.
+
+The value of |x| is defined as:
+
+x if x >= 0.
+-x if x < 0.
+ 
+
+Example 1:
+
+Input: nums = [1,2,2,1], k = 1
+Output: 4
+Explanation: The pairs with an absolute difference of 1 are:
+- [1,2,2,1]
+- [1,2,2,1]
+- [1,2,2,1]
+- [1,2,2,1]
+Example 2:
+
+Input: nums = [1,3], k = 3
+Output: 0
+Explanation: There are no pairs with an absolute difference of 3.
+Example 3:
+
+Input: nums = [3,2,1,5,4], k = 2
+Output: 3
+Explanation: The pairs with an absolute difference of 2 are:
+- [3,2,1,5,4]
+- [3,2,1,5,4]
+- [3,2,1,5,4]
+ 
+
+Constraints:
+
+1 <= nums.length <= 200
+1 <= nums[i] <= 100
+1 <= k <= 99
+solution:
+class Solution:
+    def countKDifference(self, nums: List[int], k: int) -> int:
+        count = 0
+        n = len(nums)
+        for i in range(n):
+            for j in range(i+1, n):
+                diff = abs(nums[i] - nums[j])
+                if diff == k:
+                    count += 1
+        
+        return count
+
+2. 3194. Minimum Average of Smallest and Largest Elements
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You have an array of floating point numbers averages which is initially empty. You are given an array nums of n integers where n is even.
+
+You repeat the following procedure n / 2 times:
+
+Remove the smallest element, minElement, and the largest element maxElement, from nums.
+Add (minElement + maxElement) / 2 to averages.
+Return the minimum element in averages.
+
+ 
+
+Example 1:
+
+Input: nums = [7,8,3,4,15,13,4,1]
+
+Output: 5.5
+
+Explanation:
+
+step	nums	averages
+0	[7,8,3,4,15,13,4,1]	[]
+1	[7,8,3,4,13,4]	[8]
+2	[7,8,4,4]	[8,8]
+3	[7,4]	[8,8,6]
+4	[]	[8,8,6,5.5]
+The smallest element of averages, 5.5, is returned.
+Example 2:
+
+Input: nums = [1,9,8,3,10,5]
+
+Output: 5.5
+
+Explanation:
+
+step	nums	averages
+0	[1,9,8,3,10,5]	[]
+1	[9,8,3,5]	[5.5]
+2	[8,5]	[5.5,6]
+3	[]	[5.5,6,6.5]
+Example 3:
+
+Input: nums = [1,2,3,7,8,9]
+
+Output: 5.0
+
+Explanation:
+
+step	nums	averages
+0	[1,2,3,7,8,9]	[]
+1	[2,3,7,8]	[5]
+2	[3,7]	[5,5]
+3	[]	[5,5,5]
+ 
+
+Constraints:
+
+2 <= n == nums.length <= 50
+n is even.
+1 <= nums[i] <= 50
+solution:
+class Solution:
+    def minimumAverage(self, nums: List[int]) -> float:
+        nums.sort()
+        n = len(nums)
+        averages = [(nums[i] + nums[n-1-i]) / 2 for i in range(n // 2)]
+        return min(averages)
+
+3. 709. To Lower Case
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a string s, return the string after replacing every uppercase letter with the same lowercase letter.
+
+ 
+
+Example 1:
+
+Input: s = "Hello"
+Output: "hello"
+Example 2:
+
+Input: s = "here"
+Output: "here"
+Example 3:
+
+Input: s = "LOVELY"
+Output: "lovely"
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists of printable ASCII characters.
+solution:
+class Solution:
+    def toLowerCase(self, s: str) -> str:
+        return s.lower()
+
+4. 3432. Count Partitions with Even Sum Difference
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array nums of length n.
+
+A partition is defined as an index i where 0 <= i < n - 1, splitting the array into two non-empty subarrays such that:
+
+Left subarray contains indices [0, i].
+Right subarray contains indices [i + 1, n - 1].
+Return the number of partitions where the difference between the sum of the left and right subarrays is even.
+
+ 
+
+Example 1:
+
+Input: nums = [10,10,3,7,6]
+
+Output: 4
+
+Explanation:
+
+The 4 partitions are:
+
+[10], [10, 3, 7, 6] with a sum difference of 10 - 26 = -16, which is even.
+[10, 10], [3, 7, 6] with a sum difference of 20 - 16 = 4, which is even.
+[10, 10, 3], [7, 6] with a sum difference of 23 - 13 = 10, which is even.
+[10, 10, 3, 7], [6] with a sum difference of 30 - 6 = 24, which is even.
+Example 2:
+
+Input: nums = [1,2,2]
+
+Output: 0
+
+Explanation:
+
+No partition results in an even sum difference.
+
+Example 3:
+
+Input: nums = [2,4,6,8]
+
+Output: 3
+
+Explanation:
+
+All partitions result in an even sum difference.
+
+ 
+
+Constraints:
+
+2 <= n == nums.length <= 100
+1 <= nums[i] <= 100
+solution:
+class Solution:
+    def countPartitions(self, nums: List[int]) -> int:
+        n = len(nums)
+        if sum(nums) % 2 ==0:
+            return n - 1
+        else:
+            return 0
+
+5. 3427. Sum of Variable Length Subarrays
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array nums of size n. For each index i where 0 <= i < n, define a subarray nums[start ... i] where start = max(0, i - nums[i]).
+
+Return the total sum of all elements from the subarray defined for each index in the array.
+
+ 
+
+Example 1:
+
+Input: nums = [2,3,1]
+
+Output: 11
+
+Explanation:
+
+i	Subarray	Sum
+0	nums[0] = [2]	2
+1	nums[0 ... 1] = [2, 3]	5
+2	nums[1 ... 2] = [3, 1]	4
+Total Sum	 	11
+The total sum is 11. Hence, 11 is the output.
+
+Example 2:
+
+Input: nums = [3,1,1,2]
+
+Output: 13
+
+Explanation:
+
+i	Subarray	Sum
+0	nums[0] = [3]	3
+1	nums[0 ... 1] = [3, 1]	4
+2	nums[1 ... 2] = [1, 1]	2
+3	nums[1 ... 3] = [1, 1, 2]	4
+Total Sum	 	13
+The total sum is 13. Hence, 13 is the output.
+
+ 
+
+Constraints:
+
+1 <= n == nums.length <= 100
+1 <= nums[i] <= 1000
+solution:
+class Solution:
+    def subarraySum(self, nums: List[int]) -> int:
+        n = len(nums)
+        total = 0
+        for i in range(n):
+            start = max(0, i - nums[i])
+            subarray_sum = sum(nums[start: i+1])
+            total += subarray_sum
+
+        return total
+
+Codechef:
+1. Mahasena
+Kattapa, as you all know was one of the greatest warriors of his time. The kingdom of Maahishmati had never lost a battle under him (as army-chief), and the reason for that was their really powerful army, also called as Mahasena.
+
+Kattapa was known to be a very superstitious person. He believed that a soldier is "lucky" if the soldier is holding an even number of weapons, and "unlucky" otherwise. He considered the army as "READY FOR BATTLE" if the count of "lucky" soldiers is strictly greater than the count of "unlucky" soldiers, and "NOT READY" otherwise.
+
+Given the number of weapons each soldier is holding, your task is to determine whether the army formed by all these soldiers is "READY FOR BATTLE" or "NOT READY".
+
+Note: You can find the definition of an even number here.
+
+Input Format
+The first line of input consists of a single integer N denoting the number of soldiers. The second line of input consists of N space separated integers A1, A2, ..., AN, where Ai denotes the number of weapons that the ith soldier is holding.
+
+Output Format
+Generate one line output saying "READY FOR BATTLE", if the army satisfies the conditions that Kattapa requires or "NOT READY" otherwise (quotes for clarity).
+
+Constraints
+1 ≤ N ≤ 100
+1 ≤ Ai ≤ 100
+Sample 1:
+Input
+Output
+1
+1
+NOT READY
+Explanation:
+Example 1: For the first example, N = 1 and the array A = [1]. There is only 1 soldier and he is holding 1 weapon, which is odd. The number of soldiers holding an even number of weapons = 0, and number of soldiers holding an odd number of weapons = 1. Hence, the answer is "NOT READY" since the number of soldiers holding an even number of weapons is not greater than the number of soldiers holding an odd number of weapons.
+Sample 2:
+Input
+Output
+1
+2
+READY FOR BATTLE
+Explanation:
+Example 2: For the second example, N = 1 and the array A = [2]. There is only 1 soldier and he is holding 2 weapons, which is even. The number of soldiers holding an even number of weapons = 1, and number of soldiers holding an odd number of weapons = 0. Hence, the answer is "READY FOR BATTLE" since the number of soldiers holding an even number of weapons is greater than the number of soldiers holding an odd number of weapons.
+
+Sample 3:
+Input
+Output
+4
+11 12 13 14
+NOT READY
+Explanation:
+Example 3: For the third example, N = 4 and the array A = [11, 12, 13, 14]. The 1st soldier is holding 11 weapons (which is odd), the 2nd soldier is holding 12 weapons (which is even), the 3rd soldier is holding 13 weapons (which is odd), and the 4th soldier is holding 14 weapons (which is even). The number of soldiers holding an even number of weapons = 2, and number of soldiers holding an odd number of weapons = 2. Notice that we have an equal number of people holding even number of weapons and odd number of weapons. The answer here is "NOT READY" since the number of soldiers holding an even number of weapons is not strictly greater than the number of soldiers holding an odd number of weapons.
+
+Sample 4:
+Input
+Output
+3
+2 3 4
+READY FOR BATTLE
+Explanation:
+Example 4: For the fourth example, N = 3 and the array A = [2, 3, 4]. The 1st soldier is holding 2 weapons (which is even), the 2nd soldier is holding 3 weapons (which is odd), and the 3rd soldier is holding 4 weapons (which is even). The number of soldiers holding an even number of weapons = 2, and number of soldiers holding an odd number of weapons = 1. Hence, the answer is "READY FOR BATTLE" since the number of soldiers holding an even number of weapons is greater than the number of soldiers holding an odd number of weapons.
+
+Sample 5:
+Input
+Output
+5
+1 2 3 4 5
+NOT READY
+Explanation:
+Example 5: For the fifth example, N = 5 and the array A = [1, 2, 3, 4, 5]. The 1st soldier is holding 1 weapon (which is odd), the 2nd soldier is holding 2 weapons (which is even), the 3rd soldier is holding 3 weapons (which is odd), the 4th soldier is holding 4 weapons (which is even), and the 5th soldier is holding 5 weapons (which is odd). The number of soldiers holding an even number of weapons = 2, and number of soldiers holding an odd number of weapons = 3. Hence, the answer is "NOT READY" since the number of soldiers holding an even number of weapons is not greater than the number of soldiers holding an odd number of weapons.
+solution:
+# cook your dish here
+N = int(input())
+Arr = map(int, input().split())
+even_soldiers = 0
+odd_soldiers = 0
+for num in Arr:
+    if num%2==0:
+        even_soldiers += 1
+    else:
+        odd_soldiers += 1
+
+if even_soldiers > odd_soldiers:
+    print("READY FOR BATTLE")
+else:
+    print('NOT READY')
+
+2. CRED Coins
+For each bill you pay using CRED, you earn 
+X
+X CRED coins.
+At CodeChef store, each bag is worth 
+100
+100 CRED coins.
+
+Chef pays 
+Y
+Y number of bills using CRED. Find the maximum number of bags he can get from the CodeChef store.
+
+Input Format
+First line will contain 
+T
+T, number of test cases. Then the test cases follow.
+Each test case contains of a single line of input, two integers 
+X
+X and 
+Y
+Y.
+Output Format
+For each test case, output in a single line - the maximum number of bags Chef can get from the CodeChef store.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+X
+,
+Y
+≤
+1000
+1≤X,Y≤1000
+Subtasks
+Subtask 1 (100 points): Original constraints.
+Sample 1:
+Input
+Output
+3
+10 10
+20 4
+70 7
+1
+0
+4
+Explanation:
+Test Case 
+1
+1: For each bill payment, one receives 
+10
+10 CRED coins. Chef pays 
+10
+10 bills using CRED. Thus, he receives 
+100
+100 CRED coins. Chef can get 
+1
+1 bag from the CodeChef store using these coins.
+
+Test Case 
+2
+2: For each bill payment, one receives 
+20
+20 CRED coins. Chef pays 
+4
+4 bills using CRED. Thus, he receives 
+80
+80 CRED coins. Chef cannot get any bag from the CodeChef store using these coins.
+
+Test Case 
+3
+3: For each bill payment, one receives 
+70
+70 CRED coins. Chef pays 
+7
+7 bills using CRED. Thus, he receives 
+490
+490 CRED coins. Chef can get at most 
+4
+4 bags from the CodeChef store using these coins.
+solution:
+# cook your dish here
+T = int(input())
+CRED = 100
+for _ in range(T):
+    X, Y = map(int, input().split())
+    total = (X * Y) // CRED
+    print(total)
+
+3. Water Filling
+Chef has three water bottles. At any point, if at least two of them are empty, she will fill them up. But if at most one bottle is empty, she will wait, and not fill them up now.
+
+You are given three integers - 
+B
+1
+,
+B
+2
+,
+B 
+1
+​
+ ,B 
+2
+​
+ , and 
+B
+3
+B 
+3
+​
+ .
+If 
+B
+1
+=
+1
+B 
+1
+​
+ =1, it means that the first bottle is full.
+If 
+B
+1
+=
+0
+B 
+1
+​
+ =0, it means that the first bottle is empty.
+Similarly, 
+B
+2
+B 
+2
+​
+  denotes whether the second bottle is full or empty, and 
+B
+3
+B 
+3
+​
+  denotes it for the third bottle.
+
+Output "Water filling time", if Chef has to fill the bottles now. If not, output "Not now".
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+The only line of each test case contains three space-separated integers, 
+B
+1
+,
+B
+2
+,
+B
+3
+B 
+1
+​
+ ,B 
+2
+​
+ ,B 
+3
+​
+ .
+Output Format
+For each test case, output on a new line, either "Water filling time", or "Not now".
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+B
+i
+B 
+i
+​
+  is either 
+0
+0 or 
+1
+1
+Sample 1:
+Input
+Output
+5
+0 0 0
+1 1 1
+1 1 0
+0 1 0
+0 1 1
+Water filling time
+Not now
+Not now
+Water filling time
+Not now
+Explanation:
+Testcase 1: The inputs are 
+0
+,
+0
+,
+0
+0,0,0. So all three bottles are empty. Since at least two bottles are empty, it is "Water filling time".
+
+Testcase 2: The inputs are 
+1
+,
+1
+,
+1
+1,1,1. So all three bottles are full. Since it is not the case that at least two bottles are empty, it is "Not now".
+
+Testcase 3: The inputs are 
+1
+,
+1
+,
+0
+1,1,0. So only one bottle is empty. Since it is not the case that at least two bottles are empty, it is "Not now".
+
+Testcase 4: The inputs are 
+0
+,
+1
+,
+0
+0,1,0. So two bottles are empty. Since at least two bottles are empty, it is "Water filling time".
+
+Testcase 5: The inputs are 
+0
+,
+1
+,
+1
+0,1,1. So only one bottle is empty. Since it is not the case that at least two bottles are empty, it is "Not now".
+solution:
+# cook your dish here
+T = int(input())
+for _ in range(T):
+    b1,b2,b3 = map(int, input().split())
+    empty_count = (b1==0) + (b2 == 0) + (b3 == 0)
+    
+    if empty_count >= 2:
+        print("Water filling time")
+    else:
+        print("Not now")
+
+4.Sale Season
+It's the sale season again and Chef bought items worth a total of 
+X
+X rupees. The sale season offer is as follows:
+
+if 
+X
+≤
+100
+X≤100, no discount.
+if 
+100
+<
+X
+≤
+1000
+100<X≤1000, discount is 
+25
+25 rupees.
+if 
+1000
+<
+X
+≤
+5000
+1000<X≤5000, discount is 
+100
+100 rupees.
+if 
+X
+>
+5000
+X>5000, discount is 
+500
+500 rupees.
+Find the final amount Chef needs to pay for his shopping.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of single line of input containing an integer 
+X
+X.
+Output Format
+For each test case, output on a new line the final amount Chef needs to pay for his shopping.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+X
+≤
+10000
+1≤X≤10000
+Sample 1:
+Input
+Output
+4
+15
+70
+250
+1000
+15
+70
+225
+975
+Explanation:
+Test case 
+1
+1: Since 
+X
+≤
+100
+X≤100, there is no discount.
+
+Test case 
+3
+3: Here, 
+X
+=
+250
+X=250. Since 
+100
+<
+250
+≤
+1000
+100<250≤1000, discount is of 
+25
+25 rupees. Therefore, Chef needs to pay 
+250
+−
+25
+=
+225
+250−25=225 rupees.
+solution:
+# cook your dish here
+T = int(input())
+for _ in range(T):
+    X = int(input())
+    if X <= 100:
+        print(X)
+    elif 100 < X <= 1000:
+        print(X - 25)
+    elif 1000 < X <= 5000:
+        print(X - 100)
+    elif X > 5000:
+        print(X - 500)
+
+5. Minimum Pizzas
+Each pizza consists of 
+4
+4 slices. There are 
+N
+N friends and each friend needs exactly 
+X
+X slices.
+
+Find the minimum number of pizzas they should order to satisfy their appetite.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of two integers 
+N
+N and 
+X
+X, the number of friends and the number of slices each friend wants respectively.
+Output Format
+For each test case, output the minimum number of pizzas required.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+N
+,
+X
+≤
+10
+1≤N,X≤10
+Sample 1:
+Input
+Output
+4
+1 5
+2 6
+4 3
+3 5
+2
+3
+3
+4
+Explanation:
+Test case 
+1
+1: There is only 
+1
+1 friend who requires 
+5
+5 slices. If he orders 
+1
+1 pizza, he will get only 
+4
+4 slices. Thus, at least 
+2
+2 pizzas should be ordered to have required number of slices.
+
+Test case 
+2
+2: There are 
+2
+2 friends who require 
+6
+6 slices each. Thus, total 
+12
+12 slices are required. To get 
+12
+12 slices, they should order 
+3
+3 pizzas.
+
+Test case 
+3
+3: There are 
+4
+4 friends who require 
+3
+3 slices each. Thus, total 
+12
+12 slices are required. To get 
+12
+12 slices, they should order 
+3
+3 pizzas.
+
+Test case 
+4
+4: There are 
+3
+3 friends who require 
+5
+5 slices each. Thus, total 
+15
+15 slices are required. To get 
+15
+15 slices, they should order at least 
+4
+4 pizzas.
+solution:
+# cook your dish here
+import math
+T = int(input())
+
+for _ in range(T):
+    N, X = map(int, input().split())
+    total = math.ceil((N * X) / 4)
+    print(total)
+
+leetcode = 5, codechef = 5

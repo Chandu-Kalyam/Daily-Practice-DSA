@@ -1,0 +1,957 @@
+Leetcode:
+1. 1464. Maximum Product of Two Elements in an Array
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an array of integers nums.
+
+Choose two different indices i and j of that array.
+
+Return the maximum value of (nums[i] - 1) * (nums[j] - 1).
+
+ 
+
+Example 1:
+
+Input: nums = [3,4,5,2]
+Output: 12 
+Explanation: If you choose the indices i=1 and j=2 (indexed from 0), you will get the maximum value, that is, (nums[1]-1)*(nums[2]-1) = (4-1)*(5-1) = 3*4 = 12. 
+Example 2:
+
+Input: nums = [1,5,4,5]
+Output: 16
+Explanation: Choosing the indices i=1 and j=3 (indexed from 0), you will get the maximum value of (5-1)*(5-1) = 16.
+Example 3:
+
+Input: nums = [3,7]
+Output: 12
+ 
+
+Constraints:
+
+2 <= nums.length <= 500
+1 <= nums[i] <= 10^3
+solution:
+class Solution:
+    def maxProduct(self, nums: List[int]) -> int:
+        nums.sort()
+        return (nums[-1] - 1) * (nums[-2] - 1)
+
+2. 3688. Bitwise OR of Even Numbers in an Array
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array nums.
+
+Return the bitwise OR of all even numbers in the array.
+
+If there are no even numbers in nums, return 0.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,4,5,6]
+
+Output: 6
+
+Explanation:
+
+The even numbers are 2, 4, and 6. Their bitwise OR equals 6.
+
+Example 2:
+
+Input: nums = [7,9,11]
+
+Output: 0
+
+Explanation:
+
+There are no even numbers, so the result is 0.
+
+Example 3:
+
+Input: nums = [1,8,16]
+
+Output: 24
+
+Explanation:
+
+The even numbers are 8 and 16. Their bitwise OR equals 24.
+
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+1 <= nums[i] <= 100
+solution:
+class Solution:
+    def evenNumberBitwiseORs(self, nums: List[int]) -> int:
+        total_or = 0
+        for num in nums:
+            if num%2==0:
+                total_or |= num
+        
+        return total_or
+
+3.2418. Sort the People
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an array of strings names, and an array heights that consists of distinct positive integers. Both arrays are of length n.
+
+For each index i, names[i] and heights[i] denote the name and height of the ith person.
+
+Return names sorted in descending order by the people's heights.
+
+ 
+
+Example 1:
+
+Input: names = ["Mary","John","Emma"], heights = [180,165,170]
+Output: ["Mary","Emma","John"]
+Explanation: Mary is the tallest, followed by Emma and John.
+Example 2:
+
+Input: names = ["Alice","Bob","Bob"], heights = [155,185,150]
+Output: ["Bob","Alice","Bob"]
+Explanation: The first Bob is the tallest, followed by Alice and the second Bob.
+ 
+
+Constraints:
+
+n == names.length == heights.length
+1 <= n <= 103
+1 <= names[i].length <= 20
+1 <= heights[i] <= 105
+names[i] consists of lower and upper case English letters.
+All the values of heights are distinct.
+solution:
+class Solution:
+    def sortPeople(self, names: List[str], heights: List[int]) -> List[str]:
+        paired = sorted(zip(heights, names), reverse = True)
+        return [name for height, name in paired]
+
+4. 2956. Find Common Elements Between Two Arrays
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given two integer arrays nums1 and nums2 of sizes n and m, respectively. Calculate the following values:
+
+answer1 : the number of indices i such that nums1[i] exists in nums2.
+answer2 : the number of indices i such that nums2[i] exists in nums1.
+Return [answer1,answer2].
+
+ 
+
+Example 1:
+
+Input: nums1 = [2,3,2], nums2 = [1,2]
+
+Output: [2,1]
+
+Explanation:
+
+
+
+Example 2:
+
+Input: nums1 = [4,3,2,3,1], nums2 = [2,2,5,2,3,6]
+
+Output: [3,4]
+
+Explanation:
+
+The elements at indices 1, 2, and 3 in nums1 exist in nums2 as well. So answer1 is 3.
+
+The elements at indices 0, 1, 3, and 4 in nums2 exist in nums1. So answer2 is 4.
+
+Example 3:
+
+Input: nums1 = [3,4,2,3], nums2 = [1,5]
+
+Output: [0,0]
+
+Explanation:
+
+No numbers are common between nums1 and nums2, so answer is [0,0].
+
+ 
+
+Constraints:
+
+n == nums1.length
+m == nums2.length
+1 <= n, m <= 100
+1 <= nums1[i], nums2[i] <= 100
+solution:
+class Solution:
+    def findIntersectionValues(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        set1 = set(nums1)
+        set2 = set(nums2)
+        ans1 = sum(1 for num in nums1 if num in set2)
+        ans2 = sum(1 for num in nums2 if num in set1)
+        
+        return [ans1, ans2]
+
+5. 1732. Find the Highest Altitude
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+There is a biker going on a road trip. The road trip consists of n + 1 points at various altitudes. The biker starts his trip on point 0 with altitude equal 0.
+
+You are given an integer array gain of length n where gain[i] is the net gain in altitude between points i​​​​​​ and i + 1 for all (0 <= i < n). Return the highest altitude of a point.
+
+ 
+
+Example 1:
+
+Input: gain = [-5,1,5,0,-7]
+Output: 1
+Explanation: The altitudes are [0,-5,-4,1,1,-6]. The highest is 1.
+Example 2:
+
+Input: gain = [-4,-3,-2,-1,4,3,2]
+Output: 0
+Explanation: The altitudes are [0,-4,-7,-9,-10,-6,-3,-1]. The highest is 0.
+ 
+
+Constraints:
+
+n == gain.length
+1 <= n <= 100
+-100 <= gain[i] <= 100
+solution:
+from itertools import accumulate
+class Solution:
+    def largestAltitude(self, gain: List[int]) -> int:
+       return max([0] + list(accumulate(gain)))
+
+Codechef:
+1. Chefland Games
+In Chefland, a tennis game involves 
+4
+4 referees.
+Each referee has to point out whether he considers the ball to be inside limits or outside limits. The ball is considered to be IN if and only if all the referees agree that it was inside limits.
+
+Given the decision of the 
+4
+4 referees, help Chef determine whether the ball is considered inside limits or not.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of a single line of input containing 
+4
+4 integers 
+R
+1
+,
+R
+2
+,
+R
+3
+,
+R
+4
+R 
+1
+​
+ ,R 
+2
+​
+ ,R 
+3
+​
+ ,R 
+4
+​
+  denoting the decision of the respective referees.
+Here 
+R
+R can be either 
+0
+0 or 
+1
+1 where 
+0
+0 would denote that the referee considered the ball to be inside limits whereas 
+1
+1 denotes that they consider it to be outside limits.
+
+Output Format
+For each test case, output IN if the ball is considered to be inside limits by all referees and OUT otherwise.
+
+The checker is case-insensitive so answers like in, In, and IN would be considered the same.
+
+Constraints
+1
+≤
+T
+≤
+20
+1≤T≤20
+0
+≤
+R
+1
+,
+R
+2
+,
+R
+3
+,
+R
+4
+≤
+1
+0≤R 
+1
+​
+ ,R 
+2
+​
+ ,R 
+3
+​
+ ,R 
+4
+​
+ ≤1
+Sample 1:
+Input
+Output
+4
+1 1 0 0
+0 0 0 0
+0 0 0 1
+1 1 1 1
+OUT
+IN
+OUT
+OUT
+Explanation:
+Test case 
+1
+1: Referees 
+1
+1 and 
+2
+2 do not consider the ball to be IN. Thus, the ball is OUT.
+
+Test case 
+2
+2: All referees consider the ball to be IN. Thus, the ball is IN.
+
+Test case 
+3
+3: Referee 
+4
+4 does not consider the ball to be IN. Thus, the ball is OUT.
+
+Test case 
+4
+4: No referee considers the ball to be IN. Thus, the ball is OUT.
+solution:
+# cook your dish here
+T = int(input())
+for _ in range(T):
+    r1,r2,r3,r4 = map(int, input().split())
+    if r1 == 0 and r2 == 0 and r3 ==0 and r4==0:
+        print("IN")
+    else:
+        print("OUT")
+
+2. Expert Setter
+A problem setter is called an expert if at least 
+50
+%
+50% of their problems are approved by Chef.
+
+Munchy submitted 
+X
+X problems for approval. If 
+Y
+Y problems out of those were approved, find whether Munchy is an expert or not.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of a two space-separated integers 
+X
+X and 
+Y
+Y - the number of problems submitted and the number of problems that were approved by Chef.
+Output Format
+For each test case, output on a new line YES, if Munchy is an expert. Otherwise, print NO.
+
+The output is case-insensitive. Thus, the strings YES, yes, yeS, and Yes are all considered the same.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+Y
+≤
+X
+≤
+10
+6
+1≤Y≤X≤10 
+6
+ 
+Sample 1:
+Input
+Output
+4
+5 3
+1 1
+4 1
+2 1
+YES
+YES
+NO
+YES
+Explanation:
+Test case 
+1
+1: We are given that 
+3
+3 out of 
+5
+5 problems were approved. Thus, 
+60
+%
+60% of the problems were approved. Since at least 
+50
+%
+50% of the problems were approved, Munchy is an expert.
+
+Test case 
+2
+2: We are given that 
+1
+1 out of 
+1
+1 problems were approved. Thus, 
+100
+%
+100% of the problems were approved. Since at least 
+50
+%
+50% of the problems were approved, Munchy is an expert.
+
+Test case 
+3
+3: We are given that 
+1
+1 out of 
+4
+4 problems were approved. Thus, 
+25
+%
+25% of the problems were approved. Since at least 
+50
+%
+50% of the problems were not approved, Munchy is not an expert.
+
+Test case 
+4
+4: We are given that 
+1
+1 out of 
+2
+2 problems were approved. Thus, 
+50
+%
+50% of the problems were approved. Since at least 
+50
+%
+50% of the problems were approved, Munchy is an expert.
+solution:
+# cook your dish here
+T = int(input())
+for _ in range(T):
+    X,Y = map(int, input().split())
+    percent = Y / X 
+    if percent >=0.5:
+        print("YES")
+    else:
+        print("NO")
+
+3. Chef and NextGen
+Chef is currently working for a secret research group called NEXTGEN. While the rest of the world is still in search of a way to utilize Helium-3 as a fuel, NEXTGEN scientists have been able to achieve 2 major milestones:
+
+Finding a way to make a nuclear reactor that will be able to utilize Helium-3 as a fuel
+Obtaining every bit of Helium-3 from the moon's surface
+Moving forward, the project requires some government funding for completion, which comes under one condition: to prove its worth, the project should power Chefland by generating at least 
+A
+A units of power each year for the next 
+B
+B years.
+
+Help Chef determine whether the group will get funded assuming that the moon has 
+X
+X grams of Helium-3 and 
+1
+1 gram of Helium-3 can provide 
+Y
+Y units of power.
+
+Input Format
+The first line of input contains an integer 
+T
+T, the number of testcases. The description of 
+T
+T test cases follows.
+Each test case consists of a single line of input, containing four space-separated integers 
+A
+,
+B
+,
+X
+,
+Y
+A,B,X,Y respectively.
+Output Format
+For each test case print on a single line the answer — Yes if NEXTGEN satisfies the government's minimum requirements for funding and No otherwise.
+
+You may print each character of the answer string in either uppercase or lowercase (for example, the strings "yEs", "yes", "Yes" and "YES" will all be treated as identical).
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+A
+,
+B
+,
+X
+,
+Y
+,
+≤
+1000
+1≤A,B,X,Y,≤1000
+Subtasks
+Subtask #1 (100 points): Original constraints
+
+Sample 1:
+Input
+Output
+4
+1 2 3 4
+4 3 2 1
+2 18 9 4
+1 100 2 49
+Yes
+No
+Yes
+No
+Explanation:
+Test case 
+1
+1: Chefland requires 
+A
+=
+1
+A=1 units of power for the next 
+B
+=
+2
+B=2 years. In total, the moon must be capable of providing 
+A
+⋅
+B
+=
+2
+A⋅B=2 units of power. There are in total 
+X
+=
+3
+X=3 grams of Helium-3 on the moon which is capable of providing 
+X
+⋅
+Y
+=
+12
+X⋅Y=12 units of power. 
+12
+>
+2
+12>2, so the project satisfies the minimum requirements for funding. Thus, the answer is Yes.
+
+Test case 
+2
+2: The total amount of power needed by Chefland is 
+A
+⋅
+B
+=
+12
+A⋅B=12, whereas the total that can be provided by the Helium-3 present on the moon is 
+X
+⋅
+Y
+=
+2
+X⋅Y=2, which is insufficient to receive funding, so the answer is No.
+
+Test case 
+3
+3: The total amount of power needed by Chefland is 
+A
+⋅
+B
+=
+2
+⋅
+18
+=
+36
+A⋅B=2⋅18=36, and the total that can be provided by the Helium-3 present on the moon is 
+X
+⋅
+Y
+=
+9
+⋅
+4
+=
+36
+X⋅Y=9⋅4=36, which is sufficient to receive funding, so the answer is Yes.
+
+Test case 
+4
+4: The total amount of power needed by Chefland is 
+A
+⋅
+B
+=
+1
+⋅
+100
+=
+100
+A⋅B=1⋅100=100, and the total that can be provided by the Helium-3 present on the moon is 
+X
+⋅
+Y
+=
+2
+⋅
+49
+=
+98
+X⋅Y=2⋅49=98, which is insufficient to receive funding, so the answer is No.
+solution:
+# cook your dish here
+T = int(input())
+for _ in range(T):
+    A, B, X, Y = map(int, input().split())
+    total = A * B
+    totals = X * Y
+    if totals >= total:
+        print("YES")
+    else:
+        print("NO")
+
+4. Sugarcane Juice Business
+While Alice was drinking sugarcane juice, she started wondering about the following facts:
+
+The juicer sells each glass of sugarcane juice for 
+50
+50 coins.
+He spends 
+20
+%
+20% of his total income on buying sugarcane.
+He spends 
+20
+%
+20% of his total income on buying salt and mint leaves.
+He spends 
+30
+%
+30% of his total income on shop rent.
+Alice wonders, what is the juicer's profit (in coins) when he sells 
+N
+N glasses of sugarcane juice?
+
+Input Format
+The first line of input will contain an integer 
+T
+T — the number of test cases. The description of 
+T
+T test cases follows.
+The first and only line of each test case contains an integer 
+N
+N, as described in the problem statement.
+Output Format
+For each test case, output on a new line the juicer's profit when he sells 
+N
+N glasses of juice.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+N
+≤
+10
+6
+1≤N≤10 
+6
+ 
+Sample 1:
+Input
+Output
+4
+2
+4
+5
+10
+30
+60
+75
+150
+Explanation:
+Test case 
+1
+1: The total income is 
+50
+×
+2
+=
+100
+50×2=100 coins. The juicer spends 
+20
+20 coins on sugarcane, 
+20
+20 coins on salt and mint leaves and 
+30
+30 coins on rent. Thus, the profit is 
+100
+−
+(
+20
++
+20
++
+30
+)
+=
+30
+100−(20+20+30)=30 coins.
+
+Test case 
+2
+2: The total income is 
+50
+×
+4
+=
+200
+50×4=200 coins. The juicer spends 
+40
+40 coins on sugarcane, 
+40
+40 coins on salt and mint leaves and 
+60
+60 coins on rent. Thus, the profit is 
+200
+−
+(
+40
++
+40
++
+60
+)
+=
+60
+200−(40+40+60)=60 coins.
+
+Test case 
+3
+3: The total income is 
+50
+×
+5
+=
+250
+50×5=250 coins. The juicer spends 
+50
+50 coins on sugarcane, 
+50
+50 coins on salt and mint leaves and 
+75
+75 coins on rent. Thus, the profit is 
+250
+−
+(
+50
++
+50
++
+75
+)
+=
+75
+250−(50+50+75)=75 coins.
+
+Test case 
+4
+4: The total income is 
+50
+×
+10
+=
+500
+50×10=500 coins. The juicer spends 
+100
+100 coins on sugarcane, 
+100
+100 coins on salt and mint leaves and 
+150
+150 coins on rent. Thus, the profit is 
+500
+−
+(
+100
++
+100
++
+150
+)
+=
+150
+500−(100+100+150)=150 coins.
+solution:
+# cook your dish here
+each_glass = 50
+profit = 0.3
+T = int(input())
+for _ in range(T):
+    N = int(input())
+    total = int((N * each_glass) * profit)
+    print(total)
+
+5. Count the Notebooks
+You know that 
+1
+1 kg of pulp can be used to make 
+1000
+1000 pages and 
+1
+1 notebook consists of 
+100
+100 pages.
+
+Suppose a notebook factory receives 
+N
+N kg of pulp, how many notebooks can be made from that?
+
+Input Format
+First line will contain 
+T
+T, the number of test cases. Then the test cases follow.
+Each test case contains a single integer 
+N
+N - the weight of the pulp the factory has (in kgs).
+Output Format
+For each test case, output the number of notebooks that can be made using 
+N
+N kgs of pulp.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+N
+≤
+100
+1≤N≤100
+Sample 1:
+Input
+Output
+3
+1
+100
+50
+10
+1000
+500
+Explanation:
+Test case-1: 
+1
+1 kg of pulp can be used to make 
+1000
+1000 pages which can be used to make 
+10
+10 notebooks.
+
+Test case-2: 
+100
+100 kg of pulp can be used to make 
+100000
+100000 pages which can be used to make 
+1000
+1000 notebooks.
+
+Test case-3: 
+50
+50 kg of pulp can be used to make 
+50000
+50000 pages which can be used to make 
+500
+500 notebooks.
+
+solution:
+# cook your dish here
+note = 100
+T = int(input())
+for _ in range(T):
+    N = int(input()) * 1000
+    total_note = N // note
+    print(total_note)

@@ -1,0 +1,810 @@
+Leetcode:
+1.1323. Maximum 69 Number
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a positive integer num consisting only of digits 6 and 9.
+
+Return the maximum number you can get by changing at most one digit (6 becomes 9, and 9 becomes 6).
+Example 1:
+
+Input: num = 9669
+Output: 9969
+Explanation: 
+Changing the first digit results in 6669.
+Changing the second digit results in 9969.
+Changing the third digit results in 9699.
+Changing the fourth digit results in 9666.
+The maximum number is 9969.
+Example 2:
+
+Input: num = 9996
+Output: 9999
+Explanation: Changing the last digit 6 to 9 results in the maximum number.
+Example 3:
+
+Input: num = 9999
+Output: 9999
+Explanation: It is better not to apply any change.
+ 
+
+Constraints:
+
+1 <= num <= 104
+num consists of only 6 and 9 digits.
+solution:
+class Solution:
+    def maximum69Number (self, num: int) -> int:
+        return int(str(num).replace('6','9',1))
+
+2. 2185. Counting Words With a Given Prefix
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an array of strings words and a string pref.
+
+Return the number of strings in words that contain pref as a prefix.
+
+A prefix of a string s is any leading contiguous substring of s.
+
+ 
+
+Example 1:
+
+Input: words = ["pay","attention","practice","attend"], pref = "at"
+Output: 2
+Explanation: The 2 strings that contain "at" as a prefix are: "attention" and "attend".
+Example 2:
+
+Input: words = ["leetcode","win","loops","success"], pref = "code"
+Output: 0
+Explanation: There are no strings that contain "code" as a prefix.
+ 
+
+Constraints:
+
+1 <= words.length <= 100
+1 <= words[i].length, pref.length <= 100
+words[i] and pref consist of lowercase English letters.
+solution:
+class Solution:
+    def prefixCount(self, words: List[str], pref: str) -> int:
+        count = 0
+        for word in words:
+            if word.startswith(pref):
+                count += 1
+
+        return count
+
+3. 1475. Final Prices With a Special Discount in a Shop
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array prices where prices[i] is the price of the ith item in a shop.
+
+There is a special discount for items in the shop. If you buy the ith item, then you will receive a discount equivalent to prices[j] where j is the minimum index such that j > i and prices[j] <= prices[i]. Otherwise, you will not receive any discount at all.
+
+Return an integer array answer where answer[i] is the final price you will pay for the ith item of the shop, considering the special discount.
+
+ 
+
+Example 1:
+
+Input: prices = [8,4,6,2,3]
+Output: [4,2,4,2,3]
+Explanation: 
+For item 0 with price[0]=8 you will receive a discount equivalent to prices[1]=4, therefore, the final price you will pay is 8 - 4 = 4.
+For item 1 with price[1]=4 you will receive a discount equivalent to prices[3]=2, therefore, the final price you will pay is 4 - 2 = 2.
+For item 2 with price[2]=6 you will receive a discount equivalent to prices[3]=2, therefore, the final price you will pay is 6 - 2 = 4.
+For items 3 and 4 you will not receive any discount at all.
+Example 2:
+
+Input: prices = [1,2,3,4,5]
+Output: [1,2,3,4,5]
+Explanation: In this case, for all items, you will not receive any discount at all.
+Example 3:
+
+Input: prices = [10,1,1,6]
+Output: [9,0,1,6]
+ 
+
+Constraints:
+
+1 <= prices.length <= 500
+1 <= prices[i] <= 1000
+ solution:
+class Solution:
+    def finalPrices(self, prices: List[int]) -> List[int]:
+        n = len(prices)
+        result = []
+        for i in range(n):
+            discount = 0
+            for j in range(i + 1, n):
+                if prices[j] <= prices[i]:
+                    discount = prices[j]
+                    break
+            
+            result.append(prices[i] - discount)
+        
+        return result
+
+4. 1832. Check if the Sentence Is Pangram
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A pangram is a sentence where every letter of the English alphabet appears at least once.
+
+Given a string sentence containing only lowercase English letters, return true if sentence is a pangram, or false otherwise.
+
+ 
+
+Example 1:
+
+Input: sentence = "thequickbrownfoxjumpsoverthelazydog"
+Output: true
+Explanation: sentence contains at least one of every letter of the English alphabet.
+Example 2:
+
+Input: sentence = "leetcode"
+Output: false
+ 
+
+Constraints:
+
+1 <= sentence.length <= 1000
+sentence consists of lowercase English letters.
+solution:
+class Solution:
+    def checkIfPangram(self, sentence: str) -> bool:
+        return len(set(sentence))  == 26
+
+5.1859. Sorting the Sentence
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A sentence is a list of words that are separated by a single space with no leading or trailing spaces. Each word consists of lowercase and uppercase English letters.
+
+A sentence can be shuffled by appending the 1-indexed word position to each word then rearranging the words in the sentence.
+
+For example, the sentence "This is a sentence" can be shuffled as "sentence4 a3 is2 This1" or "is2 sentence4 This1 a3".
+Given a shuffled sentence s containing no more than 9 words, reconstruct and return the original sentence.
+
+ 
+
+Example 1:
+
+Input: s = "is2 sentence4 This1 a3"
+Output: "This is a sentence"
+Explanation: Sort the words in s to their original positions "This1 is2 a3 sentence4", then remove the numbers.
+Example 2:
+
+Input: s = "Myself2 Me1 I4 and3"
+Output: "Me Myself and I"
+Explanation: Sort the words in s to their original positions "Me1 Myself2 and3 I4", then remove the numbers.
+ 
+
+Constraints:
+
+2 <= s.length <= 200
+s consists of lowercase and uppercase English letters, spaces, and digits from 1 to 9.
+The number of words in s is between 1 and 9.
+The words in s are separated by a single space.
+s contains no leading or trailing spaces.
+solution:
+class Solution:
+    def sortSentence(self, s: str) -> str:
+        words = s.split()
+        words.sort(key = lambda w:w[-1])
+        result = [w[:-1] for w in words]
+        return " ".join(result)
+
+Codechef:
+1. Chef and Candies
+There are 
+N
+N children and Chef wants to give them 
+1
+1 candy each. Chef already has 
+X
+X candies with him. To buy the rest, he visits a candy shop. In the shop, packets containing exactly 
+4
+4 candies are available.
+
+Determine the minimum number of candy packets Chef must buy so that he is able to give 
+1
+1 candy to each of the 
+N
+N children.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+The first and only line of each test case contains two integers 
+N
+N and 
+X
+X — the number of children and the number of candies Chef already has.
+Output Format
+For each test case, output the minimum number of candy packets Chef must buy so that he is able to give 
+1
+1 candy to each of the 
+N
+N children.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+N
+,
+X
+≤
+100
+1≤N,X≤100
+Sample 1:
+Input
+Output
+4
+20 12
+10 100
+10 9
+20 9
+2
+0
+1
+3
+Explanation:
+Test Case 
+1
+1: Chef must buy 
+2
+2 more packets after which he will have 
+20
+20 candies which will be enough to distribute 
+1
+1 candy to each of the 
+20
+20 children.
+
+Test Case 
+2
+2: Chef does not need to buy more packets since he already has 
+100
+100 candies which are enough to distribute 
+1
+1 candy to each of the 
+10
+10 children.
+
+Test Case 
+3
+3: Chef must buy 
+1
+1 more packet after which he will have 
+13
+13 candies which will be enough to distribute 
+1
+1 candy to each of the 
+10
+10 children.
+
+Test Case 
+4
+4: Chef must buy 
+3
+3 more packets after which he will have 
+21
+21 candies which will be enough to distribute 
+1
+1 candy to each of the 
+20
+20 children.
+solution:
+# cook your dish here
+import math
+packet = 4
+T = int(input())
+for _ in range(T):
+    N, X = map(int, input().split())
+    if N > X:
+        rem_stu = N  - X 
+        total = math.ceil(rem_stu / packet)
+        print(total)
+    else:
+        print(0)
+
+2. Car or Bike
+Chef wants to reach home as soon as possible. He has two options:
+
+Travel with his BIKE which takes 
+X
+X minutes.
+Travel with his CAR which takes 
+Y
+Y minutes.
+Which of the two options is faster or do they both take same time?
+
+Input Format
+First line will contain 
+T
+T, number of test cases. Then the test cases follow.
+Each test case contains a single line of input, two integers 
+X
+,
+Y
+X,Y representing the time taken to travel with BIKE and CAR respectively.
+Output Format
+For each test case, print CAR if travelling with Car is faster, BIKE if travelling with Bike is faster, SAME if they both take the same time.
+
+You may print each character of CAR, BIKE and SAME in uppercase or lowercase (for example, CAR, Car, cAr will be considered identical).
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+X
+,
+Y
+≤
+10
+1≤X,Y≤10
+Sample 1:
+Input
+Output
+3
+1 5
+4 2
+6 6
+BIKE
+CAR
+SAME
+Explanation:
+Test case-1: Travelling with BIKE takes 
+1
+1 minute while travelling with CAR takes 
+5
+5 minutes. So travelling with BIKE is faster.
+
+Test case-2: Travelling with BIKE takes 
+4
+4 minutes while travelling with CAR takes 
+2
+2 minutes. So travelling with CAR is faster.
+
+Test case-3: Travelling with both BIKE and CAR takes the SAME time i.e. 
+6
+6 minutes.
+solution:
+# cook your dish here
+T = int(input())
+for _ in range(T):
+    X, Y = map(int, input().split())
+    if X < Y:
+        print("BIKE")
+    elif Y<X:
+        print("CAR")
+    elif X == Y:
+        print("SAME")
+
+3. Is the Score Consistent
+Chef is watching a football match. The current score is 
+A
+:
+B
+A:B, that is, team 
+1
+1 has scored 
+A
+A goals and team 
+2
+2 has scored 
+B
+B goals. Chef wonders if it is possible for the score to become 
+C
+:
+D
+C:D at a later point in the game (i.e. team 
+1
+1 has scored 
+C
+C goals and team 
+2
+2 has scored 
+D
+D goals). Can you help Chef by answering his question?
+
+Input Format
+The first line contains a single integer 
+T
+T - the number of test cases. Then the test cases follow.
+The first line of each test case contains two integers 
+A
+A and 
+B
+B - the intial number of goals team 
+1
+1 and team 
+2
+2 have scored respectively.
+The second line of each test case contains two integers 
+C
+C and 
+D
+D - the final number of goals team 
+1
+1 and team 
+2
+2 must be able to score respectively.
+Output Format
+For each testcase, output POSSIBLE if it is possible for the score to become 
+C
+:
+D
+C:D at a later point in the game, IMPOSSIBLE otherwise.
+
+You may print each character of POSSIBLE and IMPOSSIBLE in uppercase or lowercase (for example, possible, pOSsiBLe, Possible will be considered identical).
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+0
+≤
+A
+,
+B
+,
+C
+,
+D
+≤
+10
+0≤A,B,C,D≤10
+Sample 1:
+Input
+Output
+3
+1 5
+3 5
+3 4
+2 6
+2 2
+2 2
+POSSIBLE
+IMPOSSIBLE
+POSSIBLE
+Explanation:
+Test case 1: The current score is 
+1
+:
+5
+1:5. If team 
+1
+1 scores 
+2
+2 more goals, the score will become 
+3
+:
+5
+3:5. Thus 
+3
+:
+5
+3:5 is a possible score.
+
+Test case 2: The current score is 
+3
+:
+4
+3:4. It can be proven that no non-negative pair of integers 
+(
+x
+,
+y
+)
+(x,y) exists such that if team 
+1
+1 scores 
+x
+x more goals and team 
+2
+2 scores 
+y
+y more goals the score becomes 
+2
+:
+6
+2:6 from 
+3
+:
+4
+3:4. Thus in this case 
+2
+:
+6
+2:6 is an impossible score.
+
+Test case 3: The current score is already 
+2
+:
+2
+2:2. Hence it is a possible score.
+solution:
+# cook your dish here
+T = int(input())
+for _ in range(T):
+    A, B = map(int, input().split())
+    C, D = map(int, input().split())
+    if C >= A and D >= B:
+        print("POSSIBLE")
+    else:
+        print("IMPOSSIBLE")
+
+4. The Three Topics
+The Chef has reached the finals of the Annual Inter-school Declamation contest.
+
+For the finals, students were asked to prepare 
+10
+10 topics. However, Chef was only able to prepare three topics, numbered 
+A
+A, 
+B
+B and 
+C
+C — he is totally blank about the other topics. This means Chef can only win the contest if he gets the topics 
+A
+A, 
+B
+B or 
+C
+C to speak about.
+
+On the contest day, Chef gets topic 
+X
+X. Determine whether Chef has any chances of winning the competition.
+
+Print "Yes" if it is possible for Chef to win the contest, else print "No".
+
+You may print each character of the string in either uppercase or lowercase (for example, the strings yEs, yes, Yes, and YES will all be treated as identical).
+
+Input Format
+The first and only line of input will contain a single line containing four space-separated integers 
+A
+A, 
+B
+B, 
+C
+C, and 
+X
+X — the three topics Chef has prepared and the topic that was given to him on contest day.
+Output Format
+For each testcase, output in a single line "Yes" or "No".
+You may print each character of the string in either uppercase or lowercase (for example, the strings yEs, yes, Yes, and YES will all be treated as identical).
+Constraints
+1
+≤
+A
+,
+B
+,
+C
+,
+X
+≤
+10
+1≤A,B,C,X≤10
+A
+,
+B
+,
+C
+A,B,C are distinct.
+Subtasks
+Subtask #1 (100 points): Original constraints
+
+Sample 1:
+Input
+Output
+2 3 7 3
+Yes
+Explanation:
+Chef had prepared the topics: 
+2
+,
+3
+,
+7
+2,3,7. Chef gets to speak on the topic: 
+3
+3. Since Chef had already prepared this, there is a chance that he can win the contest.
+
+Sample 2:
+Input
+Output
+4 6 8 5
+No
+Explanation:
+Chef had prepared the topics: 
+4
+,
+6
+,
+8
+4,6,8. Chef gets to speak on the topic: 
+5
+5. Since Chef didn't prepare this topic, there is no chance that he can win the contest.
+solution:
+# cook your dish here
+A, B, C, X = map(int, input().split())
+if A==X or B == X or C == X:
+    print("YES")
+else:
+    print("NO")
+
+5. Monopoly
+There are 
+4
+4 companies in the markets of Chefland, 
+A
+A, 
+B
+B, 
+C
+C, and 
+D
+D.
+This year,
+
+Company 
+A
+A made a profit of 
+P
+P lakh rupees,
+Company 
+B
+B made a profit of 
+Q
+Q lakh rupees,
+Company 
+C
+C made a profit of 
+R
+R lakh rupees,
+Company 
+D
+D made a profit of 
+S
+S lakh rupees.
+There is said to be a monopoly in the market if the profit made by one company is strictly greater than the sum of profits made by all other companies.
+Determine if there is a monopoly in the market or not.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+The first line and only line of each test case contains four space-separated integers 
+P
+P, 
+Q
+Q, 
+R
+R and 
+S
+S — the profits made by companies 
+A
+A, 
+B
+B, 
+C
+C and 
+D
+D respectively.
+Output Format
+For each test case, output YES if there is a monopoly in the market. Otherwise, output NO.
+
+You may print each character of YES and NO in uppercase or lowercase (for example, yes, yEs, Yes will be considered identical).
+
+Constraints
+1
+≤
+T
+≤
+5000
+1≤T≤5000
+1
+≤
+P
+,
+Q
+,
+R
+,
+S
+≤
+100
+1≤P,Q,R,S≤100
+Sample 1:
+Input
+Output
+4
+1 1 1 10
+30 20 6 4
+100 90 3 4
+14 15 16 17
+YES
+NO
+YES
+NO
+Explanation:
+Test Case 1: Here, company 
+D
+D's profit (
+10
+10) is greater than the sum of profits of all other companies (
+1
++
+1
++
+1
+=
+3
+1+1+1=3).
+
+Test Case 2: Here, no company's profit is strictly greater than the sum of profits of all other companies.
+
+Test Case 3: Here, company 
+A
+A's profit (
+100
+100) is greater than the sum of profits of all other companies (
+90
++
+3
++
+4
+=
+97
+90+3+4=97).
+solution:
+# cook your dish here
+T = int(input())
+for _ in range(T):
+    p,q,r,s = map(int, input().split())
+    total = p + q + r + s 
+    max_profit =  max(p,q,r,s)
+    
+    if max_profit > total - max_profit:
+        print("YES")
+    else:
+        print("NO")
+
+
+l = 5, c = 5

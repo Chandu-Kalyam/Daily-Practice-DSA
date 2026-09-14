@@ -1,0 +1,890 @@
+Leetcode:
+1. 832. Flipping an Image
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Given an n x n binary matrix image, flip the image horizontally, then invert it, and return the resulting image.
+
+To flip an image horizontally means that each row of the image is reversed.
+
+For example, flipping [1,1,0] horizontally results in [0,1,1].
+To invert an image means that each 0 is replaced by 1, and each 1 is replaced by 0.
+
+For example, inverting [0,1,1] results in [1,0,0].
+ 
+
+Example 1:
+
+Input: image = [[1,1,0],[1,0,1],[0,0,0]]
+Output: [[1,0,0],[0,1,0],[1,1,1]]
+Explanation: First reverse each row: [[0,1,1],[1,0,1],[0,0,0]].
+Then, invert the image: [[1,0,0],[0,1,0],[1,1,1]]
+Example 2:
+
+Input: image = [[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]]
+Output: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+Explanation: First reverse each row: [[0,0,1,1],[1,0,0,1],[1,1,1,0],[0,1,0,1]].
+Then invert the image: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+ 
+
+Constraints:
+
+n == image.length
+n == image[i].length
+1 <= n <= 20
+images[i][j] is either 0 or 1.
+solution:
+class Solution:
+    def flipAndInvertImage(self, image: List[List[int]]) -> List[List[int]]:
+        new_rev = []
+        new_out = []
+        for img in image:
+            img.reverse()
+            new_rev.append(img)
+
+        for i in range(len(image)):
+            new_list = []
+            for j in range(len(image)):
+                if new_rev[i][j] == 0:
+                    new_list.append(1)
+                else:
+                    new_list.append(0)
+
+            new_out.append(new_list)
+
+
+        return new_out
+
+2. 2176. Count Equal and Divisible Pairs in an Array
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a 0-indexed integer array nums of length n and an integer k, return the number of pairs (i, j) where 0 <= i < j < n, such that nums[i] == nums[j] and (i * j) is divisible by k.
+ 
+
+Example 1:
+
+Input: nums = [3,1,2,2,2,1,3], k = 2
+Output: 4
+Explanation:
+There are 4 pairs that meet all the requirements:
+- nums[0] == nums[6], and 0 * 6 == 0, which is divisible by 2.
+- nums[2] == nums[3], and 2 * 3 == 6, which is divisible by 2.
+- nums[2] == nums[4], and 2 * 4 == 8, which is divisible by 2.
+- nums[3] == nums[4], and 3 * 4 == 12, which is divisible by 2.
+Example 2:
+
+Input: nums = [1,2,3,4], k = 1
+Output: 0
+Explanation: Since no value in nums is repeated, there are no pairs (i,j) that meet all the requirements.
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+1 <= nums[i], k <= 100
+solution:
+class Solution:
+    def countPairs(self, nums: List[int], k: int) -> int:
+        count = 0
+        n = len(nums)
+        for i in range(n):
+            for j in range(i+1,n):
+                if (nums[i] == nums[j]) and (i * j) % k ==0:
+                    count += 1
+
+        return count
+3. 2485. Find the Pivot Integer
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a positive integer n, find the pivot integer x such that:
+
+The sum of all elements between 1 and x inclusively equals the sum of all elements between x and n inclusively.
+Return the pivot integer x. If no such integer exists, return -1. It is guaranteed that there will be at most one pivot index for the given input.
+
+ 
+
+Example 1:
+
+Input: n = 8
+Output: 6
+Explanation: 6 is the pivot integer since: 1 + 2 + 3 + 4 + 5 + 6 = 6 + 7 + 8 = 21.
+Example 2:
+
+Input: n = 1
+Output: 1
+Explanation: 1 is the pivot integer since: 1 = 1.
+Example 3:
+
+Input: n = 4
+Output: -1
+Explanation: It can be proved that no such integer exist.
+ 
+
+Constraints:
+
+1 <= n <= 1000
+solution:
+import math
+class Solution:
+    def pivotInteger(self, n: int) -> int:
+        total = n * (n + 1) // 2
+        x = int(math.isqrt(total))
+
+        if x * x == total:
+            return x
+        else:
+            return -1
+
+4.3099. Harshad Number
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+An integer divisible by the sum of its digits is said to be a Harshad number. You are given an integer x. Return the sum of the digits of x if x is a Harshad number, otherwise, return -1.
+
+ 
+
+Example 1:
+
+Input: x = 18
+
+Output: 9
+
+Explanation:
+
+The sum of digits of x is 9. 18 is divisible by 9. So 18 is a Harshad number and the answer is 9.
+
+Example 2:
+
+Input: x = 23
+
+Output: -1
+
+Explanation:
+
+The sum of digits of x is 5. 23 is not divisible by 5. So 23 is not a Harshad number and the answer is -1.
+
+ 
+
+Constraints:
+
+1 <= x <= 100
+solution:
+class Solution:
+    def sumOfTheDigitsOfHarshadNumber(self, x: int) -> int:
+        summed = sum([int(num) for num in str(x)])
+        if x % summed == 0:
+            return summed
+        else:
+            return -1
+
+5. 2315. Count Asterisks
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s, where every two consecutive vertical bars '|' are grouped into a pair. In other words, the 1st and 2nd '|' make a pair, the 3rd and 4th '|' make a pair, and so forth.
+
+Return the number of '*' in s, excluding the '*' between each pair of '|'.
+
+Note that each '|' will belong to exactly one pair.
+
+ 
+
+Example 1:
+
+Input: s = "l|*e*et|c**o|*de|"
+Output: 2
+Explanation: The considered characters are underlined: "l|*e*et|c**o|*de|".
+The characters between the first and second '|' are excluded from the answer.
+Also, the characters between the third and fourth '|' are excluded from the answer.
+There are 2 asterisks considered. Therefore, we return 2.
+Example 2:
+
+Input: s = "iamprogrammer"
+Output: 0
+Explanation: In this example, there are no asterisks in s. Therefore, we return 0.
+Example 3:
+
+Input: s = "yo|uar|e**|b|e***au|tifu|l"
+Output: 5
+Explanation: The considered characters are underlined: "yo|uar|e**|b|e***au|tifu|l". There are 5 asterisks considered. Therefore, we return 5.
+ 
+
+Constraints:
+
+1 <= s.length <= 1000
+s consists of lowercase English letters, vertical bars '|', and asterisks '*'.
+s contains an even number of vertical bars '|'.
+ solution:
+class Solution:
+    def countAsterisks(self, s: str) -> int:
+        count = 0
+        inside_bar = False  # Are we between a pair of |?
+        
+        for char in s:
+            if char == '|':
+                inside_bar = not inside_bar  # Toggle on each |
+            elif char == '*' and not inside_bar:
+                count += 1
+        
+        return count
+
+Codechef:
+1. Good Program
+In computing, the collection of four bits is called a nibble.
+
+Chef defines a program as:
+
+Good, if it takes exactly 
+X
+X nibbles of memory, where 
+X
+X is a positive integer.
+Not Good, otherwise.
+Given a program which takes 
+N
+N bits of memory, determine whether it is Good or Not Good.
+
+Input Format
+First line will contain 
+T
+T, number of test cases. Then the test cases follow.
+The first and only line of each test case contains a single integer 
+N
+N, the number of bits taken by the program.
+Output Format
+For each test case, output 
+Good
+Good or 
+Not
+ 
+Good
+Not Good in a single line. You may print each character of 
+Good
+Good or 
+Not
+ 
+Good
+Not Good in uppercase or lowercase (for example, 
+GoOd
+GoOd, 
+GOOD
+GOOD, 
+good
+good will be considered identical).
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+N
+≤
+1000
+1≤N≤1000
+Subtasks
+Subtask #1 (100 points): original constraints
+
+Sample 1:
+Input
+Output
+4
+8
+17
+52
+3
+Good
+Not Good
+Good
+Not Good
+Explanation:
+Test case 1: The program requires 
+8
+8 bits of memory. This is equivalent to 
+8
+4
+=
+2
+4
+8
+​
+ =2 nibbles. Since 
+2
+2 is an integer, this program is good.
+
+Test case 2: The program requires 
+17
+17 bits of memory. This is equivalent to 
+17
+4
+=
+4.25
+4
+17
+​
+ =4.25 nibbles. Since 
+4.25
+4.25 is not an integer, this program is not good.
+
+Test case 3: The program requires 
+52
+52 bits of memory. This is equivalent to 
+52
+4
+=
+13
+4
+52
+​
+ =13 nibbles. Since 
+13
+13 is an integer, this program is good.
+
+Test case 4: The program requires 
+3
+3 bits of memory. This is equivalent to 
+3
+4
+=
+0.75
+4
+3
+​
+ =0.75 nibbles. Since 
+0.75
+0.75 is not an integer, this program is not good.
+solution:
+# cook your dish here
+T = int(input())
+for _ in range(T):
+    n = int(input())
+    if n % 4 == 0:
+        print("Good")
+    else:
+        print("Not Good")
+
+2. Qualify the round
+In a coding contest, there are two types of problems:
+
+Easy problems, which are worth 
+1
+1 point each
+Hard problems, which are worth 
+2
+2 points each
+To qualify for the next round, a contestant must score at least 
+X
+X points. Chef solved 
+A
+A Easy problems and 
+B
+B Hard problems. Will Chef qualify or not?
+
+Input Format
+The first line of input contains a single integer 
+T
+T, denoting the number of test cases. The description of 
+T
+T test cases follows.
+Each test case consists of a single line of input containing three space-separated integers — 
+X
+,
+A
+X,A, and 
+B
+B.
+Output Format
+For each test case, output a new line containing the answer — Qualify if Chef qualifies for the next round, and NotQualify otherwise.
+
+Each character of the answer may be printed in either uppercase or lowercase. For example, if the answer is Qualify, outputs such as qualify, quALiFy, QUALIFY and QuAlIfY will also be accepted as correct.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+X
+≤
+100
+1≤X≤100
+0
+≤
+A
+,
+B
+≤
+100
+0≤A,B≤100
+Sample 1:
+Input
+Output
+3
+15 9 3
+5 3 0
+6 2 8
+Qualify
+NotQualify
+Qualify
+Explanation:
+Test Case 
+1
+1: Chef solved 
+9
+9 easy problems and 
+3
+3 hard problems, making his total score 
+9
+⋅
+1
++
+3
+⋅
+2
+=
+15
+9⋅1+3⋅2=15. He needs at least 
+15
+15 points to qualify, which he has and hence he qualifies.
+
+Test Case 
+2
+2: Chef solved 
+3
+3 easy problems and 
+0
+0 hard problems, making his total score 
+3
+⋅
+1
++
+0
+⋅
+2
+=
+3
+3⋅1+0⋅2=3. He needs at least 
+5
+5 points to qualify, which he doesn't have and hence doesn't qualify.
+
+Test Case 
+3
+3: Chef solved 
+2
+2 easy problems and 
+8
+8 hard problems, making his total score 
+2
+⋅
+1
++
+8
+⋅
+2
+=
+18
+2⋅1+8⋅2=18. He needs at least 
+6
+6 points to qualify, which he has and hence he qualifies.
+solution:
+# cook your dish here
+T = int(input())
+for _ in range(T):
+    x,a,b = map(int, input().split())
+    summed = (a * 1) + (b * 2)
+    if summed >= x:
+        print("QUALIFY")
+    else:
+        print("NotQualify")
+
+3. Elections in Chefland
+Election season has started in Chefland and the election commission wants to know the count of eligible voters.
+
+There are 
+N
+N people in Chefland where the age of the 
+i
+t
+h
+i 
+th
+  person in 
+A
+i
+A 
+i
+​
+ .
+Given that a person needs to be at least 
+X
+X years old to vote, find the number of eligible voters.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of multiple lines of input.
+The first line of each test case contains two space-separated integers 
+N
+N and 
+X
+X — the number of people in Chefland, and the minimum age required for a person to vote in Chefland.
+The next line contains 
+N
+N space-separated integers, where the 
+i
+t
+h
+i 
+th
+  integer denotes the age of the 
+i
+t
+h
+i 
+th
+  person.
+Output Format
+For each test case, output on a new line, the number of eligible voters in Chefland.
+
+Constraints
+1
+≤
+T
+≤
+200
+1≤T≤200
+1
+≤
+N
+≤
+100
+1≤N≤100
+1
+≤
+A
+i
+,
+X
+≤
+100
+1≤A 
+i
+​
+ ,X≤100
+Sample 1:
+Input
+Output
+4
+4 3
+5 3 1 2
+3 2
+1 3 4
+4 2
+2 1 2 4
+5 6
+1 2 3 4 5
+2
+2
+3
+0
+Explanation:
+Test case 
+1
+1: The minimum age to vote in Chefland is 
+3
+3 years. There are 
+2
+2 people with age greater than equal to 
+3
+3 and thus, there are 
+2
+2 eligible voters.
+
+Test case 
+2
+2: The minimum age to vote in Chefland is 
+2
+2 years. There are 
+2
+2 people with age greater than equal to 
+2
+2 and thus, there are 
+2
+2 eligible voters.
+
+Test case 
+3
+3: The minimum age to vote in Chefland is 
+2
+2 years. There are 
+3
+3 people with age greater than equal to 
+2
+2 and thus, there are 
+3
+3 eligible voters.
+
+Test case 
+4
+4: The minimum age to vote in Chefland is 
+6
+6 years. There are no people with age greater than equal to 
+6
+6 and thus, there are no eligible voters.
+solution:
+# cook your dish here
+T = int(input())
+for _ in range(T):
+    n, x = map(int, input().split())
+    ages = list(map(int, input().split()))
+    count = 0
+    for age in ages:
+        if age>= x:
+            count += 1
+            
+    print(count)
+
+4. Minimum Cars required
+A single car can accommodate at most 
+4
+4 people.
+
+N
+N friends want to go to a restaurant for a party. Find the minimum number of cars required to accommodate all the friends.
+
+Input Format
+The first line contains a single integer 
+T
+T - the number of test cases. Then the test cases follow.
+The first and only line of each test case contains an integer 
+N
+N - denoting the number of friends.
+Output Format
+For each test case, output the minimum number of cars required to accommodate all the friends.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+2
+≤
+N
+≤
+1000
+2≤N≤1000
+Sample 1:
+Input
+Output
+4
+4
+2
+7
+98
+1
+1
+2
+25
+Explanation:
+Test Case 
+1
+1: There are only 
+4
+4 friends and a single car can accommodate 
+4
+4 people. Thus, only 
+1
+1 car is required.
+
+Test Case 
+2
+2: There are only 
+2
+2 friends and a single car can accommodate 
+4
+4 people. Thus, only 
+1
+1 car is required
+
+Test Case 
+3
+3: There are 
+7
+7 friends and 
+2
+2 cars can accommodate 
+8
+8 people. Thus, 
+2
+2 cars are required.
+solution:
+# cook your dish here
+import math
+car = 4
+T = int(input())
+for _ in range(T):
+    n = int(input())
+    res = math.ceil(n / car)
+    print(res)
+
+5. Test Score
+In a test, there are 
+N
+N problems, each carrying 
+X
+X marks.
+In each problem, Chef either received 
+X
+X marks or 
+0
+0 marks.
+
+Determine whether is it possible for Chef to achieve exactly 
+Y
+Y marks.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of three integers 
+N
+,
+X
+,
+N,X, and 
+Y
+Y, the number of problems, the maximum score for each problem, and the score Chef wants.
+Output Format
+For each test case, output YES if Chef can achieve exactly 
+Y
+Y marks, NO otherwise.
+
+You can print each character of the string in uppercase or lowercase. For example, the strings Yes, YES, yes, and yEs, are all considered identical.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+N
+≤
+10
+1≤N≤10
+1
+≤
+X
+≤
+10
+1≤X≤10
+0
+≤
+Y
+≤
+100
+0≤Y≤100
+Sample 1:
+Input
+Output
+5
+1 8 4
+3 6 12
+4 5 0
+10 10 100
+8 5 36
+NO
+YES
+YES
+YES
+NO
+Explanation:
+Test case 
+1
+1: There is no way for Chef to score exactly 
+4
+4 marks.
+
+Test case 
+2
+2: Chef can score 
+12
+12 marks by receiving 
+6
+6 marks in 
+2
+2 problems and 
+0
+0 marks in 
+1
+1 problem.
+
+Test case 
+3
+3: Chef can score 
+0
+0 marks by receiving 
+0
+0 marks in each of the 
+4
+4 problems.
+
+Test case 
+4
+4: Chef can score 
+100
+100 marks by receiving 
+10
+10 marks in each of the 
+10
+10 problems.
+
+Test case 
+5
+5: There is no way for Chef to score exactly 
+36
+36 marks.
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    n, x, y = map(int, input().split())
+    for i in range(1,n+1):
+        marks = i * x
+        if marks == y:
+            print("YES")
+            break
+        elif y == 0:
+            print("YES")
+            break
+    else:
+        print("NO")
+
+l = 5, c = 5

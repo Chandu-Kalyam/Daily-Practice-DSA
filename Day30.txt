@@ -1,0 +1,761 @@
+Leetcode:
+1. 1979. Find Greatest Common Divisor of Array
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an integer array nums, return the greatest common divisor of the smallest number and largest number in nums.
+
+The greatest common divisor of two numbers is the largest positive integer that evenly divides both numbers.
+
+ 
+
+Example 1:
+
+Input: nums = [2,5,6,9,10]
+Output: 2
+Explanation:
+The smallest number in nums is 2.
+The largest number in nums is 10.
+The greatest common divisor of 2 and 10 is 2.
+Example 2:
+
+Input: nums = [7,5,6,8,3]
+Output: 1
+Explanation:
+The smallest number in nums is 3.
+The largest number in nums is 8.
+The greatest common divisor of 3 and 8 is 1.
+Example 3:
+
+Input: nums = [3,3]
+Output: 3
+Explanation:
+The smallest number in nums is 3.
+The largest number in nums is 3.
+The greatest common divisor of 3 and 3 is 3.
+ 
+
+Constraints:
+
+2 <= nums.length <= 1000
+1 <= nums[i] <= 1000
+solution:
+import math
+class Solution:
+    def findGCD(self, nums: List[int]) -> int:
+        min_num = min(nums)
+        max_num = max(nums)
+        return math.gcd(max_num,min_num)
+
+2. 2843. Count Symmetric Integers
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given two positive integers low and high.
+
+An integer x consisting of 2 * n digits is symmetric if the sum of the first n digits of x is equal to the sum of the last n digits of x. Numbers with an odd number of digits are never symmetric.
+
+Return the number of symmetric integers in the range [low, high].
+
+ 
+
+Example 1:
+
+Input: low = 1, high = 100
+Output: 9
+Explanation: There are 9 symmetric integers between 1 and 100: 11, 22, 33, 44, 55, 66, 77, 88, and 99.
+Example 2:
+
+Input: low = 1200, high = 1230
+Output: 4
+Explanation: There are 4 symmetric integers between 1200 and 1230: 1203, 1212, 1221, and 1230.
+ 
+
+Constraints:
+
+1 <= low <= high <= 104
+solution:
+class Solution:
+    def countSymmetricIntegers(self, low: int, high: int) -> int:
+        count = 0
+        for i in range(low,high+1):
+            string = str(i)
+
+            if len(string) %2!=0:
+                continue
+
+            half_index = len(string) // 2
+            first_half = sum(int(num) for num in string[:half_index])
+            second_half = sum(int(num) for num in string[half_index:])
+            if first_half == second_half:
+                count += 1
+
+
+        return count
+3. 2828. Check if a String Is an Acronym of Words
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an array of strings words and a string s, determine if s is an acronym of words.
+
+The string s is considered an acronym of words if it can be formed by concatenating the first character of each string in words in order. For example, "ab" can be formed from ["apple", "banana"], but it can't be formed from ["bear", "aardvark"].
+
+Return true if s is an acronym of words, and false otherwise.
+
+ 
+
+Example 1:
+
+Input: words = ["alice","bob","charlie"], s = "abc"
+Output: true
+Explanation: The first character in the words "alice", "bob", and "charlie" are 'a', 'b', and 'c', respectively. Hence, s = "abc" is the acronym. 
+Example 2:
+
+Input: words = ["an","apple"], s = "a"
+Output: false
+Explanation: The first character in the words "an" and "apple" are 'a' and 'a', respectively. 
+The acronym formed by concatenating these characters is "aa". 
+Hence, s = "a" is not the acronym.
+Example 3:
+
+Input: words = ["never","gonna","give","up","on","you"], s = "ngguoy"
+Output: true
+Explanation: By concatenating the first character of the words in the array, we get the string "ngguoy". 
+Hence, s = "ngguoy" is the acronym.
+ 
+
+Constraints:
+
+1 <= words.length <= 100
+1 <= words[i].length <= 10
+1 <= s.length <= 100
+words[i] and s consist of lowercase English letters.
+solution:
+class Solution:
+    def isAcronym(self, words: List[str], s: str) -> bool:
+        new_s = ""
+        for word in words:
+            new_s += word[0]
+
+        if new_s == s:
+            return True
+        else:
+            return False
+
+4. 1913. Maximum Product Difference Between Two Pairs
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+The product difference between two pairs (a, b) and (c, d) is defined as (a * b) - (c * d).
+
+For example, the product difference between (5, 6) and (2, 7) is (5 * 6) - (2 * 7) = 16.
+Given an integer array nums, choose four distinct indices w, x, y, and z such that the product difference between pairs (nums[w], nums[x]) and (nums[y], nums[z]) is maximized.
+
+Return the maximum such product difference.
+
+ 
+
+Example 1:
+
+Input: nums = [5,6,2,7,4]
+Output: 34
+Explanation: We can choose indices 1 and 3 for the first pair (6, 7) and indices 2 and 4 for the second pair (2, 4).
+The product difference is (6 * 7) - (2 * 4) = 34.
+Example 2:
+
+Input: nums = [4,2,5,9,7,4,8]
+Output: 64
+Explanation: We can choose indices 3 and 6 for the first pair (9, 8) and indices 1 and 5 for the second pair (2, 4).
+The product difference is (9 * 8) - (2 * 4) = 64.
+ 
+
+Constraints:
+
+4 <= nums.length <= 104
+1 <= nums[i] <= 104
+solution:
+class Solution:
+    def maxProductDifference(self, nums: List[int]) -> int:
+        nums.sort()
+        max_pro = nums[-1] * nums[-2]
+        next_max_pro = nums[0] * nums[1]
+        return max_pro - next_max_pro
+
+5. 2965. Find Missing and Repeated Values
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+You are given a 0-indexed 2D integer matrix grid of size n * n with values in the range [1, n2]. Each integer appears exactly once except a which appears twice and b which is missing. The task is to find the repeating and missing numbers a and b.
+
+Return a 0-indexed integer array ans of size 2 where ans[0] equals to a and ans[1] equals to b.
+
+ 
+
+Example 1:
+
+Input: grid = [[1,3],[2,2]]
+Output: [2,4]
+Explanation: Number 2 is repeated and number 4 is missing so the answer is [2,4].
+Example 2:
+
+Input: grid = [[9,1,7],[8,9,2],[3,4,6]]
+Output: [9,5]
+Explanation: Number 9 is repeated and number 5 is missing so the answer is [9,5].
+ 
+
+Constraints:
+
+2 <= n == grid.length == grid[i].length <= 50
+1 <= grid[i][j] <= n * n
+For all x that 1 <= x <= n * n there is exactly one x that is not equal to any of the grid members.
+For all x that 1 <= x <= n * n there is exactly one x that is equal to exactly two of the grid members.
+For all x that 1 <= x <= n * n except two of them there is exactly one pair of i, j that 0 <= i, j <= n - 1 and grid[i][j] == x.
+solution:
+class Solution:
+    def findMissingAndRepeatedValues(self, grid: List[List[int]]) -> List[int]:
+        n = len(grid)
+        N = n * n
+        
+        # Expected sum: 1 + 2 + ... + N
+        expected_sum = N * (N + 1) // 2
+        
+        # Expected sum of squares: 1² + 2² + ... + N²
+        expected_sq_sum = N * (N + 1) * (2 * N + 1) // 6
+        
+        actual_sum = 0
+        actual_sq_sum = 0
+        
+        for row in grid:
+            for num in row:
+                actual_sum += num
+                actual_sq_sum += num * num
+        
+        # Let a = repeated, b = missing
+        # a - b = actual_sum - expected_sum
+        # a² - b² = actual_sq_sum - expected_sq_sum
+        # (a-b)(a+b) = diff_sq
+        # a + b = diff_sq / (a - b)
+        
+        diff = actual_sum - expected_sum          # a - b
+        diff_sq = actual_sq_sum - expected_sq_sum # a² - b²
+        total = diff_sq // diff                   # a + b
+        
+        a = (diff + total) // 2  # repeated
+        b = (total - diff) // 2  # missing
+        
+        return [a, b]
+
+Codechef:
+1. Jenga Night
+Chef hosts a party for his birthday. There are 
+N
+N people at the party. All these 
+N
+N people decide to play Jenga.
+
+There are 
+X
+X Jenga tiles available. In one round, all the players pick 
+1
+1 tile each and place it in the tower.
+The game is valid if:
+
+All the players have a tile in each round;
+All the tiles are used at the end.
+Given 
+N
+N and 
+X
+X, find whether the game is valid.
+
+Input Format
+First line will contain 
+T
+T, the number of test cases. Then the test cases follow.
+Each test case contains a single line of input, containing two space-separated integers 
+N
+N and 
+X
+X representing the number of people at the party and the number of available tiles respectively.
+Output Format
+For each test case, output in a single line 
+YES
+YES if the game is valid, else output 
+NO
+NO.
+
+You may print each character of the string in uppercase or lowercase (for example, the strings 
+YeS
+YeS, 
+yEs
+yEs, 
+yes
+yes and 
+YES
+YES will all be treated as identical).
+
+Constraints
+1
+≤
+T
+≤
+10
+4
+1≤T≤10 
+4
+ 
+1
+≤
+N
+,
+X
+≤
+1000
+1≤N,X≤1000
+Sample 1:
+Input
+Output
+3
+3 3
+4 2
+2 4
+YES
+NO
+YES
+Explanation:
+Test case 
+1
+1: The game will last for 
+1
+1 round after which the tiles will finish.
+
+Test case 
+2
+2: There are not enough Jenga tiles for everyone to place.
+
+Test case 
+3
+3: The game will last for 
+2
+2 rounds as after round 
+2
+2 all Jenga tiles are used.
+solution:
+# cook your dish here
+T = int(input())
+for _ in range(T):
+    n, x = map(int, input().split())
+    if x % n == 0:
+        print("YES")
+    else:
+        print("NO")
+
+2. Bus Seat Numbering
+There is a bus with 30 seats. The seats are numbered from 1 to 30, and the numbering is as depicted in this image.
+
+
+As can be seen in the image, the bus is divided into two decks - The Lower deck, and the Upper deck, with 15 seats each. And some of the seats come as Single and some as Double. For example, Seats 1 and 2 are Double, whereas Seat 11 is a Single.
+
+You will be given a Seat number, and your job is to classify it as one of these 4 types:
+
+Lower Single
+Lower Double
+Upper Single
+Upper Double
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of a single line of input which contains a single integers 
+N
+N — the seat number.
+Output Format
+For each test case, output on a new line, the type of seat.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+N
+≤
+30
+1≤N≤30
+Sample 1:
+Input
+Output
+5
+6
+28
+16
+13
+10
+Lower Double
+Upper Single
+Upper Double
+Lower Single
+Lower Double
+Explanation:
+Testcase 1: The seat number 6 is in the Lower deck, and it is a Double. Hence the output is "Lower Double".
+
+Testcase 2: The seat number 28 is in the Upper deck, and it is a Single. Hence the output is "Upper Single".
+
+Testcase 3: The seat number 16 is in the Upper deck, and it is a Double. Hence the output is "Upper Double".
+
+Testcase 4: The seat number 13 is in the Lower deck, and it is a Single. Hence the output is "Lower Single".
+
+Testcase 5: The seat number 10 is in the Lower deck, and it is a Double. Hence the output is "Lower Double".
+solution:
+# cook your dish here
+l_d = 15
+l_d_d = 10
+l_d_s = 15
+
+u_d = 30
+u_d_d = 25
+u_d_s = 30
+t = int(input())
+for _ in range(t):
+    x = int(input())
+    if x <= l_d and x <= l_d_d:
+        print("Lower Double")
+    elif x <=l_d and x >= 11 and x <= l_d_s:
+        print("Lower Single")
+    elif x > l_d and x <= u_d_d:
+        print("Upper Double")
+    elif x > l_d and x >= 26 and x<=u_d_s:
+        print("Upper Single")
+
+3. Discus Throw
+In discus throw, a player is given 
+3
+3 throws and the throw with the longest distance is regarded as their final score.
+
+You are given the distances for all 
+3
+3 throws of a player. Determine the final score of the player.
+
+Input Format
+First line will contain 
+T
+T, number of test cases. Then the test cases follow.
+Each test case contains of a single line of input, three integers 
+A
+,
+B
+,
+A,B, and 
+C
+C denoting the distances in each throw.
+Output Format
+For each test case, output the final score of the player.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+A
+,
+B
+,
+C
+≤
+100
+1≤A,B,C≤100
+Sample 1:
+Input
+Output
+3
+10 15 8
+32 32 32
+82 45 54
+15
+32
+82
+Explanation:
+Test Case 
+1
+1: The longest distance is achieved in the second throw, which is equal to 
+15
+15 units. Thus, the answer is 
+15
+15.
+
+Test Case 
+2
+2: In all throws, the distance is 
+32
+32 units. Thus, the final score is 
+32
+32.
+
+Test Case 
+3
+3: The longest distance is achieved in the first throw which is equal to 
+82
+82 units. Thus, the answer is 
+82
+82.
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    throws = list(map(int, input().split()))
+    print(max(throws))
+
+4. Maximise the Tastiness
+Chef is making a dish that consists of exactly two ingredients. He has four ingredients 
+A
+,
+B
+,
+C
+A,B,C and 
+D
+D with tastiness 
+a
+,
+b
+,
+c
+,
+a,b,c, and 
+d
+d respectively. He can use either 
+A
+A or 
+B
+B as the first ingredient and either 
+C
+C or 
+D
+D as the second ingredient.
+
+The tastiness of a dish is the sum of tastiness of its ingredients. Find the maximum possible tastiness of the dish that the chef can prepare.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+The first and only line of each test case contains four space-separated integers 
+a
+,
+b
+,
+c
+,
+a,b,c, and 
+d
+d — the tastiness of the four ingredients.
+Output Format
+For each test case, output on a new line the maximum possible tastiness of the dish that chef can prepare.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+a
+,
+b
+,
+c
+,
+d
+≤
+100
+1≤a,b,c,d≤100
+Sample 1:
+Input
+Output
+2
+3 5 6 2
+16 15 5 4
+11
+21
+Explanation:
+Test case 
+1
+1: Chef can prepare a dish with ingredients 
+B
+B and 
+C
+C with a tastiness of 
+5
++
+6
+=
+11
+5+6=11.
+
+Test case 
+2
+2: Chef can prepare a dish with ingredients 
+A
+A and 
+C
+C with a tastiness of 
+16
++
+5
+=
+21
+16+5=21.
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    a,b,c,d = map(int, input().split())
+    f_max = max(a,b)
+    s_max = max(c,d)
+    print(f_max + s_max)
+
+5. Watching Movies at 2x
+Chef started watching a movie that runs for a total of 
+X
+X minutes.
+
+Chef has decided to watch the first 
+Y
+Y minutes of the movie at twice the usual speed as he was warned by his friends that the movie gets interesting only after the first 
+Y
+Y minutes.
+
+How long will Chef spend watching the movie in total?
+
+Note: It is guaranteed that 
+Y
+Y is even.
+
+Input Format
+The first line contains two space separated integers 
+X
+,
+Y
+X,Y - as per the problem statement.
+Output Format
+Print in a single line, an integer denoting the total number of minutes that Chef spends in watching the movie.
+Constraints
+1
+≤
+X
+,
+Y
+≤
+1000
+1≤X,Y≤1000
+Y
+Y is an even integer.
+Subtasks
+Subtask #1 (100 points): original constraints
+
+Sample 1:
+Input
+Output
+100 20
+90
+Explanation:
+For the first 
+Y
+=
+20
+Y=20 minutes, Chef watches at twice the usual speed, so the total amount of time spent to watch this portion of the movie is 
+Y
+2
+=
+10
+2
+Y
+​
+ =10 minutes.
+
+For the remaining 
+X
+−
+Y
+=
+80
+X−Y=80 minutes, Chef watches at the usual speed, so it takes him 
+80
+80 minutes to watch the remaining portion of the movie.
+
+In total, Chef spends 
+10
++
+80
+=
+90
+10+80=90 minutes watching the entire movie.
+
+Sample 2:
+Input
+Output
+50 24
+38
+Explanation:
+For the first 
+Y
+=
+24
+Y=24 minutes, Chef watches at twice the usual speed, so the total amount of time spent to watch this portion of the movie is 
+Y
+2
+=
+12
+2
+Y
+​
+ =12 minutes.
+
+For the remaining 
+X
+−
+Y
+=
+26
+X−Y=26 minutes, Chef watches at the usual speed, so it takes him 
+26
+26 minutes to watch the remaining portion of the movie.
+
+In total, Chef spends 
+12
++
+26
+=
+38
+12+26=38 minutes watching the entire movie.
+solution:
+# cook your dish here
+x,y = map(int,input().split())
+total = y // 2
+rem = x - y
+print(rem + total)
+
+l:5, c:5

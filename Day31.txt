@@ -1,0 +1,686 @@
+Leetcode:
+1. 1844. Replace All Digits with Characters
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed string s that has lowercase English letters in its even indices and digits in its odd indices.
+
+You must perform an operation shift(c, x), where c is a character and x is a digit, that returns the xth character after c.
+
+For example, shift('a', 5) = 'f' and shift('x', 0) = 'x'.
+For every odd index i, you want to replace the digit s[i] with the result of the shift(s[i-1], s[i]) operation.
+
+Return s after replacing all digits. It is guaranteed that shift(s[i-1], s[i]) will never exceed 'z'.
+
+Note that shift(c, x) is not a preloaded function, but an operation to be implemented as part of the solution.
+
+ 
+
+Example 1:
+
+Input: s = "a1c1e1"
+Output: "abcdef"
+Explanation: The digits are replaced as follows:
+- s[1] -> shift('a',1) = 'b'
+- s[3] -> shift('c',1) = 'd'
+- s[5] -> shift('e',1) = 'f'
+Example 2:
+
+Input: s = "a1b2c3d4e"
+Output: "abbdcfdhe"
+Explanation: The digits are replaced as follows:
+- s[1] -> shift('a',1) = 'b'
+- s[3] -> shift('b',2) = 'd'
+- s[5] -> shift('c',3) = 'f'
+- s[7] -> shift('d',4) = 'h'
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists only of lowercase English letters and digits.
+shift(s[i-1], s[i]) <= 'z' for all odd indices i.
+solution:
+class Solution:
+    def replaceDigits(self, s: str) -> str:
+        result = list(s)  # Convert to list (mutable)
+        
+        for i in range(1, len(s), 2):  # Odd indices only
+            # shift(s[i-1], int(s[i]))
+            result[i] = chr(ord(s[i-1]) + int(s[i]))
+        
+        return ''.join(result)
+
+2. 1935. Maximum Number of Words You Can Type
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+There is a malfunctioning keyboard where some letter keys do not work. All other keys on the keyboard work properly.
+
+Given a string text of words separated by a single space (no leading or trailing spaces) and a string brokenLetters of all distinct letter keys that are broken, return the number of words in text you can fully type using this keyboard.
+
+ 
+
+Example 1:
+
+Input: text = "hello world", brokenLetters = "ad"
+Output: 1
+Explanation: We cannot type "world" because the 'd' key is broken.
+Example 2:
+
+Input: text = "leet code", brokenLetters = "lt"
+Output: 1
+Explanation: We cannot type "leet" because the 'l' and 't' keys are broken.
+Example 3:
+
+Input: text = "leet code", brokenLetters = "e"
+Output: 0
+Explanation: We cannot type either word because the 'e' key is broken.
+ 
+
+Constraints:
+
+1 <= text.length <= 104
+0 <= brokenLetters.length <= 26
+text consists of words separated by a single space without any leading or trailing spaces.
+Each word only consists of lowercase English letters.
+brokenLetters consists of distinct lowercase English letters.
+solution:
+class Solution:
+    def canBeTypedWords(self, text: str, brokenLetters: str) -> int:
+        broken = set(brokenLetters)
+        count = 0
+        
+        for word in text.split(" "):
+            if not (set(word) & broken):
+                count += 1
+        
+        return count
+
+3. 2119. A Number After a Double Reversal
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Reversing an integer means to reverse all its digits.
+
+For example, reversing 2021 gives 1202. Reversing 12300 gives 321 as the leading zeros are not retained.
+Given an integer num, reverse num to get reversed1, then reverse reversed1 to get reversed2. Return true if reversed2 equals num. Otherwise return false.
+
+ 
+
+Example 1:
+
+Input: num = 526
+Output: true
+Explanation: Reverse num to get 625, then reverse 625 to get 526, which equals num.
+Example 2:
+
+Input: num = 1800
+Output: false
+Explanation: Reverse num to get 81, then reverse 81 to get 18, which does not equal num.
+Example 3:
+
+Input: num = 0
+Output: true
+Explanation: Reverse num to get 0, then reverse 0 to get 0, which equals num.
+ 
+
+Constraints:
+
+0 <= num <= 106
+solution:
+class Solution:
+    def isSameAfterReversals(self, num: int) -> bool:
+        # return num == 0 or num % 10 != 0
+        rev1 = int(str(num)[::-1])
+        
+        # Reverse 2: same process
+        rev2 = int(str(rev1)[::-1])
+        
+        return rev2 == num
+
+4.2864. Maximum Odd Binary Number
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a binary string s that contains at least one '1'.
+
+You have to rearrange the bits in such a way that the resulting binary number is the maximum odd binary number that can be created from this combination.
+
+Return a string representing the maximum odd binary number that can be created from the given combination.
+
+Note that the resulting string can have leading zeros.
+
+ 
+
+Example 1:
+
+Input: s = "010"
+Output: "001"
+Explanation: Because there is just one '1', it must be in the last position. So the answer is "001".
+Example 2:
+
+Input: s = "0101"
+Output: "1001"
+Explanation: One of the '1's must be in the last position. The maximum number that can be made with the remaining digits is "100". So the answer is "1001".
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists only of '0' and '1'.
+s contains at least one '1'.
+solution:
+class Solution:
+    def maximumOddBinaryNumber(self, s: str) -> str:
+        ones = s.count("1")
+        zeros = s.count("0")
+        return '1'  * (ones - 1) + '0' * zeros + '1'
+
+5. 3131. Find the Integer Added to Array I
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given two arrays of equal length, nums1 and nums2.
+
+Each element in nums1 has been increased (or decreased in the case of negative) by an integer, represented by the variable x.
+
+As a result, nums1 becomes equal to nums2. Two arrays are considered equal when they contain the same integers with the same frequencies.
+
+Return the integer x.
+
+ 
+
+Example 1:
+
+Input: nums1 = [2,6,4], nums2 = [9,7,5]
+
+Output: 3
+
+Explanation:
+
+The integer added to each element of nums1 is 3.
+
+Example 2:
+
+Input: nums1 = [10], nums2 = [5]
+
+Output: -5
+
+Explanation:
+
+The integer added to each element of nums1 is -5.
+
+Example 3:
+
+Input: nums1 = [1,1,1,1], nums2 = [1,1,1,1]
+
+Output: 0
+
+Explanation:
+
+The integer added to each element of nums1 is 0.
+
+ 
+
+Constraints:
+
+1 <= nums1.length == nums2.length <= 100
+0 <= nums1[i], nums2[i] <= 1000
+The test cases are generated in a way that there is an integer x such that nums1 can become equal to nums2 by adding x to each element of nums1.
+solution:
+class Solution:
+    def addedInteger(self, nums1: List[int], nums2: List[int]) -> int:
+        return min(nums2) - min(nums1)
+
+
+Codechef:
+1. Police and Thief
+Chef discovered that his secret recipe has been stolen. He immediately informs the police of the theft.
+
+It is known that the policeman and thief move on the number line. You are given that:
+
+The initial location of the policeman on the number line is 
+X
+X and his speed is 
+2
+2 units per second.
+The initial location of the thief on the number line is 
+Y
+Y and his speed is 
+1
+1 unit per second.
+Find the minimum time (in seconds) in which the policeman can catch the thief. Note that, the policeman catches the thief as soon as their locations become equal and the thief will try to evade the policeman for as long as possible.
+
+Input Format
+The first line of input will contain an integer 
+T
+T — the number of test cases. The description of 
+T
+T test cases follows.
+The first and only line of each test case contains two integers 
+X
+X and 
+Y
+Y, as described in the problem statement.
+Output Format
+For each test case, output in a single line the minimum time taken by the policeman to catch the thief.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+−
+10
+5
+≤
+X
+,
+Y
+≤
+10
+5
+−10 
+5
+ ≤X,Y≤10 
+5
+ 
+Sample 1:
+Input
+Output
+3
+1 3
+2 1
+1 1
+2
+1
+0
+Explanation:
+Test case 
+1
+1: The initial locations of the policeman and thief are 
+1
+1 and 
+3
+3 respectively. The minimum time taken by the policeman to catch the thief is 
+2
+2 seconds, and this happens when both the policeman and the thief move towards the right.
+
+Test case 
+2
+2: The initial location of the policeman and thief are 
+2
+2 and 
+1
+1 respectively. The minimum time taken by the policeman to catch the thief is 
+1
+1 second, and this happens when both the policeman and the thief move towards the left.
+
+Test case 
+3
+3: The initial locations of the policeman and thief are 
+1
+1 and 
+1
+1 respectively. Because the police is already present at the location of thief, the time taken by police to catch the thief is 
+0
+0 seconds.
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    x,y = map(int, input().split())
+    print(abs(y - x))
+Flip the cards
+There are 
+N
+N cards on a table, out of which 
+X
+X cards are face-up and the remaining are face-down.
+
+In one operation, we can do the following:
+
+Select any one card and flip it (i.e. if it was initially face-up, after the operation, it will be face-down and vice versa)
+What is the minimum number of operations we must perform so that all the cards face in the same direction (i.e. either all are face-up or all are face-down)?
+
+Input Format
+The first line contains a single integer 
+T
+T — the number of test cases. Then the test cases follow.
+The first and only line of each test case contains two space-separated integers 
+N
+N and 
+X
+X — the total number of cards and the number of cards which are initially face-up.
+Output Format
+For each test case, output the minimum number of cards you must flip so that all the cards face in the same direction.
+
+Constraints
+1
+≤
+T
+≤
+5000
+1≤T≤5000
+2
+≤
+N
+≤
+100
+2≤N≤100
+0
+≤
+X
+≤
+N
+0≤X≤N
+Sample 1:
+Input
+Output
+4
+5 0
+4 2
+3 3
+10 2
+0
+2
+0
+2
+Explanation:
+Test Case 1: All the cards are already facing down. Therefore we do not need to perform any operations.
+
+Test Case 2: 
+2
+2 cards are facing up and 
+2
+2 cards are facing down. Therefore we can flip the 
+2
+2 cards which are initially facing down.
+
+Test Case 3: All the cards are already facing up. Therefore we do not need to perform any operations.
+
+Test Case 4: 
+2
+2 cards are facing up and 
+8
+8 cards are facing down. Therefore we can flip the 
+2
+2 cards which are initially facing up.
+solution:
+# cook your dish here
+t= int(input())
+for _ in range(t):
+    n,x = map(int, input().split())
+    print(min(x, n - x))
+
+3. Bath in Winters
+A geyser has a capacity of 
+X
+X litres of water and a bucket has a capacity of 
+Y
+Y litres of water.
+
+One person requires exactly 
+2
+2 buckets of water to take a bath. Find the maximum number of people that can take bath using water from one completely filled geyser..
+
+Input Format
+First line will contain 
+T
+T, number of test cases. Then the test cases follow.
+Each test case contains a single line of input, two integers 
+X
+,
+Y
+X,Y.
+Output Format
+For each test case, output the maximum number of people that can take bath.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+X
+,
+Y
+≤
+100
+1≤X,Y≤100
+Sample 1:
+Input
+Output
+4
+10 6
+25 1
+100 10
+30 40
+0
+12
+5
+0
+Explanation:
+Test Case 
+1
+1: One bucket has a capacity of 
+6
+6 litres. This means that one person requires 
+2
+⋅
+6
+=
+12
+2⋅6=12 litres of water to take a bath. Since this is less than the total water present in geyser, 
+0
+0 people can take bath.
+
+Test Case 
+2
+2: One bucket has a capacity of 
+1
+1 litre. This means that one person requires 
+2
+⋅
+1
+=
+2
+2⋅1=2 litres of water to take a bath. The total amount of water present in geyser is 
+25
+25 litres. Thus, 
+12
+12 people can take bath. Note that 
+1
+1 litre water would remain unused in the geyser.
+
+Test Case 
+3
+3: One bucket has a capacity of 
+10
+10 litres. This means that one person requires 
+2
+⋅
+10
+=
+20
+2⋅10=20 litres of water to take a bath. The total amount of water present in geyser is 
+100
+100 litres. Thus, 
+5
+5 people can take bath. Note that 
+0
+0 litres of water would remain unused in the geyser after this.
+
+solution:
+# cook your dish here
+b = 6
+require = 2
+t = int(input())
+for _ in range(t):
+    x,y = map(int, input().split())
+    liters = require * y
+    print( x // liters)
+
+4. Finding Shoes
+Chef has 
+N
+N friends. Chef promised that he would gift a pair of shoes (consisting of one left shoe and one right shoe) to each of his 
+N
+N friends. Chef was about to go to the marketplace to buy shoes, but he suddenly remembers that he already had 
+M
+M left shoes.
+
+What is the minimum number of extra shoes that Chef will have to buy to ensure that he is able to gift a pair of shoes to each of his 
+N
+N friends?
+
+For example, if 
+N
+=
+2
+N=2, 
+M
+=
+4
+M=4, then Chef already has 
+4
+4 left shoes, so he must buy 
+2
+2 extra right shoes to form 
+2
+2 pairs of shoes.
+
+Therefore Chef must buy at least 
+2
+2 extra shoes to ensure that he is able to get 
+N
+=
+2
+N=2 pairs of shoes.
+
+Input Format
+The first line contains a single integer 
+T
+T - the number of test cases. Then the test cases follow.
+The first line of each test case contains two integers 
+N
+N and 
+M
+M - the number of Chef's friends and the number of left shoes Chef has.
+Output Format
+For each test case, output the minimum number of extra shoes that Chef will have to buy to ensure that he is able to get 
+N
+N pairs of shoes.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+N
+≤
+100
+1≤N≤100
+0
+≤
+M
+≤
+100
+0≤M≤100
+Sample 1:
+Input
+Output
+3
+2 4
+6 0
+4 3
+2
+12
+5
+Explanation:
+Test Case 1: Discussed in the problem statement
+
+Test Case 2: Chef initially has no left shoes. He must buy 
+6
+6 more left shoes and 
+6
+6 more right shoes to form 
+6
+6 pairs of shoes.
+
+Test Case 3: Chef initially has 
+3
+3 left shoes. He must buy 
+1
+1 more left shoe and 
+4
+4 more right shoes to form 
+4
+4 pairs of shoes.
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    n,m = map(int, input().split())
+    print(max(n, 2*n - m))
+
+5. Small factorials
+You are asked to calculate factorials of some small positive integers.
+
+Input
+An integer t, 1<=t<=100, denoting the number of testcases, followed by t lines, each containing a single integer n, 1 <= n <= 100
+
+Output
+For each integer n given at input, display a line with the value of n!
+
+Note: For larger numbers, their factorial can overflows any available numeric data type in C.
+
+Sample 1:
+Input
+Output
+4
+1
+2
+5
+3
+1
+2
+120
+6
+solution:
+# cook your dish here
+t = int(input())
+for _ in  range(t):
+    fact = 1
+    n = int(input())
+    for i in range(n,1,-1):
+        fact *= i  
+        
+    print(fact)
+
+l = 5, c= 5
+2. 

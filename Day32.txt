@@ -1,0 +1,819 @@
+Leetcode:
+1. 3894. Traffic Signal Color
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer timer representing the remaining time (in seconds) on a traffic signal.
+
+The signal follows these rules:
+
+If timer == 0, the signal is "Green"
+If timer == 30, the signal is "Orange"
+If 30 < timer <= 90, the signal is "Red"
+Return the current state of the signal. If none of the above conditions are met, return "Invalid".
+
+ 
+
+Example 1:
+
+Input: timer = 60
+
+Output: "Red"
+
+Explanation:
+
+Since timer = 60, and 30 < timer <= 90, the answer is "Red".
+
+Example 2:
+
+Input: timer = 5
+
+Output: "Invalid"
+
+Explanation:
+
+Since timer = 5, it does not satisfy any of the given conditions, the answer is "Invalid".
+
+ 
+
+Constraints:
+
+0 <= timer <= 1000
+solution:
+class Solution:
+    def trafficSignal(self, timer: int) -> str:
+        if timer == 0:
+            return "Green"
+        elif timer == 30:
+            return "Orange"
+        elif 30 < timer <=90:
+            return "Red"
+        else:
+            return "Invalid"
+
+2. 3174. Clear Digits
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s.
+
+Your task is to remove all digits by doing this operation repeatedly:
+
+Delete the first digit and the closest non-digit character to its left.
+Return the resulting string after removing all digits.
+
+Note that the operation cannot be performed on a digit that does not have any non-digit character to its left.
+
+ 
+
+Example 1:
+
+Input: s = "abc"
+
+Output: "abc"
+
+Explanation:
+
+There is no digit in the string.
+
+Example 2:
+
+Input: s = "cb34"
+
+Output: ""
+
+Explanation:
+
+First, we apply the operation on s[2], and s becomes "c4".
+
+Then we apply the operation on s[1], and s becomes "".
+
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists only of lowercase English letters and digits.
+The input is generated such that it is possible to delete all digits.
+solution:
+class Solution:
+    def clearDigits(self, s: str) -> str:
+        stack = []
+        for c in s:
+            if c.isdigit():
+                stack.pop()
+            else:
+                stack.append(c)
+
+        return "".join(stack)
+
+3. 3502. Minimum Cost to Reach Every Position
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array cost of size n. You are currently at position n (at the end of the line) in a line of n + 1 people (numbered from 0 to n).
+
+You wish to move forward in the line, but each person in front of you charges a specific amount to swap places. The cost to swap with person i is given by cost[i].
+
+You are allowed to swap places with people as follows:
+
+If they are in front of you, you must pay them cost[i] to swap with them.
+If they are behind you, they can swap with you for free.
+Return an array answer of size n, where answer[i] is the minimum total cost to reach each position i in the line.
+
+ 
+
+Example 1:
+
+Input: cost = [5,3,4,1,3,2]
+
+Output: [5,3,3,1,1,1]
+
+Explanation:
+
+We can get to each position in the following way:
+
+i = 0. We can swap with person 0 for a cost of 5.
+i = 1. We can swap with person 1 for a cost of 3.
+i = 2. We can swap with person 1 for a cost of 3, then swap with person 2 for free.
+i = 3. We can swap with person 3 for a cost of 1.
+i = 4. We can swap with person 3 for a cost of 1, then swap with person 4 for free.
+i = 5. We can swap with person 3 for a cost of 1, then swap with person 5 for free.
+Example 2:
+
+Input: cost = [1,2,4,6,7]
+
+Output: [1,1,1,1,1]
+
+Explanation:
+
+We can swap with person 0 for a cost of 1, then we will be able to reach any position i for free.
+
+ 
+
+Constraints:
+
+1 <= n == cost.length <= 100
+1 <= cost[i] <= 100
+solution:
+class Solution:
+    def minCosts(self, cost: List[int]) -> List[int]:
+        for i in range(1, len(cost)):
+            cost[i] = min(cost[i], cost[i-1])
+        return cost
+
+4. 3340. Check Balanced String
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+You are given a string num consisting of only digits. A string of digits is called balanced if the sum of the digits at even indices is equal to the sum of digits at odd indices.
+
+Return true if num is balanced, otherwise return false.
+
+ 
+
+Example 1:
+
+Input: num = "1234"
+
+Output: false
+
+Explanation:
+
+The sum of digits at even indices is 1 + 3 == 4, and the sum of digits at odd indices is 2 + 4 == 6.
+Since 4 is not equal to 6, num is not balanced.
+Example 2:
+
+Input: num = "24123"
+
+Output: true
+
+Explanation:
+
+The sum of digits at even indices is 2 + 1 + 3 == 6, and the sum of digits at odd indices is 4 + 2 == 6.
+Since both are equal the num is balanced.
+ 
+
+Constraints:
+
+2 <= num.length <= 100
+num consists of digits only
+solution:
+class Solution:
+    def isBalanced(self, num: str) -> bool:
+        sum_odd = 0
+        sum_even = 0
+        nums = list(num)
+        for digit in nums[::2]:
+            sum_even += int(digit)
+        for digit in nums[1::2]:
+            sum_odd += int(digit)
+
+        return sum_even == sum_odd
+
+5. 1716. Calculate Money in Leetcode Bank
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Hercy wants to save money for his first car. He puts money in the Leetcode bank every day.
+
+He starts by putting in $1 on Monday, the first day. Every day from Tuesday to Sunday, he will put in $1 more than the day before. On every subsequent Monday, he will put in $1 more than the previous Monday.
+
+Given n, return the total amount of money he will have in the Leetcode bank at the end of the nth day.
+
+ 
+
+Example 1:
+
+Input: n = 4
+Output: 10
+Explanation: After the 4th day, the total is 1 + 2 + 3 + 4 = 10.
+Example 2:
+
+Input: n = 10
+Output: 37
+Explanation: After the 10th day, the total is (1 + 2 + 3 + 4 + 5 + 6 + 7) + (2 + 3 + 4) = 37. Notice that on the 2nd Monday, Hercy only puts in $2.
+Example 3:
+
+Input: n = 20
+Output: 96
+Explanation: After the 20th day, the total is (1 + 2 + 3 + 4 + 5 + 6 + 7) + (2 + 3 + 4 + 5 + 6 + 7 + 8) + (3 + 4 + 5 + 6 + 7 + 8) = 96.
+ 
+
+Constraints:
+
+1 <= n <= 1000
+solution:
+class Solution:
+    def totalMoney(self, n: int) -> int:
+        F = n // 7
+        R = n % 7
+    
+        full_weeks = 28 * F + (7 * F * (F - 1)) // 2
+        remaining_days = (R * (R + 1)) // 2 + (R * F)
+    
+        return full_weeks + remaining_days
+
+Codechef:
+
+1. Mario and Transformation
+Mario transforms each time he eats a mushroom as follows:
+
+If he is currently small, he turns normal.
+If he is currently normal, he turns huge.
+If he is currently huge, he turns small.
+Given that Mario was initially normal, find his size after eating 
+X
+X mushrooms.
+
+Input Format
+The first line of input will contain one integer 
+T
+T, the number of test cases. Then the test cases follow.
+Each test case contains a single line of input, containing one integer 
+X
+X.
+Output Format
+For each test case, output in a single line Mario's size after eating 
+X
+X mushrooms.
+
+Print:
+
+NORMAL
+NORMAL, if his final size is normal.
+HUGE
+HUGE, if his final size is huge.
+SMALL
+SMALL, if his final size is small.
+You may print each character of the answer in either uppercase or lowercase (for example, the strings 
+Huge
+Huge, 
+hUgE
+hUgE, 
+huge
+huge and 
+HUGE
+HUGE will all be treated as identical).
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+X
+≤
+100
+1≤X≤100
+Sample 1:
+Input
+Output
+3
+2
+4
+12
+SMALL
+HUGE
+NORMAL
+Explanation:
+Test case 
+1
+1: Mario's initial size is normal. On eating the first mushroom, he turns huge. On eating the second mushroom, he turns small.
+
+Test case 
+2
+2: Mario's initial size is normal. On eating the first mushroom, he turns huge. On eating the second mushroom, he turns small. On eating the third mushroom, he turns normal. On eating the fourth mushroom, he turns huge.
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    x = int(input())
+    values = ["huge","small","normal"]
+    index = x % 3
+    print(values[index - 1])
+
+2. Mario and Bullet
+Mario's bullet moves at 
+X
+X pixels per frame. He wishes to shoot a goomba standing 
+Y
+Y pixels away from him. The goomba does not move.
+
+Find the minimum time (in seconds) after which Mario should shoot the bullet, such that it hits the goomba after at least 
+Z
+Z seconds from now.
+
+Input Format
+The first line of input will contain an integer 
+T
+T, the number of test cases. Then the test cases follow.
+Each test case consists of a single line of input, containing three space-separated integers 
+X
+,
+Y
+,
+X,Y, and 
+Z
+Z.
+Output Format
+For each test case, output in a single line the minimum time (in seconds) after which Mario should shoot the bullet, such that it hits the goomba after at least 
+Z
+Z seconds from now.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+X
+,
+Y
+,
+Z
+≤
+100
+1≤X,Y,Z≤100
+X
+X divides 
+Y
+Y
+Sample 1:
+Input
+Output
+3
+3 3 5
+2 4 1
+3 12 8
+4
+0
+4
+Explanation:
+Test case 
+1
+1: The speed of the bullet is 
+3
+3 pixels per frame and the goomba is 
+3
+3 pixels away from Mario. Thus, it would take 
+1
+1 second for the bullet to reach the goomba. Mario wants the bullet to reach goomba after at least 
+5
+5 seconds. So, he should fire the bullet after 
+4
+4 seconds.
+
+Test case 
+2
+2: The speed of the bullet is 
+2
+2 pixels per frame and the goomba is 
+4
+4 pixels away from Mario. Thus, it would take 
+2
+2 seconds for the bullet to reach the goomba. Mario wants the bullet to reach the goomba after at least 
+1
+1 second. So, he should fire the bullet after 
+0
+0 seconds. Note that, this is the minimum time after which he can shoot a bullet.
+
+Test case 
+3
+3: The speed of the bullet is 
+3
+3 pixels per frame and the goomba is 
+12
+12 pixels away from Mario. Thus, it would take 
+4
+4 seconds for the bullet to reach the goomba. Mario wants the bullet to reach goomba after at least 
+8
+8 seconds. So, he should fire the bullet after 
+4
+4 seconds.
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    x,y,z = map(int,input().split())
+    sec = y // x
+    delay = max(0, z - sec)
+    print(delay)
+
+3. Chess Ratings
+Alice has recently started playing Chess. Her current rating is 
+X
+X. She noticed that when she wins a game, her rating increases by 
+8
+8 points.
+
+Can you help Alice in finding out the minimum number of games she needs to win in order to make her rating greater than or equal to 
+Y
+Y?
+
+Input Format
+The first line of input will contain an integer 
+T
+T — the number of test cases. The description of 
+T
+T test cases follows.
+The first line of each test case contains two integers 
+X
+X and 
+Y
+Y, as described in the problem statement.
+Output Format
+For each test case, output the minimum number of games that Alice needs to win in order to make her rating greater than or equal to 
+Y
+Y.
+
+Constraints
+1
+≤
+T
+≤
+10
+4
+1≤T≤10 
+4
+ 
+1
+≤
+X
+≤
+Y
+≤
+10
+4
+1≤X≤Y≤10 
+4
+ 
+Sample 1:
+Input
+Output
+4
+10 10
+10 17
+10 18
+10 19
+0
+1
+1
+2
+Explanation:
+Test case 
+1
+1: Since Alice's current rating 
+X
+X is already equal to her desired rating 
+Y
+Y, she doesn't need to win any game.
+
+Test case 
+2
+2: Alice's current rating is 
+10
+10. After winning 
+1
+1 game, her rating will become 
+10
++
+8
+=
+18
+10+8=18, which is greater than her desired rating of 
+17
+17. Thus, she has to win at least 
+1
+1 game.
+
+Test case 
+3
+3: Alice's current rating is 
+10
+10. After winning 
+1
+1 game, her rating will become 
+10
++
+8
+=
+18
+10+8=18, which is equal to her desired rating of 
+18
+18. Thus, she has to win at least 
+1
+1 game.
+
+Test case 
+4
+4: Alice's current rating is 
+10
+10. After winning 
+1
+1 game, her rating will become 
+18
+18, which is less than her desired rating of 
+19
+19. She will need to win one more game in order to make her rating 
+26
+26, which is greater than 
+19
+19. Thus, she has to win at least 
+2
+2 games.
+solution:
+# cook your dish here
+import math
+t= int(input())
+for _ in range(t):
+    x,y = map(int, input().split())
+    diff = y - x 
+    print(math.ceil(diff / 8))
+
+4. Complementary Strand in a DNA
+You are given the sequence of Nucleotides of one strand of DNA through a string 
+S
+S of length 
+N
+N. 
+S
+S contains the character 
+A
+,
+T
+,
+C
+,
+A,T,C, and 
+G
+G only.
+
+Chef knows that:
+
+A
+A is complementary to 
+T
+T.
+T
+T is complementary to 
+A
+A.
+C
+C is complementary to 
+G
+G.
+G
+G is complementary to 
+C
+C.
+Using the string 
+S
+S, determine the sequence of the complementary strand of the DNA.
+
+Input Format
+First line will contain 
+T
+T, number of test cases. Then the test cases follow.
+First line of each test case contains an integer 
+N
+N - denoting the length of string 
+S
+S.
+Second line contains 
+N
+N characters denoting the string 
+S
+S.
+Output Format
+For each test case, output the string containing 
+N
+N characters - sequence of nucleotides of the complementary strand.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+N
+≤
+100
+1≤N≤100
+S
+S contains A, T, C, and G only
+Sample 1:
+Input
+Output
+4
+4
+ATCG
+4
+GTCC
+5
+AAAAA
+3
+TAC
+TAGC
+CAGG
+TTTTT
+ATG
+Explanation:
+Test case 
+1
+1: Based on the rules, the complements of A, T, C, and G are T, A, G, and C respectively. Thus, the complementary string of the given string ATCG is TAGC.
+
+Test case 
+2
+2: Based on the rules, the complements of G, T, and C are C, A, and G respectively. Thus, the complementary string of the given string GTCC is CAGG.
+
+Test case 
+3
+3: Based on the rules, the complement of A is T. Thus, the complementary string of the given string AAAAA is TTTTT.
+
+Test case 
+4
+4: Based on the rules, the complements of T, A, and C are A, T, and G respectively. Thus, the complementary string of the given string TAC is ATG.
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    s = input()
+    new_s = []
+    new_dict = {
+        'A' : "T",
+        "T" : "A",
+        "C" : "G",
+        "G" : "C"
+    }
+    for letter in s:
+        new_s.append(new_dict.get(letter))
+        
+    print("".join(new_s))
+
+5. Chef and Water Bottles
+Chef has 
+N
+N empty bottles where each bottle has a capacity of 
+X
+X litres.
+There is a water tank in Chefland having 
+K
+K litres of water. Chef wants to fill the empty bottles using the water in the tank.
+
+Assuming that Chef does not spill any water while filling the bottles, find out the maximum number of bottles Chef can fill completely.
+
+Input Format
+First line will contain 
+T
+T, number of test cases. Then the test cases follow.
+Each test case contains of a single line of input, three integers 
+N
+,
+X
+,
+N,X, and 
+K
+K.
+Output Format
+For each test case, output in a single line answer, the maximum number of bottles Chef can fill completely.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+N
+,
+X
+≤
+10
+5
+1≤N,X≤10 
+5
+ 
+0
+≤
+K
+≤
+10
+5
+0≤K≤10 
+5
+ 
+Sample 1:
+Input
+Output
+3
+5 2 8
+10 5 4
+3 1 4
+4
+0
+3
+Explanation:
+Test Case 
+1
+1: The amount of water in the tank is 
+8
+8 litres. The capacity of each bottle is 
+2
+2 litres. Hence, 
+4
+4 water bottles can be filled completely.
+
+Test Case 
+2
+2: The amount of water in the tank is 
+4
+4 litres. The capacity of each bottle is 
+5
+5 litres. Hence, no water bottle can be filled completely.
+
+Test Case 
+3
+3: The amount of water in the tank is 
+4
+4 litres. The capacity of each bottle is 
+1
+1 litre. Chef has 
+3
+3 bottles available. He can fill all these bottles completely using 
+3
+3 litres of water
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    n,x,k = map(int,input().split())
+    print(min(n, k // x))
+
+l = 5, c = 5

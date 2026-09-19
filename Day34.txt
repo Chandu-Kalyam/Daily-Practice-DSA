@@ -1,0 +1,1165 @@
+Leetcode:
+1. 3959. Check Good Integer
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a positive integer n.
+
+Let digitSum be the sum of the digits of n, and let squareSum be the sum of the squares of the digits of n.
+
+An integer is called good if squareSum - digitSum >= 50.
+
+Return true if n is good. Otherwise, return false.
+
+ 
+
+Example 1:
+
+Input: n = 1000
+
+Output: false
+
+Explanation:
+
+The digits of 1000 are 1, 0, 0, and 0.
+The digitSum is 1 + 0 + 0 + 0 = 1.
+The squareSum is 12 + 02 + 02 + 02 = 1.
+The squareSum - digitSum is 1 - 1 = 0. As 0 is not greater than or equal to 50, the output is false.
+Example 2:
+
+Input: n = 19
+
+Output: true
+
+Explanation:
+
+The digits of 19 are 1 and 9.
+The digitSum is 1 + 9 = 10.
+The squareSum is 12 + 92 = 1 + 81 = 82.
+The squareSum - digitSum is 82 - 10 = 72. As 72 is greater than or equal to 50, the output is true.
+ 
+
+Constraints:
+
+1 <= n <= 109
+solution:
+class Solution:
+    def checkGoodInteger(self, n: int) -> bool:
+        digitSum = 0
+        squareSum = 0
+        for num in str(n):
+            digitSum += int(num)
+            squareSum += int(num) * int(num)
+        
+        if squareSum - digitSum >= 50:
+            return True
+        else:
+            return False
+
+2. 3461. Check If Digits Are Equal in String After Operations I
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s consisting of digits. Perform the following operation repeatedly until the string has exactly two digits:
+
+For each pair of consecutive digits in s, starting from the first digit, calculate a new digit as the sum of the two digits modulo 10.
+Replace s with the sequence of newly calculated digits, maintaining the order in which they are computed.
+Return true if the final two digits in s are the same; otherwise, return false.
+
+ 
+
+Example 1:
+
+Input: s = "3902"
+
+Output: true
+
+Explanation:
+
+Initially, s = "3902"
+First operation:
+(s[0] + s[1]) % 10 = (3 + 9) % 10 = 2
+(s[1] + s[2]) % 10 = (9 + 0) % 10 = 9
+(s[2] + s[3]) % 10 = (0 + 2) % 10 = 2
+s becomes "292"
+Second operation:
+(s[0] + s[1]) % 10 = (2 + 9) % 10 = 1
+(s[1] + s[2]) % 10 = (9 + 2) % 10 = 1
+s becomes "11"
+Since the digits in "11" are the same, the output is true.
+Example 2:
+
+Input: s = "34789"
+
+Output: false
+
+Explanation:
+
+Initially, s = "34789".
+After the first operation, s = "7157".
+After the second operation, s = "862".
+After the third operation, s = "48".
+Since '4' != '8', the output is false.
+ 
+
+Constraints:
+
+3 <= s.length <= 100
+s consists of only digits.
+solution:
+class Solution:
+    def hasSameDigits(self, s: str) -> bool:
+        digits = list(map(int, s))
+        
+        while len(digits) > 2:
+            digits = [(digits[i] + digits[i+1]) % 10 
+                      for i in range(len(digits) - 1)]
+        
+        return digits[0] == digits[1]
+
+3. 2053. Kth Distinct String in an Array
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A distinct string is a string that is present only once in an array.
+
+Given an array of strings arr, and an integer k, return the kth distinct string present in arr. If there are fewer than k distinct strings, return an empty string "".
+
+Note that the strings are considered in the order in which they appear in the array.
+
+ 
+
+Example 1:
+
+Input: arr = ["d","b","c","b","c","a"], k = 2
+Output: "a"
+Explanation:
+The only distinct strings in arr are "d" and "a".
+"d" appears 1st, so it is the 1st distinct string.
+"a" appears 2nd, so it is the 2nd distinct string.
+Since k == 2, "a" is returned. 
+Example 2:
+
+Input: arr = ["aaa","aa","a"], k = 1
+Output: "aaa"
+Explanation:
+All strings in arr are distinct, so the 1st string "aaa" is returned.
+Example 3:
+
+Input: arr = ["a","b","a"], k = 3
+Output: ""
+Explanation:
+The only distinct string is "b". Since there are fewer than 3 distinct strings, we return an empty string "".
+ 
+
+Constraints:
+
+1 <= k <= arr.length <= 1000
+1 <= arr[i].length <= 5
+arr[i] consists of lowercase English letters.
+solution:
+from collections import Counter
+class Solution:
+    def kthDistinct(self, arr: list[str], k: int) -> str:
+        counters = Counter(arr)
+        new_list = [key for key, value in counters.items() if value == 1]
+        if len(new_list) > k-1:
+            return new_list[k-1]
+        else:
+            return ""
+4.561. Array Partition
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an integer array nums of 2n integers, group these integers into n pairs (a1, b1), (a2, b2), ..., (an, bn) such that the sum of min(ai, bi) for all i is maximized. Return the maximized sum.
+
+ 
+
+Example 1:
+
+Input: nums = [1,4,3,2]
+Output: 4
+Explanation: All possible pairings (ignoring the ordering of elements) are:
+1. (1, 4), (2, 3) -> min(1, 4) + min(2, 3) = 1 + 2 = 3
+2. (1, 3), (2, 4) -> min(1, 3) + min(2, 4) = 1 + 2 = 3
+3. (1, 2), (3, 4) -> min(1, 2) + min(3, 4) = 1 + 3 = 4
+So the maximum possible sum is 4.
+Example 2:
+
+Input: nums = [6,2,6,5,1,2]
+Output: 9
+Explanation: The optimal pairing is (2, 1), (2, 5), (6, 6). min(2, 1) + min(2, 5) + min(6, 6) = 1 + 2 + 6 = 9.
+ 
+
+Constraints:
+
+1 <= n <= 104
+nums.length == 2 * n
+-104 <= nums[i] <= 104
+solution:
+class Solution:
+    def arrayPairSum(self, nums: List[int]) -> int:
+        nums.sort()
+        return sum(nums[::2])
+
+5. 1768. Merge Strings Alternately
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given two strings word1 and word2. Merge the strings by adding letters in alternating order, starting with word1. If a string is longer than the other, append the additional letters onto the end of the merged string.
+
+Return the merged string.
+
+ 
+
+Example 1:
+
+Input: word1 = "abc", word2 = "pqr"
+Output: "apbqcr"
+Explanation: The merged string will be merged as so:
+word1:  a   b   c
+word2:    p   q   r
+merged: a p b q c r
+Example 2:
+
+Input: word1 = "ab", word2 = "pqrs"
+Output: "apbqrs"
+Explanation: Notice that as word2 is longer, "rs" is appended to the end.
+word1:  a   b 
+word2:    p   q   r   s
+merged: a p b q   r   s
+Example 3:
+
+Input: word1 = "abcd", word2 = "pq"
+Output: "apbqcd"
+Explanation: Notice that as word1 is longer, "cd" is appended to the end.
+word1:  a   b   c   d
+word2:    p   q 
+merged: a p b q c   d
+ 
+
+Constraints:
+
+1 <= word1.length, word2.length <= 100
+word1 and word2 consist of lowercase English letters.
+solution:
+class Solution:
+    def mergeAlternately(self, word1: str, word2: str) -> str:
+
+        new_str = ""
+        if len(word1) == len(word2):
+            for i in range(len(word1)):
+                new_str += word1[i] + word2[i]
+        elif len(word1) < len(word2):
+            for i in range(len(word1)):
+                new_str += word1[i] + word2[i]   
+            new_str += word2[len(word1):]         
+
+        elif len(word1) > len(word2):
+            for i in range(len(word2)):
+                new_str += word1[i] + word2[i]   
+            new_str += word1[len(word2):]   
+
+
+        return new_str
+
+
+Codechef:
+1. X Jumps
+Chef is currently standing at stair 
+0
+0 and he wants to reach stair numbered 
+X
+X.
+
+Chef can climb either 
+Y
+Y steps or 
+1
+1 step in one move.
+Find the minimum number of moves required by him to reach exactly the stair numbered 
+X
+X.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of a single line of input containing two space separated integers 
+X
+X and 
+Y
+Y denoting the number of stair Chef wants to reach and the number of stairs he can climb in one move.
+Output Format
+For each test case, output the minimum number of moves required by him to reach exactly the stair numbered 
+X
+X.
+
+Constraints
+1
+≤
+T
+≤
+500
+1≤T≤500
+1
+≤
+X
+,
+Y
+≤
+100
+1≤X,Y≤100
+Sample 1:
+Input
+Output
+4
+4 2
+8 3
+3 4
+2 1
+2
+4
+3
+2
+Explanation:
+Test case 
+1
+1: Chef can make 
+2
+2 moves and climb 
+2
+2 steps in each move to reach stair numbered 
+4
+4.
+
+Test case 
+2
+2: Chef can make a minimum of 
+4
+4 moves. He can climb 
+3
+3 steps in 
+2
+2 of those moves and 
+1
+1 step each in remaining 
+2
+2 moves to reach stair numbered 
+8
+8.
+
+Test case 
+3
+3: Chef can make 
+3
+3 moves and climb 
+1
+1 step in each move to reach stair numbered 
+3
+3.
+
+Test case 
+4
+4: Chef can make 
+2
+2 moves and climb 
+1
+1 step in each move to reach stair numbered 
+2
+2.
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    x,y = map(int, input().split())
+    y_jumps = x // y
+    rem = x % y
+    print(y_jumps + rem)
+
+2. Chessboard Distance
+The Chessboard Distance for any two points 
+(
+X
+1
+,
+Y
+1
+)
+(X 
+1
+​
+ ,Y 
+1
+​
+ ) and 
+(
+X
+2
+,
+Y
+2
+)
+(X 
+2
+​
+ ,Y 
+2
+​
+ ) on a Cartesian plane is defined as 
+m
+a
+x
+(
+∣
+X
+1
+−
+X
+2
+∣
+,
+∣
+Y
+1
+−
+Y
+2
+∣
+)
+max(∣X 
+1
+​
+ −X 
+2
+​
+ ∣,∣Y 
+1
+​
+ −Y 
+2
+​
+ ∣).
+
+You are given two points 
+(
+X
+1
+,
+Y
+1
+)
+(X 
+1
+​
+ ,Y 
+1
+​
+ ) and 
+(
+X
+2
+,
+Y
+2
+)
+(X 
+2
+​
+ ,Y 
+2
+​
+ ). Output their Chessboard Distance.
+
+Note that, 
+∣
+P
+∣
+∣P∣ denotes the absolute value of integer 
+P
+P. For example, 
+∣
+−
+4
+∣
+=
+4
+∣−4∣=4 and 
+∣
+7
+∣
+=
+7
+∣7∣=7.
+
+Input Format
+First line will contain 
+T
+T, the number of test cases. Then the test cases follow.
+Each test case consists of a single line of input containing 
+4
+4 space separated integers - 
+X
+1
+,
+Y
+1
+,
+X
+2
+,
+Y
+2
+X 
+1
+​
+ ,Y 
+1
+​
+ ,X 
+2
+​
+ ,Y 
+2
+​
+  - as defined in the problem statement.
+Output Format
+For each test case, output in a single line the chessboard distance between 
+(
+X
+1
+,
+Y
+1
+)
+(X 
+1
+​
+ ,Y 
+1
+​
+ ) and 
+(
+X
+2
+,
+Y
+2
+)
+(X 
+2
+​
+ ,Y 
+2
+​
+ )
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+X
+1
+,
+Y
+1
+,
+X
+2
+,
+Y
+2
+≤
+10
+5
+1≤X 
+1
+​
+ ,Y 
+1
+​
+ ,X 
+2
+​
+ ,Y 
+2
+​
+ ≤10 
+5
+ 
+Subtasks
+Subtask #1 (100 points): original constraints
+
+Sample 1:
+Input
+Output
+3
+2 4 5 1
+5 5 5 3
+1 4 3 3
+3
+2
+2
+Explanation:
+In the first case, the distance between 
+(
+2
+,
+4
+)
+(2,4) and 
+(
+5
+,
+1
+)
+(5,1) is 
+m
+a
+x
+(
+∣
+2
+−
+5
+∣
+,
+∣
+4
+−
+1
+∣
+)
+=
+m
+a
+x
+(
+∣
+−
+3
+∣
+,
+∣
+3
+∣
+)
+=
+3
+max(∣2−5∣,∣4−1∣)=max(∣−3∣,∣3∣)=3.
+
+In the second case, the distance between 
+(
+5
+,
+5
+)
+(5,5) and 
+(
+5
+,
+3
+)
+(5,3) is 
+m
+a
+x
+(
+∣
+5
+−
+5
+∣
+,
+∣
+5
+−
+3
+∣
+)
+=
+m
+a
+x
+(
+∣
+0
+∣
+,
+∣
+2
+∣
+)
+=
+2
+max(∣5−5∣,∣5−3∣)=max(∣0∣,∣2∣)=2.
+
+In the third case, the distance between 
+(
+1
+,
+4
+)
+(1,4) and 
+(
+3
+,
+3
+)
+(3,3) is 
+m
+a
+x
+(
+∣
+1
+−
+3
+∣
+,
+∣
+4
+−
+3
+∣
+)
+=
+m
+a
+x
+(
+∣
+−
+2
+∣
+,
+∣
+1
+∣
+)
+=
+2
+max(∣1−3∣,∣4−3∣)=max(∣−2∣,∣1∣)=2.
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    x1,y1,x2,y2 = map(int,input().split())
+    print(max(abs(x1 - x2), abs(y1 - y2)))
+
+3. Valentine is Coming
+Valentine's Day is approaching and thus Chef wants to buy some chocolates for someone special.
+
+Chef has a total of 
+X
+X rupees and one chocolate costs 
+Y
+Y rupees. What is the maximum number of chocolates Chef can buy?
+
+Input Format
+First line will contain 
+T
+T, the number of test cases. Then the test cases follow.
+Each test case contains a single line of input, two integers 
+X
+,
+Y
+X,Y - the amount Chef has and the cost of one chocolate respectively.
+Output Format
+For each test case, output the maximum number of chocolates Chef can buy.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+X
+,
+Y
+≤
+100
+1≤X,Y≤100
+Sample 1:
+Input
+Output
+4
+5 10
+16 5
+35 7
+100 1
+0
+3
+5
+100
+Explanation:
+Test case-1: Chef has 
+5
+5 rupees but the cost of one chocolate is 
+10
+10 rupees. Therefore Chef can not buy any chocolates.
+
+Test case-2: Chef has 
+16
+16 rupees and the cost of one chocolate is 
+5
+5 rupees. Therefore Chef can buy at max 
+3
+3 chocolates since buying 
+4
+4 chocolates would cost 
+20
+20 rupees.
+
+Test case-3: Chef has 
+35
+35 rupees and the cost of one chocolate is 
+7
+7 rupees. Therefore Chef can buy at max 
+5
+5 chocolates for 
+35
+35 rupees.
+
+Test case-4: Chef has 
+100
+100 rupees and the cost of one chocolate is 
+1
+1 rupee. Therefore Chef can buy at max 
+100
+100 chocolates for 
+100
+100 rupees.
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    x, y = map(int,input().split())
+    print(x // y)
+
+4.It is My Serve
+Alice and Bob are playing a game of table tennis where irrespective of the point scored, every player makes 
+2
+2 consecutive serves before the service changes. Alice makes the first serve of the match. Therefore the first 
+2
+2 serves will be made by Alice, then the next 
+2
+2 serves will be made by Bob and so on.
+
+Let's consider the following example match for more clarity:
+
+Alice makes the 
+1
+s
+t
+1 
+st
+  serve.
+Let us assume, Bob wins this point. (Score is 
+0
+0 for Alice and 
+1
+1 for Bob)
+Alice makes the 
+2
+n
+d
+2 
+nd
+  serve.
+Let us assume, Alice wins this point. (Score is 
+1
+1 for Alice and 
+1
+1 for Bob)
+Bob makes the 
+3
+r
+d
+3 
+rd
+  serve.
+Let us assume, Alice wins this point. (Score is 
+2
+2 for Alice and 
+1
+1 for Bob)
+Bob makes the 
+4
+t
+h
+4 
+th
+  serve.
+Let us assume, Alice wins this point. (Score is 
+3
+3 for Alice and 
+1
+1 for Bob)
+Alice makes the 
+5
+t
+h
+5 
+th
+  serve.
+And the game continues 
+…
+…
+After the score reaches 
+P
+P and 
+Q
+Q for Alice and Bob respectively, both the players forgot whose serve it is. Help them determine whose service it is.
+
+Input Format
+The first line contains a single integer 
+T
+T — the number of test cases. Then the test cases follow.
+The first line of each test case contains two integers 
+P
+P and 
+Q
+Q — the score of Alice and Bob respectively.
+Output Format
+For each test case, determine which player's (Alice or Bob) serve it is.
+
+You may print each character of Alice and Bob in uppercase or lowercase (for example, Bob, BOB, boB will be considered identical).
+
+Constraints
+1
+≤
+T
+≤
+200
+1≤T≤200
+0
+≤
+P
+,
+Q
+≤
+10
+0≤P,Q≤10
+Sample 1:
+Input
+Output
+4
+0 0
+0 2
+2 2
+4 7
+Alice
+Bob
+Alice
+Bob
+Explanation:
+Test Case 1: Since no points have been scored yet, this is the first serve of the match. Alice makes the 
+1
+s
+t
+1 
+st
+  serve of the match.
+Test Case 2: Two points have been scored yet. Thus, it is the third serve of the match. Bob makes the 
+3
+r
+d
+3 
+rd
+  serve of the match.
+Test Case 3: Four points have been scored yet. Thus, it is the fifth serve of the match. Alice makes the 
+5
+t
+h
+5 
+th
+  serve of the match.
+Test Case 4: Eleven points have been scored yet. Thus, it is the twelfth serve of the match. Bob makes the 
+12
+t
+h
+12 
+th
+  serve of the match.
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    p, q = map(int, input().split())
+    total = p + q
+    turns = total // 2
+    if turns %2 == 0:
+        print("Alice")
+    else:
+        print("Bob")
+
+5. Water Mixing
+Chef is setting up a perfect bath for himself. He has 
+X
+X litres of hot water and 
+Y
+Y litres of cold water.
+The initial temperature of water in his bathtub is 
+A
+A degrees. On mixing water, the temperature of the bathtub changes as following:
+
+The temperature rises by 
+1
+1 degree on mixing 
+1
+1 litre of hot water.
+The temperature drops by 
+1
+1 degree on mixing 
+1
+1 litre of cold water.
+Determine whether he can set the temperature to 
+B
+B degrees for a perfect bath.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of four space-separated integers 
+A
+,
+B
+,
+X
+,
+A,B,X, and 
+Y
+Y — the initial temperature of bathtub, the desired temperature of bathtub, the amount of hot water in litres, and the amount of cold water in litres respectively.
+Output Format
+For each test case, output on a new line, YES if Chef can get the desired temperature for his bath, and NO otherwise.
+
+You may print each character of the string in uppercase or lowercase (for example, the strings YES, yEs, yes, and yeS will all be treated as identical).
+
+Constraints
+1
+≤
+T
+≤
+2000
+1≤T≤2000
+20
+≤
+A
+,
+B
+≤
+40
+20≤A,B≤40
+0
+≤
+X
+,
+Y
+≤
+20
+0≤X,Y≤20
+Sample 1:
+Input
+Output
+4
+24 25 2 0
+37 37 2 9
+30 20 10 9
+30 31 0 20
+YES
+YES
+NO
+NO
+Explanation:
+Test case 
+1
+1: The initial temperature of water is 
+24
+24 and the desired temperature is 
+25
+25. Chef has 
+2
+2 litres of hot water. He can add 
+1
+1 litre hot water in the tub and change the temperature to 
+24
++
+1
+=
+25
+24+1=25 degrees.
+
+Test case 
+2
+2: The initial temperature of water is 
+37
+37 and the desired temperature is also 
+37
+37. Thus, Chef does not need to add any more water in the bathtub.
+
+Test case 
+3
+3: The initial temperature of water is 
+30
+30 and the desired temperature is 
+20
+20. Chef needs to add 
+10
+10 litres of cold water to reach the desired temperature. Since he only has 
+9
+9 litres of cold water, he cannot reach the desired temperature.
+
+Test case 
+4
+4: The initial temperature of water is 
+30
+30 and the desired temperature is 
+31
+31. Chef needs to add 
+1
+1 litre of hot water to reach the desired temperature. Since he has no hot water, he cannot reach the desired temperature.
+solution:
+# cook your dish here
+t= int(input())
+for _ in range(t):
+    a,b,x,y = map(int, input().split())
+    if a == b:
+        print("YES")
+    elif a < b:
+        a += x
+        if a >= b:
+            print("Yes")
+        else:
+            print("No")
+    elif a > b:
+        a -= y
+        if a > b:
+            print("No")
+        else:
+            print("Yes")
+
+l: 5, c = 5

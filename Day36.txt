@@ -1,0 +1,826 @@
+Leetcode:
+1. 942. DI String Match
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+A permutation perm of n + 1 integers of all the integers in the range [0, n] can be represented as a string s of length n where:
+
+s[i] == 'I' if perm[i] < perm[i + 1], and
+s[i] == 'D' if perm[i] > perm[i + 1].
+Given a string s, reconstruct the permutation perm and return it. If there are multiple valid permutations perm, return any of them.
+
+ 
+
+Example 1:
+
+Input: s = "IDID"
+Output: [0,4,1,3,2]
+Example 2:
+
+Input: s = "III"
+Output: [0,1,2,3]
+Example 3:
+
+Input: s = "DDI"
+Output: [3,2,0,1]
+ 
+
+Constraints:
+
+1 <= s.length <= 105
+s[i] is either 'I' or 'D'.
+solution:
+class Solution:
+    def diStringMatch(self, s: str) -> List[int]:
+        low, high = 0, len(s)
+        result = []
+        
+        for c in s:
+            if c == 'I':
+                result.append(low)
+                low += 1
+            else:
+                result.append(high)
+                high -= 1
+        
+        result.append(low)
+        return result
+
+2. 3151. Special Array I
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+An array is considered special if the parity of every pair of adjacent elements is different. In other words, one element in each pair must be even, and the other must be odd.
+
+You are given an array of integers nums. Return true if nums is a special array, otherwise, return false.
+
+ 
+
+Example 1:
+
+Input: nums = [1]
+
+Output: true
+
+Explanation:
+
+There is only one element. So the answer is true.
+
+Example 2:
+
+Input: nums = [2,1,4]
+
+Output: true
+
+Explanation:
+
+There is only two pairs: (2,1) and (1,4), and both of them contain numbers with different parity. So the answer is true.
+
+Example 3:
+
+Input: nums = [4,3,1,6]
+
+Output: false
+
+Explanation:
+
+nums[1] and nums[2] are both odd. So the answer is false.
+
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+1 <= nums[i] <= 100
+solution:
+class Solution:
+    def isArraySpecial(self, nums: List[int]) -> bool:
+        for i in range(len(nums) - 1):
+            if nums[i] % 2 == nums[i + 1] %2:
+                return False
+        return True
+
+3. 3232. Find if Digit Game Can Be Won
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an array of positive integers nums.
+
+Alice and Bob are playing a game. In the game, Alice can choose either all single-digit numbers or all double-digit numbers from nums, and the rest of the numbers are given to Bob. Alice wins if the sum of her numbers is strictly greater than the sum of Bob's numbers.
+
+Return true if Alice can win this game, otherwise, return false.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,4,10]
+
+Output: false
+
+Explanation:
+
+Alice cannot win by choosing either single-digit or double-digit numbers.
+
+Example 2:
+
+Input: nums = [1,2,3,4,5,14]
+
+Output: true
+
+Explanation:
+
+Alice can win by choosing single-digit numbers which have a sum equal to 15.
+
+Example 3:
+
+Input: nums = [5,5,5,25]
+
+Output: true
+
+Explanation:
+
+Alice can win by choosing double-digit numbers which have a sum equal to 25.
+
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+1 <= nums[i] <= 99
+solution:
+class Solution:
+    def canAliceWin(self, nums: List[int]) -> bool:
+        single_sum = sum(n for n in nums if n <10)
+        double_sum = sum(n for n in nums if n >=10)
+        return single_sum != double_sum
+
+4. 344. Reverse String
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Write a function that reverses a string. The input string is given as an array of characters s.
+
+You must do this by modifying the input array in-place with O(1) extra memory.
+
+ 
+
+Example 1:
+
+Input: s = ["h","e","l","l","o"]
+Output: ["o","l","l","e","h"]
+Example 2:
+
+Input: s = ["H","a","n","n","a","h"]
+Output: ["h","a","n","n","a","H"]
+ 
+
+Constraints:
+
+1 <= s.length <= 105
+s[i] is a printable ascii character.
+solution:
+class Solution:
+    def reverseString(self, s: list[str]) -> None:
+        """
+        Do not return anything, modify s in-place instead.
+        """
+        s.reverse()
+
+
+5. 728. Self Dividing Numbers
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A self-dividing number is a number that is divisible by every digit it contains.
+
+For example, 128 is a self-dividing number because 128 % 1 == 0, 128 % 2 == 0, and 128 % 8 == 0.
+A self-dividing number is not allowed to contain the digit zero.
+
+Given two integers left and right, return a list of all the self-dividing numbers in the range [left, right] (both inclusive).
+
+ 
+
+Example 1:
+
+Input: left = 1, right = 22
+Output: [1,2,3,4,5,6,7,8,9,11,12,15,22]
+Example 2:
+
+Input: left = 47, right = 85
+Output: [48,55,66,77]
+ 
+
+Constraints:
+
+1 <= left <= right <= 104
+solution:
+class Solution:
+    def selfDividingNumbers(self, left: int, right: int) -> list[int]:
+        res = []
+        for num in range(left,right+1):
+            s = str(num)
+            if '0' in s:
+                continue
+            if all(num % int(d) == 0 for d in s):
+                res.append(num)
+
+        return res
+
+codechef:
+1. Self Defence Training
+After the phenomenal success of the 36th Chamber of Shaolin, San Te has decided to start 37th Chamber of Shaolin. The aim this time is to equip women with shaolin self-defence techniques.
+
+The only condition for a woman to be eligible for the special training is that she must be between 
+10
+10 and 
+60
+60 years of age, inclusive of both 
+10
+10 and 
+60
+60.
+
+Given the ages of 
+N
+N women in his village, please help San Te find out how many of them are eligible for the special training.
+
+Input Format
+The first line of input contains a single integer 
+T
+T, denoting the number of test cases. The description of 
+T
+T test cases follows.
+The first line of each test case contains a single integer 
+N
+N, the number of women.
+The second line of each test case contains 
+N
+N space-separated integers 
+A
+1
+,
+A
+2
+,
+.
+.
+.
+,
+A
+N
+A 
+1
+​
+ ,A 
+2
+​
+ ,...,A 
+N
+​
+ , the ages of the women.
+Output Format
+For each test case, output in a single line the number of women eligible for self-defence training.
+
+Constraints
+1
+≤
+T
+≤
+20
+1≤T≤20
+1
+≤
+N
+≤
+100
+1≤N≤100
+1
+≤
+A
+i
+≤
+100
+1≤A 
+i
+​
+ ≤100
+Sample 1:
+Input
+Output
+3
+3
+15 23 65
+3
+15 62 16
+2
+35 9
+2
+2
+1
+Explanation:
+Test Case 
+1
+1: Out of the women, only the 
+1
+s
+t
+1 
+st
+  and 
+2
+n
+d
+2 
+nd
+  women are eligible for the training because their ages lie in the interval 
+[
+10
+,
+60
+]
+[10,60]. Hence the answer is 2.
+
+Test Case 
+2
+2: Only the 
+1
+s
+t
+1 
+st
+  and 
+3
+r
+d
+3 
+rd
+  women are eligible for the training because their ages lie in the interval 
+[
+10
+,
+60
+]
+[10,60]. Hence the answer is again 2.
+
+Test Case 
+3
+3: Only the 
+1
+s
+t
+1 
+st
+  woman with age 
+35
+35 is eligible for the training. Hence the answer is 
+1
+1.
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    n = int(input())
+    ages = map(int, input().split())
+    count = sum(1 for age in ages if 10 <= age <= 60)
+    print(count)
+
+2. Cup Finals
+It is the World Cup Finals. Chef only finds a match interesting if the skill difference of the competing teams is less than or equal to 
+D
+D.
+
+Given that the skills of the teams competing in the final are 
+X
+X and 
+Y
+Y respectively, determine whether Chef will find the game interesting or not.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of testcases. The description of 
+T
+T testcases follows.
+Each testcase consists of a single line of input containing three space-separated integers 
+X
+X, 
+Y
+Y, and 
+D
+D — the skill levels of the teams and the maximum skill difference.
+Output Format
+For each testcase, output "YES" if Chef will find the game interesting, else output "NO" (without the quotes). The checker is case-insensitive, so "YeS" and "nO" etc. are also acceptable.
+
+Constraints
+1
+≤
+T
+≤
+2000
+1≤T≤2000
+1
+≤
+X
+,
+Y
+≤
+100
+1≤X,Y≤100
+0
+≤
+D
+≤
+100
+0≤D≤100
+Sample 1:
+Input
+Output
+3
+5 3 4
+5 3 1
+5 5 0
+YES
+NO
+YES
+Explanation:
+Test case 
+1
+1: The skill difference between the teams is 
+2
+2, which is less than the maximum allowed difference of 
+4
+4.
+
+Test case 
+2
+2: The skill difference between the teams is 
+2
+2, which is more than the maximum allowed difference of 
+1
+1.
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    x,y,d = map(int, input().split())
+    if abs(x - y) <= d:
+        print("YES")
+    else:
+        print("NO")
+
+3. Too many Floors
+Chef and Chefina are residing in a hotel.
+
+There are 
+10
+10 floors in the hotel and each floor consists of 
+10
+10 rooms.
+
+Floor 
+1
+1 consists of room numbers 
+1
+1 to 
+10
+10.
+Floor 
+2
+2 consists of room numbers 
+11
+11 to 
+20
+20.
+…
+…
+Floor 
+i
+i consists of room numbers 
+10
+⋅
+(
+i
+−
+1
+)
++
+1
+10⋅(i−1)+1 to 
+10
+⋅
+i
+10⋅i.
+You know that Chef's room number is 
+X
+X while Chefina's Room number is 
+Y
+Y.
+If Chef starts from his room, find the number of floors he needs to travel to reach Chefina's room.
+
+Input Format
+First line will contain 
+T
+T, number of test cases. Then the test cases follow.
+Each test case contains of a single line of input, two integers 
+X
+,
+Y
+X,Y, the room numbers of Chef and Chefina respectively.
+Output Format
+For each test case, output the number of floors Chef needs to travel to reach Chefina's room.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+X
+,
+Y
+≤
+100
+1≤X,Y≤100
+X
+≠
+Y
+X=Y
+Sample 1:
+Input
+Output
+4
+1 100
+42 50
+53 30
+81 80
+9
+0
+3
+1
+Explanation:
+Test Case 
+1
+1: Since Room 
+1
+1 is on 
+1
+s
+t
+1 
+st
+  floor and Room 
+100
+100 is on 
+10
+t
+h
+10 
+th
+  floor, Chef needs to climb 
+9
+9 floors to reach Chefina's Room.
+
+Test Case 
+2
+2: Since Room 
+42
+42 is on 
+5
+t
+h
+5 
+th
+  floor and Room 
+50
+50 is also on 
+5
+t
+h
+5 
+th
+  floor, Chef does not need to climb any floor.
+
+Test Case 
+3
+3: Since Room 
+53
+53 is on 
+6
+t
+h
+6 
+th
+  floor and Room 
+30
+30 is on 
+3
+r
+d
+3 
+rd
+  floor, Chef needs to go down 
+3
+3 floors to reach Chefina's Room.
+
+Test Case 
+4
+4: Since Room 
+81
+81 is on 
+9
+t
+h
+9 
+th
+  floor and Room 
+80
+80 is on 
+8
+t
+h
+8 
+th
+  floor, Chef needs to go down 
+1
+1 floors to reach Chefina's Room.
+solution:
+# cook your dish here
+import math
+t = int(input())
+for _ in range(t):
+    x,y = map(int,input().split())
+    x_floor = math.ceil(x / 10)
+    y_floor = math.ceil(y / 10)
+    print(abs(y_floor - x_floor))
+
+4. Speed Limit Test
+Alice is driving from her home to her office which is 
+A
+A kilometers away and will take her 
+X
+X hours to reach.
+Bob is driving from his home to his office which is 
+B
+B kilometers away and will take him 
+Y
+Y hours to reach.
+
+Determine who is driving faster, else, if they are both driving at the same speed print EQUAL.
+
+Input Format
+The first line will contain 
+T
+T, the number of test cases. Then the test cases follow.
+Each test case consists of a single line of input, containing four integers 
+A
+,
+X
+,
+B
+,
+A,X,B, and 
+Y
+Y, the distances and and the times taken by Alice and Bob respectively.
+Output Format
+For each test case, if Alice is faster, print ALICE. Else if Bob is faster, print BOB. If both are equal, print EQUAL.
+
+You may print each character of the string in uppercase or lowercase (for example, the strings equal, equAL, EquAl, and EQUAL will all be treated as identical).
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+A
+,
+X
+,
+B
+,
+Y
+≤
+1000
+1≤A,X,B,Y≤1000
+Sample 1:
+Input
+Output
+3
+20 6 20 5
+10 3 20 6
+9 1 1 1
+Bob
+Equal
+Alice
+Explanation:
+Test case 
+1
+1: Since Bob travels the distance between his office and house in 
+5
+5 hours, whereas Alice travels the same distance of 
+20
+20 kms in 
+6
+6 hours, BOB is faster.
+
+Test case 
+2
+2: Since Alice travels the distance of 
+10
+10 km between her office and house in 
+3
+3 hours and Bob travels a distance of 
+20
+20 km in 
+6
+6 hours, they have equal speeds.
+
+Test case 
+3
+3: Since Alice travels the distance of 
+9
+9 km between her office and house in 
+1
+1 hour and Bob travels only a distance of 
+1
+1 km in the same time, ALICE is faster.
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    a,x,b,y = map(int, input().split())
+    speed_a = a / x 
+    speed_b = b / y
+    if speed_a == speed_b:
+        print("EQUAL")
+    elif speed_a > speed_b:
+        print("Alice")
+    elif speed_b > speed_a:
+        print("Bob")
+
+5. Decrement OR Increment
+Write a program to obtain a number 
+N
+N and increment its value by 1 if the number is divisible by 4 
+o
+t
+h
+e
+r
+w
+i
+s
+e
+otherwise decrement its value by 1.
+
+Input Format
+First line will contain a number 
+N
+N.
+
+Output Format
+Output a single line, the new value of the number.
+
+Constraints
+0
+≤
+N
+≤
+1000
+0≤N≤1000
+Sample 1:
+Input
+Output
+5
+4
+Explanation:
+Since 5 is not divisible by 4 hence, its value is decreased by 1.
+solution:
+# cook your dish here
+n = int(input())
+if n % 4 == 0:
+    print(n + 1)
+else:
+    print(n - 1)
+
+l = 5, c = 5

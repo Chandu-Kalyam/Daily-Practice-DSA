@@ -1,0 +1,1038 @@
+Leetcode:
+1. 2678. Number of Senior Citizens
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed array of strings details. Each element of details provides information about a given passenger compressed into a string of length 15. The system is such that:
+
+The first ten characters consist of the phone number of passengers.
+The next character denotes the gender of the person.
+The following two characters are used to indicate the age of the person.
+The last two characters determine the seat allotted to that person.
+Return the number of passengers who are strictly more than 60 years old.
+
+ 
+
+Example 1:
+
+Input: details = ["7868190130M7522","5303914400F9211","9273338290F4010"]
+Output: 2
+Explanation: The passengers at indices 0, 1, and 2 have ages 75, 92, and 40. Thus, there are 2 people who are over 60 years old.
+Example 2:
+
+Input: details = ["1313579440F2036","2921522980M5644"]
+Output: 0
+Explanation: None of the passengers are older than 60.
+ 
+
+Constraints:
+
+1 <= details.length <= 100
+details[i].length == 15
+details[i] consists of digits from '0' to '9'.
+details[i][10] is either 'M' or 'F' or 'O'.
+The phone numbers and seat numbers of the passengers are distinct.
+solution:
+class Solution:
+    def countSeniors(self, details: List[str]) -> int:
+        count = 0
+        for detail in details:
+            if int(detail[11:13]) > 60:
+                count += 1
+
+        return count
+
+
+2. 682. Baseball Game
+Easy
+Topics
+premium lock icon
+Companies
+You are keeping the scores for a baseball game with strange rules. At the beginning of the game, you start with an empty record.
+
+You are given a list of strings operations, where operations[i] is the ith operation you must apply to the record and is one of the following:
+
+An integer x.
+Record a new score of x.
+'+'.
+Record a new score that is the sum of the previous two scores.
+'D'.
+Record a new score that is the double of the previous score.
+'C'.
+Invalidate the previous score, removing it from the record.
+Return the sum of all the scores on the record after applying all the operations.
+
+The test cases are generated such that the answer and all intermediate calculations fit in a 32-bit integer and that all operations are valid.
+
+ 
+
+Example 1:
+
+Input: ops = ["5","2","C","D","+"]
+Output: 30
+Explanation:
+"5" - Add 5 to the record, record is now [5].
+"2" - Add 2 to the record, record is now [5, 2].
+"C" - Invalidate and remove the previous score, record is now [5].
+"D" - Add 2 * 5 = 10 to the record, record is now [5, 10].
+"+" - Add 5 + 10 = 15 to the record, record is now [5, 10, 15].
+The total sum is 5 + 10 + 15 = 30.
+Example 2:
+
+Input: ops = ["5","-2","4","C","D","9","+","+"]
+Output: 27
+Explanation:
+"5" - Add 5 to the record, record is now [5].
+"-2" - Add -2 to the record, record is now [5, -2].
+"4" - Add 4 to the record, record is now [5, -2, 4].
+"C" - Invalidate and remove the previous score, record is now [5, -2].
+"D" - Add 2 * -2 = -4 to the record, record is now [5, -2, -4].
+"9" - Add 9 to the record, record is now [5, -2, -4, 9].
+"+" - Add -4 + 9 = 5 to the record, record is now [5, -2, -4, 9, 5].
+"+" - Add 9 + 5 = 14 to the record, record is now [5, -2, -4, 9, 5, 14].
+The total sum is 5 + -2 + -4 + 9 + 5 + 14 = 27.
+Example 3:
+
+Input: ops = ["1","C"]
+Output: 0
+Explanation:
+"1" - Add 1 to the record, record is now [1].
+"C" - Invalidate and remove the previous score, record is now [].
+Since the record is empty, the total sum is 0.
+ 
+
+Constraints:
+
+1 <= operations.length <= 1000
+operations[i] is "C", "D", "+", or a string representing an integer in the range [-3 * 104, 3 * 104].
+For operation "+", there will always be at least two previous scores on the record.
+For operations "C" and "D", there will always be at least one previous score on the record.
+solution:
+class Solution:
+    def calPoints(self, operations: List[str]) -> int:
+        record = []
+        
+        for op in operations:
+            if op == '+':
+                record.append(record[-1] + record[-2])
+            elif op == 'D':
+                record.append(record[-1] * 2)
+            elif op == 'C':
+                record.pop()
+            else:
+                record.append(int(op))  # Handles negatives automatically
+        
+        return sum(record)
+
+3. 1636. Sort Array by Increasing Frequency
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an array of integers nums, sort the array in increasing order based on the frequency of the values. If multiple values have the same frequency, sort them in decreasing order.
+
+Return the sorted array.
+
+ 
+
+Example 1:
+
+Input: nums = [1,1,2,2,2,3]
+Output: [3,1,1,2,2,2]
+Explanation: '3' has a frequency of 1, '1' has a frequency of 2, and '2' has a frequency of 3.
+Example 2:
+
+Input: nums = [2,3,1,3,2]
+Output: [1,3,3,2,2]
+Explanation: '2' and '3' both have a frequency of 2, so they are sorted in decreasing order.
+Example 3:
+
+Input: nums = [-1,1,-6,4,5,-6,1,4,1]
+Output: [5,-1,4,4,-6,-6,1,1,1]
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+-100 <= nums[i] <= 100
+solution:
+from collections import Counter
+
+class Solution:
+    def frequencySort(self, nums: List[int]) -> List[int]:
+        freq = Counter(nums)
+        return sorted(nums, key=lambda x: (freq[x], -x))
+
+4.3736. Minimum Moves to Equal Array Elements III
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array nums.
+
+In one move, you may increase the value of any single element nums[i] by 1.
+
+Return the minimum total number of moves required so that all elements in nums become equal.
+
+ 
+
+Example 1:
+
+Input: nums = [2,1,3]
+
+Output: 3
+
+Explanation:
+
+To make all elements equal:
+
+Increase nums[0] = 2 by 1 to make it 3.
+Increase nums[1] = 1 by 1 to make it 2.
+Increase nums[1] = 2 by 1 to make it 3.
+Now, all elements of nums are equal to 3. The minimum total moves is 3.
+
+Example 2:
+
+Input: nums = [4,4,5]
+
+Output: 2
+
+Explanation:
+
+To make all elements equal:
+
+Increase nums[0] = 4 by 1 to make it 5.
+Increase nums[1] = 4 by 1 to make it 5.
+Now, all elements of nums are equal to 5. The minimum total moves is 2.
+
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+1 <= nums[i] <= 100
+solution:
+class Solution:
+    def minMoves(self, nums: List[int]) -> int:
+        maxi = max(nums)
+        count = 0
+        for num in nums:
+            count += abs(maxi - num)
+
+        return count
+
+
+5. 338. Counting Bits
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an integer n, return an array ans of length n + 1 such that for each i (0 <= i <= n), ans[i] is the number of 1's in the binary representation of i.
+
+Do not solve it with built-in functions (i.e., like __builtin_popcount in C++).
+ 
+
+Example 1:
+
+Input: n = 2
+Output: [0,1,1]
+Explanation:
+0 --> 0
+1 --> 1
+2 --> 10
+Example 2:
+
+Input: n = 5
+Output: [0,1,1,2,1,2]
+Explanation:
+0 --> 0
+1 --> 1
+2 --> 10
+3 --> 11
+4 --> 100
+5 --> 101
+ 
+
+Constraints:
+
+0 <= n <= 105
+ 
+
+Follow up:
+
+It is very easy to come up with a solution with a runtime of O(n log n). Can you do it in linear time O(n) and possibly in a single pass?
+solution:
+class Solution:
+    def countBits(self, n: int) -> list[int]:
+        dp = [0] * (n + 1)
+        for i in range(1, n + 1):
+            dp[i] = dp[i >> 1] + (i & 1)
+        return dp
+
+codechef:
+1. A or B
+There are two problems in a contest.
+
+Problem A is worth 
+500
+500 points at the start of the contest.
+Problem B is worth 
+1000
+1000 points at the start of the contest.
+Once the contest starts, after each minute:
+
+Maximum points of Problem A reduce by 
+2
+2 points .
+Maximum points of Problem B reduce by 
+4
+4 points.
+It is known that Chef requires 
+X
+X minutes to solve Problem A correctly and 
+Y
+Y minutes to solve Problem B correctly.
+
+Find the maximum number of points Chef can score if he optimally decides the order of attempting both the problems.
+
+Input Format
+First line will contain 
+T
+T, number of test cases. Then the test cases follow.
+Each test case contains of a single line of input, two integers 
+X
+X and 
+Y
+Y - the time required to solve problems 
+A
+A and 
+B
+B in minutes respectively.
+Output Format
+For each test case, output in a single line, the maximum number of points Chef can score if he optimally decides the order of attempting both the problems.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+X
+,
+Y
+≤
+100
+1≤X,Y≤100
+Sample 1:
+Input
+Output
+4
+10 20
+8 40
+15 15
+20 10
+1360
+1292
+1380
+1400
+Explanation:
+Test Case 
+1
+1: If Chef attempts in the order 
+A
+→
+B
+A→B then he submits Problem A after 
+10
+10 minutes and Problem B after 
+30
+30 minutes.
+Thus, he gets 
+500
+−
+10
+⋅
+2
+=
+480
+500−10⋅2=480 points for problem A and 
+1000
+−
+30
+⋅
+4
+=
+880
+1000−30⋅4=880 points for problem B. Thus, total 
+480
++
+880
+=
+1360
+480+880=1360 points for both the problems.
+
+If Chef attempts in the order 
+B
+→
+A
+B→A then he submits Problem B after 
+20
+20 minutes and Problem A after 
+30
+30 minutes.
+Thus, he gets 
+1000
+−
+20
+⋅
+4
+=
+920
+1000−20⋅4=920 points for Problem B and 
+500
+−
+30
+⋅
+2
+=
+440
+500−30⋅2=440 points for Problem A. Thus total 
+920
++
+440
+=
+1360
+920+440=1360 points for both the problems.
+
+So, in both cases Chef gets 
+1360
+1360 points in total.
+
+Test Case 
+2
+2: If Chef attempts in the order 
+A
+→
+B
+A→B then he submits Problem A after 
+8
+8 minutes and Problem B after 
+48
+48 minutes.
+Thus, he gets 
+500
+−
+8
+⋅
+2
+=
+484
+500−8⋅2=484 points for problem A and 
+1000
+−
+48
+⋅
+4
+=
+808
+1000−48⋅4=808 points for problem B. Thus, total 
+484
++
+808
+=
+1292
+484+808=1292 points for both the problems.
+
+If Chef attempts in the order 
+B
+→
+A
+B→A then he submits Problem B after 
+40
+40 minutes and Problem A after 
+48
+48 minutes.
+Thus, he gets 
+1000
+−
+40
+⋅
+4
+=
+840
+1000−40⋅4=840 points for Problem B and 
+500
+−
+48
+⋅
+2
+=
+404
+500−48⋅2=404 points for Problem A. Thus total 
+840
++
+404
+=
+1244
+840+404=1244 points for both the problems.
+
+So, Chef will attempt in the order 
+A
+→
+B
+A→B and thus obtain 
+1292
+1292 points.
+
+Test Case 
+3
+3: If Chef attempts in the order 
+A
+→
+B
+A→B then he submits Problem A after 
+15
+15 minutes and Problem B after 
+30
+30 minutes.
+Thus, he gets 
+500
+−
+15
+⋅
+2
+=
+470
+500−15⋅2=470 points for problem A and 
+1000
+−
+30
+⋅
+4
+=
+880
+1000−30⋅4=880 points for problem B. Thus, total 
+470
++
+880
+=
+1350
+470+880=1350 points for both the problems.
+
+If Chef attempts in the order 
+B
+→
+A
+B→A then he submits Problem B after 
+15
+15 minutes and Problem A after 
+30
+30 minutes.
+Thus, he gets 
+1000
+−
+15
+⋅
+4
+=
+940
+1000−15⋅4=940 points for Problem B and 
+500
+−
+30
+⋅
+2
+=
+440
+500−30⋅2=440 points for Problem A. Thus total 
+940
++
+440
+=
+1380
+940+440=1380 points for both the problems.
+
+So, Chef will attempt in the order 
+B
+→
+A
+B→A and thus obtain 
+1380
+1380 points.
+
+Test Case 
+4
+4: If Chef attempts in the order 
+A
+→
+B
+A→B then he submits Problem A after 
+20
+20 minutes and Problem B after 
+30
+30 minutes.
+Thus, he gets 
+500
+−
+20
+⋅
+2
+=
+460
+500−20⋅2=460 points for problem A and 
+1000
+−
+30
+⋅
+4
+=
+880
+1000−30⋅4=880 points for problem B. Thus, total 
+460
++
+880
+=
+1340
+460+880=1340 points for both the problems.
+
+If Chef attempts in the order 
+B
+→
+A
+B→A then he submits Problem B after 
+10
+10 minutes and Problem A after 
+30
+30 minutes.
+Thus, he gets 
+1000
+−
+10
+⋅
+4
+=
+960
+1000−10⋅4=960 points for Problem B and 
+500
+−
+30
+⋅
+2
+=
+440
+500−30⋅2=440 points for Problem A. Thus total 
+960
++
+440
+=
+1400
+960+440=1400 points for both the problems.
+
+So, Chef will attempt in the order 
+B
+→
+A
+B→A and thus obtain 
+1400
+1400 points.
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    x,y = map(int, input().split())
+    a_time = (500 - (x * 2)) + (1000 - (x + y) * 4)
+    b_time = (1000 - (y * 4)) + (500 - (x + y) * 2)
+    print(max(a_time, b_time))
+
+2. Second Largest
+Three numbers A, B and C are the inputs. Write a program to find second largest among them.
+
+Input Format
+The first line contains an integer T, the total number of testcases. Then T lines follow, each line contains three integers A, B and C.
+
+Output Format
+For each test case, display the second largest among A, B and C, in a new line.
+
+Constraints
+1 ≤ T ≤ 1000
+1 ≤ A,B,C ≤ 1000000
+Sample 1:
+Input
+Output
+3 
+120 11 400
+10213 312 10
+10 3 450
+120
+312
+10
+solution:
+# cook your dish here
+t = int(input())
+for _ in range(t):
+    print(sorted(map(int, input().split()))[-2])
+
+3. Pass or Fail
+Chef is struggling to pass a certain college course.
+
+The test has a total of 
+N
+N questions, each question carries 
+3
+3 marks for a correct answer and 
+−
+1
+−1 for an incorrect answer. Chef is a risk-averse person so he decided to attempt all the questions. It is known that Chef got 
+X
+X questions correct and the rest of them incorrect. For Chef to pass the course he must score at least 
+P
+P marks.
+
+Will Chef be able to pass the exam or not?
+
+Input Format
+First line will contain 
+T
+T, number of testcases. Then the testcases follow.
+Each testcase contains of a single line of input, three integers 
+N
+,
+X
+,
+P
+N,X,P.
+Output Format
+For each test case output "PASS" if Chef passes the exam and "FAIL" if Chef fails the exam.
+
+You may print each character of the string in uppercase or lowercase (for example, the strings "pASs", "pass", "Pass" and "PASS" will all be treated as identical).
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+N
+≤
+100
+1≤N≤100
+0
+≤
+X
+≤
+N
+0≤X≤N
+0
+≤
+P
+≤
+3
+⋅
+N
+0≤P≤3⋅N
+Sample 1:
+Input
+Output
+3
+5 2 3
+5 2 4
+4 0 0
+PASS
+FAIL
+FAIL
+Explanation:
+Test case 
+1
+1: Chef gets 
+2
+2 questions correct giving him 
+6
+6 marks and since he got 
+3
+3 questions incorrect so he faces a penalty of 
+−
+3
+−3. So Chef's final score is 
+3
+3 and the passing marks are also 
+3
+3, so he passes the exam :)
+
+Test case 
+2
+2: Chef's total marks are 
+3
+3 and since the passing marks are 
+4
+4, Chef fails the test :(
+
+Test case 
+3
+3: Chef got all the problems wrong and thus his total score is 
+−
+4
+−4. Since the passing marks are 
+0
+0, Chef fails the exam :(
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n,x,p = map(int, input().split())
+    y = n - x 
+    total = x * 3 + (y * (-1))
+    if total >= p:
+        print("Pass")
+    else:
+        print("Fail")
+
+4. Cyclic Quadrilateral
+You are given the sizes of angles of a simple quadrilateral (in degrees) 
+A
+A, 
+B
+B, 
+C
+C and 
+D
+D, in some order along its perimeter. Determine whether the quadrilateral is cyclic.
+
+Note: A quadrilateral is cyclic if and only if the sum of opposite angles is 
+180
+∘
+180 
+∘
+ .
+
+Input
+The first line of the input contains a single integer 
+T
+T denoting the number of test cases. The description of 
+T
+T test cases follows.
+The first and only line of each test case contains four space-separated integers 
+A
+A, 
+B
+B, 
+C
+C and 
+D
+D.
+Output
+Print a single line containing the string "YES" if the given quadrilateral is cyclic or "NO" if it is not (without quotes).
+
+You may print each character of the string in uppercase or lowercase (for example, the strings "yEs", "yes", "Yes" and "YES" will all be treated as identical).
+
+Constraints
+1
+≤
+T
+≤
+10
+4
+1≤T≤10 
+4
+ 
+1
+≤
+A
+,
+B
+,
+C
+,
+D
+≤
+357
+1≤A,B,C,D≤357
+A
++
+B
++
+C
++
+D
+=
+360
+A+B+C+D=360
+Sample 1:
+Input
+Output
+3
+10 20 30 300
+10 20 170 160
+179 1 179 1
+NO
+YES
+NO
+Explanation:
+Example case 1: The sum of two opposite angles 
+A
++
+C
+=
+10
+∘
++
+30
+∘
+≠
+180
+∘
+A+C=10 
+∘
+ +30 
+∘
+ =180 
+∘
+ .
+
+Example case 2: The sum of two opposite angles 
+A
++
+C
+=
+10
+∘
++
+170
+∘
+=
+180
+∘
+A+C=10 
+∘
+ +170 
+∘
+ =180 
+∘
+  and 
+B
++
+D
+=
+20
+∘
++
+160
+∘
+=
+180
+∘
+B+D=20 
+∘
+ +160 
+∘
+ =180 
+∘
+ .
+
+Example case 3: The sum of two opposite angles 
+B
++
+D
+=
+1
+∘
++
+1
+∘
+≠
+180
+∘
+B+D=1 
+∘
+ +1 
+∘
+ =180 
+∘
+ .
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    a,b,c,d = map(int, input().split())
+    if (a+c) == 180  and (b+d) == 180:
+        print("Yes")
+    else:
+        print("No")
+
+5. Too many items
+Chef bought 
+N
+N items from a shop. Although it is hard to carry all these items in hand, so Chef has to buy some polybags to store these items.
+
+1
+1 polybag can contain at most 
+10
+10 items. What is the minimum number of polybags needed by Chef?
+
+Input Format
+The first line will contain an integer 
+T
+T - number of test cases. Then the test cases follow.
+The first and only line of each test case contains an integer 
+N
+N - the number of items bought by Chef.
+Output Format
+For each test case, output the minimum number of polybags required.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+N
+≤
+1000
+1≤N≤1000
+Sample 1:
+Input
+Output
+3
+20
+24
+99
+2
+3
+10
+Explanation:
+Test case-1: Chef will require 
+2
+2 polybags. Chef can fit 
+10
+10 items in the first and second polybag each.
+
+Test case-2: Chef will require 
+3
+3 polybags. Chef can fit 
+10
+10 items in the first and second polybag each and fit the remaining 
+4
+4 items in the third polybag.
+solution:
+# cook your dish here
+import math
+for _ in range(int(input())):
+    n = int(input())
+    print(math.ceil(n / 10))
+
+l = 5, c = 5

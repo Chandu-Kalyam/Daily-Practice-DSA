@@ -1,0 +1,864 @@
+Leetcode:
+1. 1309. Decrypt String from Alphabet to Integer Mapping
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s formed by digits and '#'. We want to map s to English lowercase characters as follows:
+
+Characters ('a' to 'i') are represented by ('1' to '9') respectively.
+Characters ('j' to 'z') are represented by ('10#' to '26#') respectively.
+Return the string formed after mapping.
+
+The test cases are generated so that a unique mapping will always exist.
+
+ 
+
+Example 1:
+
+Input: s = "10#11#12"
+Output: "jkab"
+Explanation: "j" -> "10#" , "k" -> "11#" , "a" -> "1" , "b" -> "2".
+Example 2:
+
+Input: s = "1326#"
+Output: "acz"
+ 
+
+Constraints:
+
+1 <= s.length <= 1000
+s consists of digits and the '#' letter.
+s will be a valid string such that mapping is always possible.
+solution:
+import re
+
+class Solution:
+    def freqAlphabets(self, s: str) -> str:
+        # Match either "10#" to "26#" (two digits + #) OR single digit
+        tokens = re.findall(r'\d{2}#|\d', s)
+        return ''.join(chr(96 + int(t.rstrip('#'))) for t in tokens)
+
+2. 2810. Faulty Keyboard
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Your laptop keyboard is faulty, and whenever you type a character 'i' on it, it reverses the string that you have written. Typing other characters works as expected.
+
+You are given a 0-indexed string s, and you type each character of s using your faulty keyboard.
+
+Return the final string that will be present on your laptop screen.
+
+ 
+
+Example 1:
+
+Input: s = "string"
+Output: "rtsng"
+Explanation: 
+After typing first character, the text on the screen is "s".
+After the second character, the text is "st". 
+After the third character, the text is "str".
+Since the fourth character is an 'i', the text gets reversed and becomes "rts".
+After the fifth character, the text is "rtsn". 
+After the sixth character, the text is "rtsng". 
+Therefore, we return "rtsng".
+Example 2:
+
+Input: s = "poiinter"
+Output: "ponter"
+Explanation: 
+After the first character, the text on the screen is "p".
+After the second character, the text is "po". 
+Since the third character you type is an 'i', the text gets reversed and becomes "op". 
+Since the fourth character you type is an 'i', the text gets reversed and becomes "po".
+After the fifth character, the text is "pon".
+After the sixth character, the text is "pont". 
+After the seventh character, the text is "ponte". 
+After the eighth character, the text is "ponter". 
+Therefore, we return "ponter".
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists of lowercase English letters.
+s[0] != 'i'
+solution:
+class Solution:
+    def finalString(self, s: str) -> str:
+        new_str = ''
+        for char in s:
+            if char == 'i':
+                new_str = new_str[::-1]
+            else:
+                new_str += char
+
+        return new_str
+          
+3. 
+Code
+Testcase
+Testcase
+Test Result
+3019. Number of Changing Keys
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed string s typed by a user. Changing a key is defined as using a key different from the last used key. For example, s = "ab" has a change of a key while s = "bBBb" does not have any.
+
+Return the number of times the user had to change the key.
+
+Note: Modifiers like shift or caps lock won't be counted in changing the key that is if a user typed the letter 'a' and then the letter 'A' then it will not be considered as a changing of key.
+
+ 
+
+Example 1:
+
+Input: s = "aAbBcC"
+Output: 2
+Explanation: 
+From s[0] = 'a' to s[1] = 'A', there is no change of key as caps lock or shift is not counted.
+From s[1] = 'A' to s[2] = 'b', there is a change of key.
+From s[2] = 'b' to s[3] = 'B', there is no change of key as caps lock or shift is not counted.
+From s[3] = 'B' to s[4] = 'c', there is a change of key.
+From s[4] = 'c' to s[5] = 'C', there is no change of key as caps lock or shift is not counted.
+
+Example 2:
+
+Input: s = "AaAaAaaA"
+Output: 0
+Explanation: There is no change of key since only the letters 'a' and 'A' are pressed which does not require change of key.
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists of only upper case and lower case English letters.
+solution:
+class Solution:
+    def countKeyChanges(self, s: str) -> int:
+        s = s.lower()
+        count = 0
+        for i in range(len(s) - 1):
+            if s[i] != s[i+1]:
+                count += 1
+        
+
+        return count
+          
+4. 3917. Count Indices With Opposite Parity
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array nums of length n.
+
+The score of an index i is defined as the number of indices j such that:
+
+i < j < n, and
+nums[i] and nums[j] have different parity (one is even and the other is odd).
+Return an integer array answer of length n, where answer[i] is the score of index i.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,4]
+
+Output: [2,1,1,0]
+
+Explanation:
+
+nums[0] = 1, which is odd. Thus, the indices j = 1 and j = 3 satisfy the conditions, so the score of index 0 is 2.
+nums[1] = 2, which is even. Thus, the index j = 2 satisfies the conditions, so the score of index 1 is 1.
+nums[2] = 3, which is odd. Thus, the index j = 3 satisfies the conditions, so the score of index 2 is 1.
+nums[3] = 4, which is even. Thus, no index satisfies the conditions, so the score of index 3 is 0.
+Thus, the answer = [2, 1, 1, 0].
+
+Example 2:
+
+Input: nums = [1]
+
+Output: [0]
+
+Explanation:
+
+There is only one element in nums. Thus, the score of index 0 is 0.
+
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+1 <= nums[i] <= 100
+solution:
+class Solution:
+    def countOppositeParity(self, nums: list[int]) -> list[int]:
+        res = []
+        n = len(nums)
+        for i in range(n):
+            count = 0
+            for j in range(i+1,n):
+                  if (nums[i] & 1) != (nums[j] & 1):  # Different parity
+                    count += 1
+            res.append(count)  
+        
+        return res
+
+5. 2427. Number of Common Factors
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given two positive integers a and b, return the number of common factors of a and b.
+
+An integer x is a common factor of a and b if x divides both a and b.
+
+ 
+
+Example 1:
+
+Input: a = 12, b = 6
+Output: 4
+Explanation: The common factors of 12 and 6 are 1, 2, 3, 6.
+Example 2:
+
+Input: a = 25, b = 30
+Output: 2
+Explanation: The common factors of 25 and 30 are 1, 5.
+ 
+
+Constraints:
+
+1 <= a, b <= 1000
+solution:
+class Solution:
+    def commonFactors(self, a: int, b: int) -> int:
+        count = 0
+        for num in range(1, max(a,b)+1):
+            if a % num == 0 and b % num == 0:
+                count += 1
+
+        return count
+
+Codechef:
+1. Chef Fantasy 11
+All of Chef's friends are playing fantasy cricket based upon the ODI World Cup, and Chef would like to join them.
+
+For a certain cricket match, Chef has decided upon his team of 
+11
+11 players. However, he hasn't yet decided who should be the captain and who should be the vice-captain.
+
+He's narrowed his decision down to 
+N
+N players out of the 
+11
+11, from which he'll choose one to be the captain and one to be the vice captain.
+How many different choices does he have?
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+The first and the only line of each testcase contains a single integer 
+N
+N, the number of players Chef is considering.
+Output Format
+For each test case, output on a new line the number of possible choices of captain and vice-captain.
+
+Constraints
+1
+≤
+T
+≤
+10
+1≤T≤10
+2
+≤
+N
+≤
+11
+2≤N≤11
+Sample 1:
+Input
+Output
+2
+2
+3
+2
+6
+Explanation:
+Test case 
+1
+1: With 
+N
+=
+2
+N=2, there are only two possibilities: one of the players must be selected as the captain, and the other will become the vice-captain.
+
+Test case 
+2
+2: It can be shown that there are 
+6
+6 possibilities in total for captain/vice-captain choices.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n = int(input())
+    print(n * (n - 1))
+
+2. Building Race
+Two friends Chef and Chefina are currently on floors 
+A
+A and 
+B
+B respectively. They hear an announcement that prizes are being distributed on the ground floor and so decide to reach the ground floor as soon as possible.
+
+Chef can climb down 
+X
+X floors per minute while Chefina can climb down 
+Y
+Y floors per minute. Determine who will reach the ground floor first (ie. floor number 0). In case both reach the ground floor together, print Both.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+The first line of each test case contains four space-separated integers 
+A
+A, 
+B
+B, 
+X
+X, and 
+Y
+Y — the current floor of Chef, the current floor of Chefina, speed of Chef and speed of Chefina in floors per minute respectively.
+Output Format
+For each test case, output on a new line:
+
+Chef if Chef reaches the ground floor first.
+Chefina if she reaches the ground floor first.
+Both if both reach the ground floor at the same time.
+You may print each character of the string in uppercase or lowercase. For example, the strings CHEF, chef, Chef, and chEF are all considered the same.
+
+Constraints
+1
+≤
+T
+≤
+2500
+1≤T≤2500
+1
+≤
+A
+,
+B
+≤
+100
+1≤A,B≤100
+1
+≤
+X
+,
+Y
+≤
+10
+1≤X,Y≤10
+Sample 1:
+Input
+Output
+4
+2 2 2 2
+4 2 1 5
+3 2 4 1
+3 2 2 1
+Both
+Chefina
+Chef
+Chef
+Explanation:
+Test case 
+1
+1: Chef is on the second floor and has a speed of 
+2
+2 floors per minute. Thus, Chef takes 
+1
+1 minute to reach the ground floor. Chefina is on the second floor and and has a speed of 
+2
+2 floors per minute. Thus, Chefina takes 
+1
+1 minute to reach the ground floor. Both Chef and Chefina reach the ground floor at the same time.
+
+Test case 
+2
+2: Chef is on the fourth floor and has a speed of 
+1
+1 floor per minute. Thus, Chef takes 
+4
+4 minute to reach the ground floor. Chefina is on the second floor and and has a speed of 
+5
+5 floors per minute. Thus, Chefina takes 
+0.4
+0.4 minutes to reach the ground floor. Chefina reaches the ground floor first.
+
+Test case 
+3
+3: Chef is on the third floor and has a speed of 
+4
+4 floors per minute. Thus, Chef takes 
+0.75
+0.75 minutes to reach the ground floor. Chefina is on the second floor and and has a speed of 
+1
+1 floor per minute. Thus, Chefina takes 
+2
+2 minutes to reach the ground floor. Chef reaches the ground floor first.
+
+Test case 
+4
+4: Chef is on the third floor and has a speed of 
+2
+2 floors per minute. Thus, Chef takes 
+1.5
+1.5 minutes to reach the ground floor. Chefina is on the second floor and and has a speed of 
+1
+1 floor per minute. Thus, Chefina takes 
+2
+2 minutes to reach the ground floor. Chef reaches the ground floor first.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    a,b,x,y = map(int, input().split())
+    t1 = a / x 
+    t2 = b / y   
+    if t1 == t2:
+        print("Both")
+    elif t1 < t2:
+        print("Chef")
+    elif t2 < t1:
+        print("Chefina")
+
+3. Chef and Races
+The National Championships are starting soon. There are 
+4
+4 race categories, numbered from 
+1
+1 to 
+4
+4, that Chef is interested in. Chef is participating in exactly 
+2
+2 of these categories.
+
+Chef has an arch-rival who is, unfortunately, the only person participating who is better than Chef, i.e, Chef can't defeat the arch-rival in any of the four race categories but can defeat anyone else. Chef's arch-rival is also participating in exactly 
+2
+2 of the four categories.
+
+Chef hopes to not fall into the same categories as that of the arch-rival.
+
+Given 
+X
+,
+Y
+,
+A
+,
+B
+X,Y,A,B where 
+X
+,
+Y
+X,Y are the races that Chef participates in, and 
+A
+,
+B
+A,B are the races that Chef's arch-rival participates in, find the maximum number of gold medals (first place) that Chef can win.
+
+Input Format
+The first line of input contains an integer 
+T
+T, denoting the number of testcases. The description of 
+T
+T testcases follows.
+Each testcase consists of a single line containing four space-separated integers — the values of 
+X
+,
+Y
+,
+A
+X,Y,A, and 
+B
+B respectively.
+Output Format
+For each testcase, print a single line containing one integer — the maximum number of gold medals that Chef can win.
+Constraints
+1
+≤
+T
+≤
+144
+1≤T≤144
+1
+≤
+X
+,
+Y
+,
+A
+,
+B
+≤
+4
+1≤X,Y,A,B≤4
+X
+≠
+Y
+X=Y
+A
+≠
+B
+A=B
+Subtasks
+Subtask #1 (100 points): Original constraints
+
+Sample 1:
+Input
+Output
+3
+4 3 1 2
+4 2 1 2
+2 1 1 2
+2
+1
+0
+Explanation:
+Test case 
+1
+1: Chef participates in the races 
+4
+,
+3
+4,3, whereas Chef's rival participates in 
+1
+,
+2
+1,2. As Chef's only rival does not participate in any of the races that Chef takes part in, Chef can win the gold medal in both of the races, thus the answer is 
+2
+2.
+
+Test case 
+2
+2: Chef participates in the races 
+4
+,
+2
+4,2, whereas Chef's rival participates in 
+1
+,
+2
+1,2. Chef cannot win race 
+2
+2 as Chef will be beaten by the arch-rival, however Chef can win the gold medal for race 
+4
+4. Thus the answer is 
+1
+1.
+
+Test case 
+3
+3: Chef participates in the races 
+2
+,
+1
+2,1, whereas Chef's rival participates in 
+1
+,
+2
+1,2. Chef will be beaten by the arch-rival in both races, thus the answer is 
+0
+0.
+solution:
+t = int(input())
+for _ in range(t):
+    x, y, a, b = map(int, input().split())
+    
+    count = 0
+    if x != a and x != b:
+        count += 1
+    if y != a and y != b:
+        count += 1
+    
+    print(count)
+
+4. Endless Appetizers
+Life is a like a box of of mozzarella sticks. You never know what you're gonna get, but you can predict with 100 percent accuracy that it will be a mozzarella stick.
+
+Chef's colleague issued a challenge to Chef: "If you eat more than 
+X
+X mozzarella sticks, I'll give you 
+30
+30 rupees for each extra one you eat".
+For example, if 
+X
+=
+5
+X=5 and Chef eats 
+8
+8 sticks, he would receive 
+90
+90 rupees because he ate 
+3
+3 extra sticks.
+
+You know that the restaurant serves 
+Y
+Y mozzarella sticks per plate.
+You also know that Chef received 
+R
+R rupees from his colleague as a result of the challenge.
+
+What's the maximum number of plates of mozzarella sticks that Chef could have ordered?
+
+Note:
+
+Chef won't order a new plate till he finishes eating all the sticks from the previous one.
+However, it's possible that Chef didn't finish all the sticks from the final plate he ordered.
+See the explained examples below for more clarification.
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of one line of input, containing three space-separated integers 
+X
+,
+Y
+,
+X,Y, and 
+R
+R — the lower limit on the number of sticks, the number of sticks on a single plate, and the money received by Chef.
+Output Format
+For each test case, output on a new line the answer: the maximum number of plates Chef could have ordered.
+
+Constraints
+1
+≤
+T
+≤
+10
+4
+1≤T≤10 
+4
+ 
+1
+≤
+X
+≤
+100
+1≤X≤100
+1
+≤
+Y
+≤
+10
+1≤Y≤10
+0
+≤
+R
+≤
+3
+⋅
+10
+4
+0≤R≤3⋅10 
+4
+ 
+It is guaranteed that 
+R
+R is a multiple of 
+30
+30.
+Sample 1:
+Input
+Output
+4
+7 5 30
+16 5 0
+15 9 120
+23 1 2130
+2
+4
+3
+94
+Explanation:
+Test case 
+1
+1: Chef received 
+30
+30 rupees; meaning he ate 
+1
+1 extra stick.
+Since 
+X
+=
+7
+X=7, this means he must've eaten exactly 
+8
+8 sticks.
+At 
+5
+5 sticks per plate, Chef would need 
+2
+2 plates to eat 
+8
+8 sticks (and two sticks from the second plate will remain uneaten).
+
+Test case 
+2
+2: Chef received 
+0
+0 rupees. Since 
+X
+=
+16
+X=16, this means he ate 
+≤
+16
+≤16 sticks.
+The maximum he could've eaten is exactly 
+16
+16; and this would require 
+4
+4 plates since each plate has 
+5
+5 sticks.
+
+Test case 
+3
+3: Chef received 
+120
+120 rupees, meaning he ate 
+4
+4 extra sticks.
+This makes for a total of 
+15
++
+4
+=
+19
+15+4=19 sticks, and at 
+9
+9 sticks per plate he would need 
+3
+3
+solution:
+# cook your dish here
+import math
+for _ in range(int(input())):
+    x,y,r = map(int, input().split())
+    extra = r // 30
+    new = x + extra
+    print(math.ceil(new / y))
+
+5. Presents for Cheffina
+Chef has fallen in love with Cheffina, and wants to buy 
+N
+N gifts for her. On reaching the gift shop, Chef got to know the following two things:
+
+The cost of each gift is 
+1
+1 coin.
+On the purchase of every 
+4
+t
+h
+4 
+th
+  gift, Chef gets the 
+5
+t
+h
+5 
+th
+  gift free of cost.
+What is the minimum number of coins that Chef will require in order to come out of the shop carrying 
+N
+N gifts?
+
+Input Format
+The first line of input will contain an integer 
+T
+T — the number of test cases. The description of 
+T
+T test cases follows.
+The first and only line of each test case contains an integer 
+N
+N, the number of gifts in the shop.
+Output Format
+For each test case, output on a new line the minimum number of coins that Chef will require to obtain all 
+N
+N gifts.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+N
+≤
+10
+9
+1≤N≤10 
+9
+ 
+Sample 1:
+Input
+Output
+2
+5
+4
+4
+4
+Explanation:
+Test case 
+1
+1: After purchasing 
+4
+4 gifts, Chef will get the 
+5
+t
+h
+5 
+th
+  gift free of cost. Hence Chef only requires 
+4
+4 coins in order to get 
+5
+5 gifts.
+
+Test case 
+2
+2: Chef will require 
+4
+4 coins in order to get 
+4
+4 gifts
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n = int(input())
+    print(n - n // 5)
+
+l  = 5, c = 5

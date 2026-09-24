@@ -1,0 +1,561 @@
+Leetcode:
+1. 1748. Sum of Unique Elements
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array nums. The unique elements of an array are the elements that appear exactly once in the array.
+
+Return the sum of all the unique elements of nums.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,2]
+Output: 4
+Explanation: The unique elements are [1,3], and the sum is 4.
+Example 2:
+
+Input: nums = [1,1,1,1,1]
+Output: 0
+Explanation: There are no unique elements, and the sum is 0.
+Example 3:
+
+Input: nums = [1,2,3,4,5]
+Output: 15
+Explanation: The unique elements are [1,2,3,4,5], and the sum is 15.
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+1 <= nums[i] <= 100
+solution:
+from collections import Counter
+class Solution:
+    def sumOfUnique(self, nums: list[int]) -> int:
+        counters = Counter(nums)
+        return sum(key for key, value in counters.items() if value == 1)
+
+2. 2656. Maximum Sum With Exactly K Elements 
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+You are given a 0-indexed integer array nums and an integer k. Your task is to perform the following operation exactly k times in order to maximize your score:
+
+Select an element m from nums.
+Remove the selected element m from the array.
+Add a new element with a value of m + 1 to the array.
+Increase your score by m.
+Return the maximum score you can achieve after performing the operation exactly k times.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,4,5], k = 3
+Output: 18
+Explanation: We need to choose exactly 3 elements from nums to maximize the sum.
+For the first iteration, we choose 5. Then sum is 5 and nums = [1,2,3,4,6]
+For the second iteration, we choose 6. Then sum is 5 + 6 and nums = [1,2,3,4,7]
+For the third iteration, we choose 7. Then sum is 5 + 6 + 7 = 18 and nums = [1,2,3,4,8]
+So, we will return 18.
+It can be proven, that 18 is the maximum answer that we can achieve.
+Example 2:
+
+Input: nums = [5,5,5], k = 2
+Output: 11
+Explanation: We need to choose exactly 2 elements from nums to maximize the sum.
+For the first iteration, we choose 5. Then sum is 5 and nums = [5,5,6]
+For the second iteration, we choose 6. Then sum is 5 + 6 = 11 and nums = [5,5,7]
+So, we will return 11.
+It can be proven, that 11 is the maximum answer that we can achieve.
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+1 <= nums[i] <= 100
+1 <= k <= 100
+solution:
+class Solution:
+    def maximizeSum(self, nums: List[int], k: int) -> int:
+        nums.sort()
+        total = 0
+        for i in range(k):
+            total += nums[-1]
+            new_num = nums[-1] + 1
+            nums.pop()
+            nums.append(new_num)
+
+        return total
+
+3. 3010. Divide an Array Into Subarrays With Minimum Cost I
+Easy
+Topics
+premium lock icon
+Companies
+You are given an array of integers nums of length n.
+
+The cost of an array is the value of its first element. For example, the cost of [1,2,3] is 1 while the cost of [3,4,1] is 3.
+
+You need to divide nums into 3 disjoint contiguous subarrays.
+
+Return the minimum possible sum of the cost of these subarrays.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,12]
+Output: 6
+Explanation: The best possible way to form 3 subarrays is: [1], [2], and [3,12] at a total cost of 1 + 2 + 3 = 6.
+The other possible ways to form 3 subarrays are:
+- [1], [2,3], and [12] at a total cost of 1 + 2 + 12 = 15.
+- [1,2], [3], and [12] at a total cost of 1 + 3 + 12 = 16.
+Example 2:
+
+Input: nums = [5,4,3]
+Output: 12
+Explanation: The best possible way to form 3 subarrays is: [5], [4], and [3] at a total cost of 5 + 4 + 3 = 12.
+It can be shown that 12 is the minimum cost achievable.
+Example 3:
+
+Input: nums = [10,3,1,1]
+Output: 12
+Explanation: The best possible way to form 3 subarrays is: [10,3], [1], and [1] at a total cost of 10 + 1 + 1 = 12.
+It can be shown that 12 is the minimum cost achievable.
+ 
+
+Constraints:
+
+3 <= n <= 50
+1 <= nums[i] <= 50
+solution:
+class Solution:
+    def minimumCost(self, nums: List[int]) -> int:
+        rest = sorted(nums[1:])
+        return nums[0] + rest[0] + rest[1]
+
+4. 1380. Lucky Numbers in a Matrix
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an m x n matrix of distinct numbers, return all lucky numbers in the matrix in any order.
+
+A lucky number is an element of the matrix such that it is the minimum element in its row and maximum in its column.
+
+ 
+
+Example 1:
+
+Input: matrix = [[3,7,8],[9,11,13],[15,16,17]]
+Output: [15]
+Explanation: 15 is the only lucky number since it is the minimum in its row and the maximum in its column.
+Example 2:
+
+Input: matrix = [[1,10,4,2],[9,3,8,7],[15,16,17,12]]
+Output: [12]
+Explanation: 12 is the only lucky number since it is the minimum in its row and the maximum in its column.
+Example 3:
+
+Input: matrix = [[7,8],[1,2]]
+Output: [7]
+Explanation: 7 is the only lucky number since it is the minimum in its row and the maximum in its column.
+ 
+
+Constraints:
+
+m == mat.length
+n == mat[i].length
+1 <= n, m <= 50
+1 <= matrix[i][j] <= 105.
+All elements in the matrix are distinct.
+solution:
+class Solution:
+    def luckyNumbers(self, matrix: List[List[int]]) -> List[int]:
+        m, n = len(matrix), len(matrix[0])
+        
+        # Row minimums
+        min_row = [min(matrix[i]) for i in range(m)]
+        
+        # Column maximums
+        max_col = [max(matrix[i][j] for i in range(m)) for j in range(n)]
+        
+        # Collect all lucky numbers
+        lucky = []
+        for i in range(m):
+            for j in range(n):
+                if matrix[i][j] == min_row[i] and matrix[i][j] == max_col[j]:
+                    lucky.append(matrix[i][j])
+        
+        return lucky
+
+5. 1812. Determine Color of a Chessboard Square
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given coordinates, a string that represents the coordinates of a square of the chessboard. Below is a chessboard for your reference.
+
+
+
+Return true if the square is white, and false if the square is black.
+
+The coordinate will always represent a valid chessboard square. The coordinate will always have the letter first, and the number second.
+
+ 
+
+Example 1:
+
+Input: coordinates = "a1"
+Output: false
+Explanation: From the chessboard above, the square with coordinates "a1" is black, so return false.
+Example 2:
+
+Input: coordinates = "h3"
+Output: true
+Explanation: From the chessboard above, the square with coordinates "h3" is white, so return true.
+Example 3:
+
+Input: coordinates = "c7"
+Output: false
+ 
+
+Constraints:
+
+coordinates.length == 2
+'a' <= coordinates[0] <= 'h'
+'1' <= coordinates[1] <= '8'
+solution:
+class Solution:
+    def squareIsWhite(self, coordinates: str) -> bool:
+        return (ord(coordinates[0])+ int(coordinates[1])) % 2 == 1
+
+Codechef:
+1. Small Factorial
+Write a program to find the factorial value of any number entered by the user.
+
+Input Format
+The first line contains an integer T, the total number of testcases. Then T lines follow, each line contains an integer N.
+
+Output Format
+For each test case, display the factorial of the given number N in a new line.
+
+Constraints
+1 ≤ T ≤ 1000
+0 ≤ N ≤ 20
+Sample 1:
+Input
+Output
+3 
+3 
+4
+5
+6
+24
+120
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n = int(input())
+    fact = 1
+    for i in range(n,1,-1):
+        fact *= i
+    
+    print(fact)
+
+2. Dracula Eats
+Eat, drink, and be scary
+
+There are 
+N
+N spooky days left until Halloween.
+Dracula dines at a mysterious restaurant that changes its spooky menu daily. He particularly enjoys what they serve on Tuesday.
+
+Today is Monday, so he wishes to calculate how many times he can indulge in his favourite menu in the next 
+N
+N days (including today) before Halloween.
+
+Note that Dracula follows the standard 
+7
+7-day calendar, with Tuesday immediately following Monday.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+The only line of each test case contains a single integer 
+N
+N, denoting the number of spooky days.
+Output Format
+For each test case, output on a new line the number of times Dracula would have had his favorite meal after 
+N
+N days.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+N
+≤
+1000
+1≤N≤1000
+Sample 1:
+Input
+Output
+4
+1
+10
+15
+16
+0
+2
+2
+3
+Explanation:
+Test case 
+1
+1: The first day is Monday, and Dracula has only one day. So, no Tuesdays are encountered, and the answer is 
+0
+0.
+
+Test case 
+2
+2: The first day is Monday, so the second and ninth days are Tuesdays.
+Dracula can eat his favorite meal twice.
+
+Test case 
+3
+3: Once again, the second and ninth days are Tuesday, so in 
+15
+15 days, Dracula still gets to eat his favorite meal only twice.
+
+Test case 
+4
+4: After the ninth day, the 
+16
+16-th day is also a Tuesday. So, this time Dracula gets to eat his favorite meal three times - on days 
+2
+,
+9
+,
+16
+2,9,16.
+solution:
+# cook your dish here
+import math
+for _ in range(int(input())):
+    n = int(input())
+    print(math.ceil((n -1 )/ 7))
+
+3. Possible Victory
+Chef is playing in a T20 cricket match. In a match, Team A plays for 20 overs. In a single over, the team gets to play 6 times, and in each of these 6 tries, they can score a maximum of 6 runs. After Team A's 20 overs are finished, Team B similarly plays for 20 overs and tries to get a higher total score than the first team. The team with the higher total score at the end wins the match.
+
+Chef is in Team B. Team A has already played their 20 overs, and have gotten a score of 
+R
+R. Chef's Team B has started playing, and have already scored 
+C
+C runs in the first 
+O
+O overs. In the remaining 
+20
+−
+O
+20−O overs, find whether it is possible for Chef's Team B to get a score high enough to win the game. That is, can their final score be strictly larger than 
+R
+R?
+
+Input Format
+There is a single line of input, with three integers, 
+R
+,
+O
+,
+C
+R,O,C.
+Output Format
+Output in a single line, the answer, which should be "YES" if it's possible for Chef's Team B to win the match and "NO" if not.
+
+You may print each character of the string in uppercase or lowercase (for example, the strings "yEs", "yes", "Yes" and "YES" will all be treated as identical).
+
+Constraints
+0
+≤
+C
+≤
+R
+≤
+720
+0≤C≤R≤720
+1
+≤
+O
+≤
+19
+1≤O≤19
+0
+≤
+C
+≤
+36
+∗
+O
+0≤C≤36∗O
+Sample 1:
+Input
+Output
+719 18 648
+YES
+Explanation:
+In the remaining 
+20
+−
+O
+=
+2
+20−O=2 overs, Team B gets to play 
+2
+∗
+6
+=
+12
+2∗6=12 times, and in each try, they can get a maximum of 6 score. Which means that the maximum score that they can acheieve in these 2 overs is 
+12
+∗
+6
+=
+72
+12∗6=72. Thus, the maximum total score that Team B can achieve is 
+C
++
+72
+=
+720
+C+72=720. 
+720
+720 is strictly more than Team A's score of 
+719
+719, and hence Chef's Team B can win this match.
+
+Sample 2:
+Input
+Output
+720 18 648
+NO
+Explanation:
+Similar to the previous explanation, the maximum total score that Team B can achieve is 
+720
+720, which isn't strictly greater than Team A's 
+720
+720.Hence Chef's Team B can't win this match.
+solution:
+# cook your dish here
+r, o , c = map(int, input().split())
+rem_overs = 20 - o 
+team_b = 6 * rem_overs
+max_score  = team_b * 6
+team_b_achieve = c + max_score 
+if team_b_achieve > r:
+    print("Yes")
+else:
+    print("No")
+
+
+4. Chef And Operators
+Chef has just started Programming, he is in first year of Engineering. Chef is reading about Relational Operators.
+Relational Operators are operators which check relationship between two values. Given two numerical values A and B you need to help chef in finding the relationship between them that is,
+
+First one is greater than second or, First one is less than second or, First and second one are equal.
+ 
+
+Input
+First line contains an integer T, which denotes the number of testcases. Each of the T lines contain two integers A and B.
+
+Output
+For each line of input produce one line of output. This line contains any one of the relational operators
+'<' , '>' , '='.
+
+Constraints
+
+1 ≤ T ≤ 10000 1 ≤ A, B ≤ 1000000001
+Sample 1:
+Input
+Output
+3
+10 20
+20 10
+10 10
+<
+>
+=
+Explanation:
+In this example 1 as 10 is lesser than 20
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    a, b = map(int, input().split())
+    if a == b:
+        print("=")
+    elif a < b:
+        print("<")
+    elif a > b:
+        print(">")
+
+5. Mutated Minions
+Gru has not been in the limelight for a long time and is, therefore, planning something particularly nefarious. Frustrated by his minions' incapability which has kept him away from the limelight, he has built a transmogrifier — a machine which mutates minions.
+
+Each minion has an intrinsic characteristic value (similar to our DNA), which is an integer. The transmogrifier adds an integer K to each of the minions' characteristic value.
+
+Gru knows that if the new characteristic value of a minion is divisible by 7, then it will have Wolverine-like mutations.
+
+Given the initial characteristic integers of N minions, all of which are then transmogrified, find out how many of them become Wolverine-like.
+
+Input Format
+The first line contains one integer, T, which is the number of test cases.
+Each test case contains of 
+2
+2 lines of input.
+
+The first line contains two integers N and K, as described in the statement
+The next line contains N integers, which denote the initial characteristic values for the minions
+Output Format
+For each testcase, output one integer in a new line, which is the number of Wolverine-like minions after the transmogrification.
+
+Constraints
+1 ≤ T ≤ 100
+1 ≤ N ≤ 100
+1 ≤ K ≤ 100
+All initial characteristic values lie between 1 and 105, both inclusive.
+Sample 1:
+Input
+Output
+1
+5 10
+2 4 1 35 1
+1
+Explanation:
+After transmogrification, the characteristic values become {12,14,11,45,11}, out of which only 14 is divisible by 7. So only the second minion becomes Wolverine-like.
+solution:
+# cook your dish here
+import numpy as np
+for _ in range(int(input())):
+    n, k = map(int, input().split())
+    l = np.array(input().split(), int)
+    l = l + k 
+    print(len(l[l % 7==0]))
+
+l = 5, c  = 5

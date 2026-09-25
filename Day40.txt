@@ -1,0 +1,1005 @@
+Leetcode:
+1. 3370. Smallest Number With All Set Bits
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a positive number n.
+
+Return the smallest number x greater than or equal to n, such that the binary representation of x contains only set bits
+
+ 
+
+Example 1:
+
+Input: n = 5
+
+Output: 7
+
+Explanation:
+
+The binary representation of 7 is "111".
+
+Example 2:
+
+Input: n = 10
+
+Output: 15
+
+Explanation:
+
+The binary representation of 15 is "1111".
+
+Example 3:
+
+Input: n = 3
+
+Output: 3
+
+Explanation:
+
+The binary representation of 3 is "11".
+Constraints:
+1 <= n <= 1000
+solution:
+class Solution:
+    def smallestNumber(self, n: int) -> int:
+        return int(bin(n)[2:].replace("0", "1"), 2)
+
+2. 1700. Number of Students Unable to Eat Lunch
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+The school cafeteria offers circular and square sandwiches at lunch break, referred to by numbers 0 and 1 respectively. All students stand in a queue. Each student either prefers square or circular sandwiches.
+
+The number of sandwiches in the cafeteria is equal to the number of students. The sandwiches are placed in a stack. At each step:
+
+If the student at the front of the queue prefers the sandwich on the top of the stack, they will take it and leave the queue.
+Otherwise, they will leave it and go to the queue's end.
+This continues until none of the queue students want to take the top sandwich and are thus unable to eat.
+
+You are given two integer arrays students and sandwiches where sandwiches[i] is the type of the i​​​​​​th sandwich in the stack (i = 0 is the top of the stack) and students[j] is the preference of the j​​​​​​th student in the initial queue (j = 0 is the front of the queue). Return the number of students that are unable to eat.
+
+ 
+
+Example 1:
+
+Input: students = [1,1,0,0], sandwiches = [0,1,0,1]
+Output: 0 
+Explanation:
+- Front student leaves the top sandwich and returns to the end of the line making students = [1,0,0,1].
+- Front student leaves the top sandwich and returns to the end of the line making students = [0,0,1,1].
+- Front student takes the top sandwich and leaves the line making students = [0,1,1] and sandwiches = [1,0,1].
+- Front student leaves the top sandwich and returns to the end of the line making students = [1,1,0].
+- Front student takes the top sandwich and leaves the line making students = [1,0] and sandwiches = [0,1].
+- Front student leaves the top sandwich and returns to the end of the line making students = [0,1].
+- Front student takes the top sandwich and leaves the line making students = [1] and sandwiches = [1].
+- Front student takes the top sandwich and leaves the line making students = [] and sandwiches = [].
+Hence all students are able to eat.
+Example 2:
+
+Input: students = [1,1,1,0,0,1], sandwiches = [1,0,0,0,1,1]
+Output: 3
+ 
+
+Constraints:
+
+1 <= students.length, sandwiches.length <= 100
+students.length == sandwiches.length
+sandwiches[i] is 0 or 1.
+students[i] is 0 or 1.
+solution:
+class Solution:
+    def countStudents(self, students: list[int], sandwiches: list[int]) -> int:
+        queue = deque(students)
+        stack = sandwiches
+        i = 0
+        rotations = 0
+        while queue and rotations < len(queue):
+            if queue[0] == stack[i]:
+                queue.popleft()
+                i += 1
+                rotations = 0
+            else:
+                queue.append(queue.popleft())
+                rotations += 1
+
+        return len(queue)
+
+
+3. 961. N-Repeated Element in Size 2N Array
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+You are given an integer array nums with the following properties:
+
+nums.length == 2 * n.
+nums contains n + 1 unique values, n of which occur exactly once in the array.
+Exactly one element of nums is repeated n times.
+Return the element that is repeated n times.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,3]
+Output: 3
+Example 2:
+
+Input: nums = [2,1,2,5,3,2]
+Output: 2
+Example 3:
+
+Input: nums = [5,1,5,2,5,3,5,4]
+Output: 5
+ 
+
+Constraints:
+
+2 <= n <= 5000
+nums.length == 2 * n
+0 <= nums[i] <= 104
+nums contains n + 1 unique elements and one of them is repeated exactly n times.
+solution:
+from collections import Counter
+class Solution:
+    def repeatedNTimes(self, nums: list[int]) -> int:
+        counters = Counter(nums)
+        n = len(nums) // 2
+        for key, value in counters.items():
+            if value == n:
+                return key
+
+
+4. 1295. Find Numbers with Even Number of Digits
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an array nums of integers, return how many of them contain an even number of digits.
+
+ 
+
+Example 1:
+
+Input: nums = [12,345,2,6,7896]
+Output: 2
+Explanation: 
+12 contains 2 digits (even number of digits). 
+345 contains 3 digits (odd number of digits). 
+2 contains 1 digit (odd number of digits). 
+6 contains 1 digit (odd number of digits). 
+7896 contains 4 digits (even number of digits). 
+Therefore only 12 and 7896 contain an even number of digits.
+Example 2:
+
+Input: nums = [555,901,482,1771]
+Output: 1 
+Explanation: 
+Only 1771 contains an even number of digits.
+ 
+
+Constraints:
+
+1 <= nums.length <= 500
+1 <= nums[i] <= 105
+solution:
+class Solution:
+    def findNumbers(self, nums: list[int]) -> int:
+        count = 0
+        nums = map(str, nums)
+        for num in nums:
+            if len(num) & 1 == 0:
+                count += 1
+
+        return count
+
+5. 2716. Minimize String Length
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a string s, you have two types of operation:
+
+Choose an index i in the string, and let c be the character in position i. Delete the closest occurrence of c to the left of i (if exists).
+Choose an index i in the string, and let c be the character in position i. Delete the closest occurrence of c to the right of i (if exists).
+Your task is to minimize the length of s by performing the above operations zero or more times.
+
+Return an integer denoting the length of the minimized string.
+
+ 
+
+Example 1:
+
+Input: s = "aaabc"
+
+Output: 3
+
+Explanation:
+
+Operation 2: we choose i = 1 so c is 'a', then we remove s[2] as it is closest 'a' character to the right of s[1].
+s becomes "aabc" after this.
+Operation 1: we choose i = 1 so c is 'a', then we remove s[0] as it is closest 'a' character to the left of s[1].
+s becomes "abc" after this.
+Example 2:
+
+Input: s = "cbbd"
+
+Output: 3
+
+Explanation:
+
+Operation 1: we choose i = 2 so c is 'b', then we remove s[1] as it is closest 'b' character to the left of s[1].
+s becomes "cbd" after this.
+Example 3:
+
+Input: s = "baadccab"
+
+Output: 4
+
+Explanation:
+
+Operation 1: we choose i = 6 so c is 'a', then we remove s[2] as it is closest 'a' character to the left of s[6].
+s becomes "badccab" after this.
+Operation 2: we choose i = 0 so c is 'b', then we remove s[6] as it is closest 'b' character to the right of s[0].
+s becomes "badcca" fter this.
+Operation 2: we choose i = 3 so c is 'c', then we remove s[4] as it is closest 'c' character to the right of s[3].
+s becomes "badca" after this.
+Operation 1: we choose i = 4 so c is 'a', then we remove s[1] as it is closest 'a' character to the left of s[4].
+s becomes "bdca" after this.
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s contains only lowercase English letters
+solution:
+class Solution:
+    def minimizedStringLength(self, s: str) -> int:
+        s = set(s)
+        return len(s)
+
+Codechef:
+1. Reach fast
+Chef is standing at coordinate 
+A
+A while Chefina is standing at coordinate 
+B
+B.
+
+In one step, Chef can increase or decrease his coordinate by at most 
+K
+K.
+
+Determine the minimum number of steps required by Chef to reach Chefina.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of three integers 
+A
+,
+B
+,
+A,B, and 
+K
+K, the initial coordinate of Chef, the initial coordinate of Chefina and the maximum number of coordinates Chef can move in one step.
+Output Format
+For each test case, output the minimum number of steps required by Chef to reach Chefina.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+A
+,
+B
+≤
+100
+1≤A,B≤100
+1
+≤
+K
+≤
+100
+1≤K≤100
+Sample 1:
+Input
+Output
+4
+10 20 3
+36 36 5
+50 4 100
+30 4 2
+4
+0
+1
+13
+Explanation:
+Test case 
+1
+1: In the first three steps, Chef increases his coordinate by 
+K
+=
+3
+K=3. In the fourth step, Chef increases his coordinate by 
+1
+1 which is less than equal to 
+K
+K. It can be shown that this is the minimum number of steps required by Chef.
+
+Test case 
+2
+2: Chef is already at the same coordinate as Chefina. Thus, he needs 
+0
+0 steps.
+
+Test case 
+3
+3: Chef can use 
+1
+1 step to decrease his coordinate by 
+46
+46 which is less than 
+K
+=
+100
+K=100 and reach Chefina.
+
+Test case 
+4
+4: Chef can use 
+13
+13 steps to decrease his coordinate by 
+K
+=
+2
+K=2 and reach the coordinate 
+30
+−
+13
+⋅
+2
+=
+4
+30−13⋅2=4.
+solution:
+# cook your dish here\
+import math
+for _ in range(int(input())):
+    a,b,k = map(int, input().split())
+    if a == b:
+        print(0)
+    elif a > b:
+        rem_steps = math.ceil((a - b ) / k )
+        print(rem_steps)
+    else:
+        rem_steps = math.ceil((b - a ) / k )
+        print(rem_steps)
+        
+2. Single-use Attack
+Chef is playing a video game, and is now fighting the final boss.
+
+The boss has 
+H
+H health points. Each attack of Chef reduces the health of the boss by 
+X
+X.
+Chef also has a special attack that can be used at most once, and will decrease the health of the boss by 
+Y
+Y.
+
+Chef wins when the health of the boss is 
+≤
+0
+≤0.
+What is the minimum number of attacks needed by Chef to win?
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+The first and only line of each test case will contain three space-separated integers 
+H
+,
+X
+,
+Y
+H,X,Y — the parameters described in the statement.
+Output Format
+For each test case, output on a new line the minimum number of attacks needed by Chef to win.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+X
+<
+Y
+≤
+H
+≤
+100
+1≤X<Y≤H≤100
+Sample 1:
+Input
+Output
+4
+100 25 40
+100 29 45
+46 1 2
+78 15 78
+4
+3
+45
+1
+Explanation:
+Test case 
+1
+1: Chef can attack the boss 
+4
+4 times normally. This results in 
+25
++
+25
++
+25
++
+25
+=
+100
+25+25+25+25=100 damage, which is enough to defeat the boss.
+
+Test case 
+2
+2: Chef can attack the boss 
+2
+2 times normally, then use the special attack. This results in 
+29
++
+29
++
+45
+=
+103
+29+29+45=103 damage, which is enough to defeat the boss.
+
+Test case 
+3
+3: Chef can proceed as follows:
+
+First, use the special attack. This leaves the boss with 
+46
+−
+2
+=
+44
+46−2=44 health.
+Then, use 
+44
+44 normal attacks to defeat the boss, since each one does 
+1
+1 damage.
+This takes a total of 
+44
++
+1
+=
+45
+44+1=45 attacks.
+
+Test case 
+4
+4: Chef can use the special attack to immediately bring the health of the boss to zero, hence only needing one attack.
+solution:
+# cook your dish here
+import math
+for _ in range(int(input())):
+    h,x,y = map(int, input().split())
+    if h == y:
+        print(1)
+    else:
+        count = 1
+        h = h - y  
+        count += math.ceil(h / x)
+        print(count)
+
+3. Get Lowest Free
+Chef goes to the supermarket to buy some items. Luckily there's a sale going on under which Chef gets the following offer:
+
+If Chef buys 
+3
+3 items then he gets the item (out of those 
+3
+3 items) having the lowest price as free.
+For e.g. if Chef bought 
+3
+3 items with the cost 
+6
+6, 
+2
+2 and 
+4
+4, then he would get the item with cost 
+2
+2 as free. So he would only have to pay the cost of the other two items which will be 
+6
++
+4
+=
+10
+6+4=10.
+
+Chef buys 
+3
+3 items having prices 
+A
+A, 
+B
+B and 
+C
+C respectively. What is the amount of money Chef needs to pay?
+
+Input Format
+The first line will contain an integer 
+T
+T - number of test cases. Then the test cases follow.
+The first and only line of each test case contains three integers 
+A
+,
+B
+,
+C
+A,B,C - the prices of the items bought by Chef.
+Output Format
+For each test case, output the price paid by Chef.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+A
+,
+B
+,
+C
+≤
+10
+1≤A,B,C≤10
+Sample 1:
+Input
+Output
+3
+6 2 4
+3 3 3
+8 4 4
+10
+6
+12
+Explanation:
+Test case-1: Explained in the problem statement.
+
+Test case-2: Since all the three items have the same price, Chef will get one of them free and will have to pay the cost of the other two items which will be 
+3
++
+3
+=
+6
+3+3=6.
+
+Test case-3: Chef will get one of the items having price 
+4
+4 as free and will have to pay the cost of the other two items which will be 
+8
++
+4
+=
+12
+8+4=12.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    price = list(map(int, input().split()))
+    print(sum(price) - min(price))
+
+4. Minimum number of Flips
+Chef has an array 
+A
+A of length 
+N
+N consisting of 
+1
+1 and 
+−
+1
+−1 only.
+
+In one operation, Chef can choose any index 
+i
+i 
+(
+1
+≤
+i
+≤
+N
+)
+(1≤i≤N) and multiply the element 
+A
+i
+A 
+i
+​
+  by 
+−
+1
+−1.
+
+Find the minimum number of operations required to make the sum of the array equal to 
+0
+0. Output -1 if the sum of the array cannot be made 
+0
+0.
+
+Input Format
+First line will contain 
+T
+T, number of test cases. Then the test cases follow.
+First line of each test case consists of a single integer 
+N
+N denoting the length of the array.
+Second line of each test case contains 
+N
+N space-separated integers 
+A
+1
+,
+A
+2
+,
+…
+,
+A
+N
+A 
+1
+​
+ ,A 
+2
+​
+ ,…,A 
+N
+​
+  denoting the array 
+A
+A.
+Output Format
+For each test case, output the minimum number of operations to make the sum of the array equal to 
+0
+0. Output -1 if it is not possible to make the sum equal to 
+0
+0.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+2
+≤
+N
+≤
+1000
+2≤N≤1000
+A
+i
+=
+1
+A 
+i
+​
+ =1 or 
+A
+i
+=
+−
+1
+A 
+i
+​
+ =−1
+Sample 1:
+Input
+Output
+4
+4
+1 1 1 1
+5
+1 -1 1 -1 1
+6
+1 -1 -1 1 1 1
+2
+1 -1
+2
+-1
+1
+0
+Explanation:
+Test case 
+1
+1: The minimum number of operations required is 
+2
+2. In the first operation, change 
+A
+3
+A 
+3
+​
+  from 
+1
+1 to 
+−
+1
+−1. Similarly, in the second operation, change 
+A
+4
+A 
+4
+​
+  from 
+1
+1 to 
+−
+1
+−1. Thus, the sum of the final array is 
+1
++
+1
+−
+1
+−
+1
+=
+0
+1+1−1−1=0.
+
+Test case 
+2
+2: It can be proven that the sum of the array cannot be made equal to zero by making any number of operations.
+
+Test case 
+3
+3: We can change 
+A
+1
+A 
+1
+​
+  from 
+1
+1 to 
+−
+1
+−1 in one operation. Thus, the sum of the array becomes 
+−
+1
+−
+1
+−
+1
++
+1
++
+1
++
+1
+=
+0
+−1−1−1+1+1+1=0.
+
+Test case 
+4
+4: The sum of the array is already zero. Thus we do not need to make any operations.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n = int(input())
+    arr = list(map(int, input().split()))
+    if n & 1 == 1:
+        print(-1)
+    else:
+        s = abs(arr.count(1) - arr.count(-1))
+        flip =  s // 2
+        print(flip)
+
+5. Binary Battles
+N
+N teams have come to participate in a competitive coding event called “Binary Battles”. It is a single-elimination tournament consisting of several rounds.
+
+Note: It is known that 
+N
+N is a power of 
+2
+2.
+
+In one round, each team will be paired up with and compete against one of the other teams. If there are 
+X
+X teams before the start of a round, 
+X
+2
+2
+X
+​
+  matches are held simultaneously during the round between 
+X
+2
+2
+X
+​
+  pairs of teams. The winning team of each match will move on to the next round, while the losing team of each match will be eliminated. There are no ties involved. The next round will then take place in the same format between the remaining teams. The process will continue until only one team remains, which will be declared the overall winner.
+
+The organizers want to find the total time the event will take to complete. It is given that each round spans 
+A
+A minutes, and that there is a break of 
+B
+B minutes between every two rounds (no break after the last round).
+
+For example, consider a case when 
+N
+=
+4
+N=4, 
+A
+=
+10
+A=10 and 
+B
+=
+5
+B=5. The first round will consist of two matches and will take 
+10
+10 minutes to complete. Two teams move on to round 2 and the other two get eliminated. Then there is a break of 
+5
+5 minutes. The two remaining teams compete in round 2, which lasts 
+10
+10 more minutes. The team that wins is declared the overall winner. Thus the total time taken is 
+10
++
+5
++
+10
+=
+25
+10+5+10=25 minutes.
+
+Can you help the organizers determine how long the event will take to finish?
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases. Then the test cases follow.
+The first and only line of each test case contains three space-separated integers 
+N
+N, 
+A
+A and 
+B
+B respectively — the number of teams, the duration of each round and the length of the breaks between rounds.
+Output Format
+For each test case, output on a new line the time taken in minutes for the whole event to finish.
+
+Constraints
+1
+≤
+T
+≤
+10
+5
+1≤T≤10 
+5
+ 
+2
+≤
+N
+≤
+2
+20
+2≤N≤2 
+20
+ 
+1
+≤
+A
+≤
+100
+1≤A≤100
+1
+≤
+B
+≤
+100
+1≤B≤100
+N
+N is a power of 
+2
+2.
+Sample 1:
+Input
+Output
+4
+4 10 5
+16 30 5
+32 45 15
+1024 23 9
+25
+135
+285
+311
+Explanation:
+Test case 1: As explained above, the total time the competition will take is 
+10
++
+5
++
+10
+=
+25
+10+5+10=25 minutes.
+
+Test case 2: 
+4
+4 rounds will take place. The total time it will take is 
+30
++
+5
++
+30
++
+5
++
+30
++
+5
++
+30
+=
+135
+30+5+30+5+30+5+30=135 minutes.
+solution:
+# cook your dish here
+import math
+for _ in range(int(input())):
+    n,a,b = map(int, input().split())
+    rounds = n.bit_length() - 1
+    breaks = rounds - 1
+    print((a * rounds) + (b * breaks))
+
+l = 5, c = 5

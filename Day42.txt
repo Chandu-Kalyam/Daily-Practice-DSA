@@ -1,0 +1,711 @@
+Leetcode:
+1. 3005. Count Elements With Maximum Frequency
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an array nums consisting of positive integers.
+
+Return the total frequencies of elements in nums such that those elements all have the maximum frequency.
+
+The frequency of an element is the number of occurrences of that element in the array.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,2,3,1,4]
+Output: 4
+Explanation: The elements 1 and 2 have a frequency of 2 which is the maximum frequency in the array.
+So the number of elements in the array with maximum frequency is 4.
+Example 2:
+
+Input: nums = [1,2,3,4,5]
+Output: 5
+Explanation: All elements of the array have a frequency of 1 which is the maximum.
+So the number of elements in the array with maximum frequency is 5.
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+1 <= nums[i] <= 100
+solution:
+from collections import Counter
+class Solution:
+    def maxFrequencyElements(self, nums: List[int]) -> int:
+        counters = Counter(nums)
+        total = 0
+        maxi = max(counters.values())
+        for key, value in counters.items():
+            if value == maxi:
+                total += value
+
+        return total
+
+2. 1725. Number Of Rectangles That Can Form The Largest Square
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an array rectangles where rectangles[i] = [li, wi] represents the ith rectangle of length li and width wi.
+
+You can cut the ith rectangle to form a square with a side length of k if both k <= li and k <= wi. For example, if you have a rectangle [4,6], you can cut it to get a square with a side length of at most 4.
+
+Let maxLen be the side length of the largest square you can obtain from any of the given rectangles.
+
+Return the number of rectangles that can make a square with a side length of maxLen.
+
+ 
+
+Example 1:
+
+Input: rectangles = [[5,8],[3,9],[5,12],[16,5]]
+Output: 3
+Explanation: The largest squares you can get from each rectangle are of lengths [5,3,5,5].
+The largest possible square is of length 5, and you can get it out of 3 rectangles.
+Example 2:
+
+Input: rectangles = [[2,3],[3,7],[4,3],[3,7]]
+Output: 3
+ 
+
+Constraints:
+
+1 <= rectangles.length <= 1000
+rectangles[i].length == 2
+1 <= li, wi <= 109
+li != wi
+ 
+solution:
+from collections import Counter
+
+class Solution:
+    def countGoodRectangles(self, rectangles: List[List[int]]) -> int:
+        min_val = [min(rect) for rect in rectangles]
+        counters = Counter(min_val)
+        max_len = max(counters)                      # ✓ Find max key
+        return counters[max_len]                     # ✓ Count for max
+
+3. 1436. Destination City
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given the array paths, where paths[i] = [cityAi, cityBi] means there exists a direct path going from cityAi to cityBi. Return the destination city, that is, the city without any path outgoing to another city.
+
+It is guaranteed that the graph of paths forms a line without any loop, therefore, there will be exactly one destination city.
+
+ 
+
+Example 1:
+
+Input: paths = [["London","New York"],["New York","Lima"],["Lima","Sao Paulo"]]
+Output: "Sao Paulo" 
+Explanation: Starting at "London" city you will reach "Sao Paulo" city which is the destination city. Your trip consist of: "London" -> "New York" -> "Lima" -> "Sao Paulo".
+Example 2:
+
+Input: paths = [["B","C"],["D","B"],["C","A"]]
+Output: "A"
+Explanation: All possible trips are: 
+"D" -> "B" -> "C" -> "A". 
+"B" -> "C" -> "A". 
+"C" -> "A". 
+"A". 
+Clearly the destination city is "A".
+Example 3:
+
+Input: paths = [["A","Z"]]
+Output: "Z"
+ 
+
+Constraints:
+
+1 <= paths.length <= 100
+paths[i].length == 2
+1 <= cityAi.length, cityBi.length <= 10
+cityAi != cityBi
+All strings consist of lowercase and uppercase English letters and the space character.
+solution:
+class Solution:
+    def destCity(self, paths: list[list[str]]) -> str:
+        src = {p[0] for p in paths}
+        dst = {p[1] for p in paths}
+        return (dst - src).pop()
+
+4. 2710. Remove Trailing Zeros From a String
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a positive integer num represented as a string, return the integer num without trailing zeros as a string.
+
+ 
+
+Example 1:
+
+Input: num = "51230100"
+Output: "512301"
+Explanation: Integer "51230100" has 2 trailing zeros, we remove them and return integer "512301".
+Example 2:
+
+Input: num = "123"
+Output: "123"
+Explanation: Integer "123" has no trailing zeros, we return integer "123".
+ 
+
+Constraints:
+
+1 <= num.length <= 1000
+num consists of only digits.
+num doesn't have any leading zeros.
+solution:
+class Solution:
+    def removeTrailingZeros(self, num: str) -> str:
+        return num.rstrip("0")
+
+5. 1652. Defuse the Bomb
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You have a bomb to defuse, and your time is running out! Your informer will provide you with a circular array code of length of n and a key k.
+
+To decrypt the code, you must replace every number. All the numbers are replaced simultaneously.
+
+If k > 0, replace the ith number with the sum of the next k numbers.
+If k < 0, replace the ith number with the sum of the previous -k numbers.
+If k == 0, replace the ith number with 0.
+As code is circular, the next element of code[n-1] is code[0], and the previous element of code[0] is code[n-1].
+
+Given the circular array code and an integer key k, return the decrypted code to defuse the bomb!
+
+ 
+
+Example 1:
+
+Input: code = [5,7,1,4], k = 3
+Output: [12,10,16,13]
+Explanation: Each number is replaced by the sum of the next 3 numbers. The decrypted code is [7+1+4, 1+4+5, 4+5+7, 5+7+1]. Notice that the numbers wrap around.
+Example 2:
+
+Input: code = [1,2,3,4], k = 0
+Output: [0,0,0,0]
+Explanation: When k is zero, the numbers are replaced by 0. 
+Example 3:
+
+Input: code = [2,4,9,3], k = -2
+Output: [12,5,6,13]
+Explanation: The decrypted code is [3+9, 2+3, 4+2, 9+4]. Notice that the numbers wrap around again. If k is negative, the sum is of the previous numbers.
+ 
+
+Constraints:
+
+n == code.length
+1 <= n <= 100
+1 <= code[i] <= 100
+-(n - 1) <= k <= n - 1
+solution:
+class Solution:
+    def decrypt(self, code: List[int], k: int) -> List[int]:
+        n = len(code)
+        
+        if k == 0:
+            return [0] * n
+        
+        # Double the array to avoid modulo operations
+        doubled = code + code
+        
+        result = []
+        for i in range(n):
+            if k > 0:
+                result.append(sum(doubled[i + 1 : i + k + 1]))
+            else:
+                result.append(sum(doubled[i + n + k : i + n]))
+        
+        return result
+
+Codechef:
+1. Primality Test
+
+Alice and Bob are meeting after a long time. As usual they love to play some math games. This times Alice takes the call and decides the game. The game is very simple, Alice says out an integer and Bob has to say whether the number is prime or not. Bob as usual knows the logic but since Alice doesn't give Bob much time to think, so Bob decides to write a computer program.
+
+Help Bob accomplish this task by writing a computer program which will calculate whether the number is prime or not.
+
+Note that 1 is not a prime number.
+
+Input
+The first line of the input contains an integer T, the number of testcases. T lines follow.
+
+Each of the next T lines contains an integer N which has to be tested for primality.
+
+Output
+For each test case output in a separate line, "yes" if the number is prime else "no."
+
+Constraints
+1 ≤ T ≤ 20
+1 ≤ N ≤ 100000
+Sample 1:
+Input
+Output
+5
+23
+13
+20
+1000
+99991
+yes
+yes
+no
+no
+yes
+solution:
+# cook your dish here
+def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+for _ in range(int(input())):
+    n = int(input())
+    print("yes" if is_prime(n) else "no")
+
+2. The Cooler Dilemma 2
+The summer is at its peak in Chefland. Chef is planning to purchase a water cooler to keep his room cool. He has two options available:
+
+Rent a cooler at the cost of 
+X
+X coins per month.
+Purchase a cooler for 
+Y
+Y coins.
+Chef wonders what is the maximum number of months for which he can rent the cooler such that the cost of renting is strictly less than the cost of purchasing it.
+
+Input Format
+The first line of input will contain an integer 
+T
+T — the number of test cases. The description of 
+T
+T test cases follows.
+The first and only line of each test case contains two integers 
+X
+X and 
+Y
+Y, as described in the problem statement.
+Output Format
+For each test case, output the maximum number of months for which he can rent the cooler such that the cost of renting is strictly less than the cost of purchasing it.
+
+If Chef should not rent a cooler at all, output 
+0
+0.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+X
+,
+Y
+≤
+10
+9
+1≤X,Y≤10 
+9
+ 
+Sample 1:
+Input
+Output
+2
+5 12
+5 5
+2
+0
+Explanation:
+Test case 
+1
+1: Cost of renting the cooler 
+=
+5
+=5 coins per month. Cost of purchasing the cooler 
+=
+12
+=12 coins. So, Chef can rent the cooler for 
+2
+2 months at the cost of 
+10
+10 coins, which is strictly less than 
+12
+12 coins.
+
+Test case 
+2
+2: Cost of renting the cooler 
+=
+5
+=5 coins per month. Cost of purchasing the cooler 
+=
+5
+=5 coins. If Chef rents the cooler for 
+1
+1 month, it will cost 
+5
+5 coins, which is not strictly less than the cost of purchasing it. So, Chef should not rent the cooler.
+solution:
+t = int(input())
+for _ in range(t):
+    x, y = map(int, input().split())
+    print((y - 1) // x)
+
+3. Richie Rich
+Chef aims to be the richest person in Chefland by his new restaurant franchise. Currently, his assets are worth 
+A
+A billion dollars and have no liabilities. He aims to increase his assets by 
+X
+X billion dollars per year.
+
+Also, all the richest people in Chefland are not planning to grow and maintain their current worth.
+
+To be the richest person in Chefland, he needs to be worth at least 
+B
+B billion dollars. How many years will it take Chef to reach his goal if his value increases by 
+X
+X billion dollars each year?
+
+Input
+The first line contains an integer 
+T
+T, the number of test cases. Then the test cases follow.
+Each test case contains a single line of input, three integers 
+A
+A, 
+B
+B, 
+X
+X.
+Output
+For each test case, output in a single line the answer to the problem.
+
+Constraints
+1
+≤
+T
+≤
+21
+ 
+000
+1≤T≤21 000
+100
+≤
+A
+<
+B
+≤
+200
+100≤A<B≤200
+1
+≤
+X
+≤
+50
+1≤X≤50
+X
+X divides 
+B
+−
+A
+B−A
+Subtasks
+Subtask #1 (100 points): Original constraints
+
+Sample 1:
+Input
+Output
+3
+100 200 10
+111 199 11
+190 200 10
+10
+8
+1
+Explanation:
+Test Case 
+1
+1: Chef needs to increase his worth by 
+200
+−
+100
+=
+100
+200−100=100 billion dollars and his increment per year being 
+10
+10 billion dollars, so it will take him 
+100
+10
+=
+10
+10
+100
+​
+ =10 years to do so.
+
+Test Case 
+2
+2: Chef needs to increase his worth by 
+199
+−
+111
+=
+88
+199−111=88 billion dollars and his increment per year being 
+11
+11 billion dollars, so it will take him 
+88
+11
+=
+8
+11
+88
+​
+ =8 years to do so.
+
+Test Case 
+3
+3: Chef needs to increase his worth by 
+200
+−
+190
+=
+10
+200−190=10 billion dollars and his increment per year being 
+10
+10 billion dollars, so it will take him 
+10
+10
+=
+1
+10
+10
+​
+ =1 year to do so.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    a, b, x = map(int, input().split())
+    diff = b - a 
+    years = diff // x
+    print(years)
+
+4. Vaccine Dates
+Chef has taken his first dose of vaccine 
+D
+D days ago. He may take the second dose no less than 
+L
+L days and no more than 
+R
+R days since his first dose.
+
+Determine if Chef is too early, too late, or in the correct range for taking his second dose.
+
+Input Format
+First line will contain 
+T
+T, number of testcases. Then the testcases follow.
+Each testcase contains of a single line of input, three integers 
+D
+,
+L
+,
+R
+D,L,R.
+Output Format
+For each test case, print a single line containing one string - "Too Early" (without quotes) if it's too early to take the vaccine, "Too Late" (without quotes) if it's too late to take the vaccine, "Take second dose now" (without quotes) if it's the correct time to take the vaccine.
+
+Constraints
+1
+≤
+T
+≤
+10
+5
+1≤T≤10 
+5
+ 
+1
+≤
+D
+≤
+10
+9
+1≤D≤10 
+9
+ 
+1
+≤
+L
+≤
+R
+≤
+10
+9
+1≤L≤R≤10 
+9
+ 
+Subtasks
+Subtask 1 (100 points): Original constraints
+Sample 1:
+Input
+Output
+4
+10 8 12 
+14 2 10
+4444 5555 6666 
+8 8 12
+Take second dose now
+Too Late
+Too Early
+Take second dose now
+Explanation:
+Test case 
+1
+1: The second dose needs to be taken within 
+8
+8 to 
+12
+12 days and since the Day 
+10
+10 lies in this range, we can take the second dose now.
+
+Test case 
+2
+2: The second dose needs to be taken within 
+2
+2 to 
+10
+10 days since Day 
+14
+14 lies after this range, it is too late now.
+
+Test case 
+3
+3: The second dose needs to be taken within 
+5555
+5555 to 
+6666
+6666 days and since the Day 
+4444
+4444 lies prior to this range, it is too early now.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    d, l, r = map(int, input().split())
+    if l <= d <= r:
+        print("Take second dose now")
+    elif d > r:
+        print("Too Late")
+    else:
+        print("Too Early")
+
+4. Hoop Jump
+You and your friend are playing a game with hoops. There are 
+N
+N hoops (where 
+N
+N is odd) in a row. You jump into hoop 
+1
+1, and your friend jumps into hoop 
+N
+N. Then you jump into hoop 
+2
+2, and after that, your friend jumps into hoop 
+N
+−
+1
+N−1, and so on.
+
+The process ends when someone cannot make the next jump because the hoop is occupied by the other person. Find the last hoop that will be jumped into.
+
+Input
+The first line contains an integer 
+T
+T, the number of test cases. Then the test cases follow.
+Each test case contains a single line of input, a single integer 
+N
+N.
+Output
+For each testcase, output in a single line the answer to the problem.
+
+Constraints
+1
+≤
+T
+≤
+10
+5
+1≤T≤10 
+5
+ 
+1
+≤
+N
+<
+2
+⋅
+10
+5
+1≤N<2⋅10 
+5
+ 
+N
+N is odd
+Subtasks
+Subtask #1 (100 points): original constraints
+
+Sample 1:
+Input
+Output
+2
+1
+3
+1
+2
+Explanation:
+Test Case 
+1
+1: Since there is only 
+1
+1 hoop, that's the only one to be jumped into.
+
+Test Case 
+2
+2: The first player jumps into hoop 
+1
+1. The second player jumps into hoop 
+3
+3 and finally the first player jumps into hoop 
+2
+2. Then the second player cannot make another jump, so the process stops.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n = int(input())
+    print((n + 1) // 2)
+
+l = 5, c = 4

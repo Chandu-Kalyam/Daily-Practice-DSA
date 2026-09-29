@@ -1,0 +1,1036 @@
+Leetcode:
+1. 933. Number of Recent Calls
+Easy
+Topics
+premium lock icon
+Companies
+You have a RecentCounter class which counts the number of recent requests within a certain time frame.
+
+Implement the RecentCounter class:
+
+RecentCounter() Initializes the counter with zero recent requests.
+int ping(int t) Adds a new request at time t, where t represents some time in milliseconds, and returns the number of requests that have happened in the inclusive range [t - 3000, t], that is, the new request plus every earlier request that is no more than 3000 milliseconds older.
+It is guaranteed that every call to ping uses a strictly larger value of t than the previous call.
+
+ 
+
+Example 1:
+
+Input
+["RecentCounter", "ping", "ping", "ping", "ping"]
+[[], [1], [100], [3001], [3002]]
+Output
+[null, 1, 2, 3, 3]
+
+Explanation
+RecentCounter recentCounter = new RecentCounter();
+recentCounter.ping(1);     // requests = [1], range is [-2999,1], return 1
+recentCounter.ping(100);   // requests = [1, 100], range is [-2900,100], return 2
+recentCounter.ping(3001);  // requests = [1, 100, 3001], range is [1,3001], return 3
+recentCounter.ping(3002);  // requests = [1, 100, 3001, 3002], range is [2,3002], return 3
+ 
+
+Constraints:
+
+1 <= t <= 109
+Each test case will call ping with strictly increasing values of t.
+At most 104 calls will be made to ping.
+solution:
+from collections import deque
+
+class RecentCounter:
+    def __init__(self):
+        self.queue = deque()
+    
+    def ping(self, t: int) -> int:
+        self.queue.append(t)
+        # Remove requests older than 3000ms
+        while self.queue[0] < t - 3000:
+            self.queue.popleft()
+        return len(self.queue)
+
+2. 762. Prime Number of Set Bits in Binary Representation
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given two integers left and right, return the count of numbers in the inclusive range [left, right] having a prime number of set bits in their binary representation.
+
+Recall that the number of set bits an integer has is the number of 1's present when written in binary.
+
+For example, 21 written in binary is 10101, which has 3 set bits.
+ 
+
+Example 1:
+
+Input: left = 6, right = 10
+Output: 4
+Explanation:
+6  -> 110 (2 set bits, 2 is prime)
+7  -> 111 (3 set bits, 3 is prime)
+8  -> 1000 (1 set bit, 1 is not prime)
+9  -> 1001 (2 set bits, 2 is prime)
+10 -> 1010 (2 set bits, 2 is prime)
+4 numbers have a prime number of set bits.
+Example 2:
+
+Input: left = 10, right = 15
+Output: 5
+Explanation:
+10 -> 1010 (2 set bits, 2 is prime)
+11 -> 1011 (3 set bits, 3 is prime)
+12 -> 1100 (2 set bits, 2 is prime)
+13 -> 1101 (3 set bits, 3 is prime)
+14 -> 1110 (3 set bits, 3 is prime)
+15 -> 1111 (4 set bits, 4 is not prime)
+5 numbers have a prime number of set bits.
+ 
+
+Constraints:
+
+1 <= left <= right <= 106
+0 <= right - left <= 104
+solution:
+class Solution:
+    def countPrimeSetBits(self, left: int, right: int) -> int:
+        count = 0
+        def is_prime(n):
+            if n < 2:
+                return False
+            for i in range(2, int(n ** 0.5) + 1):
+                if n % i == 0:
+                    return False
+            return True
+
+        for i in range(left, right+1):
+            num = i.bit_count()
+            if is_prime(num):
+                count += 1
+
+
+        return count
+
+3. 1974. Minimum Time to Type Word Using Special Typewriter
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+There is a special typewriter with lowercase English letters 'a' to 'z' arranged in a circle with a pointer. A character can only be typed if the pointer is pointing to that character. The pointer is initially pointing to the character 'a'.
+
+
+Each second, you may perform one of the following operations:
+
+Move the pointer one character counterclockwise or clockwise.
+Type the character the pointer is currently on.
+Given a string word, return the minimum number of seconds to type out the characters in word.
+
+ 
+
+Example 1:
+
+Input: word = "abc"
+Output: 5
+Explanation: 
+The characters are printed as follows:
+- Type the character 'a' in 1 second since the pointer is initially on 'a'.
+- Move the pointer clockwise to 'b' in 1 second.
+- Type the character 'b' in 1 second.
+- Move the pointer clockwise to 'c' in 1 second.
+- Type the character 'c' in 1 second.
+Example 2:
+
+Input: word = "bza"
+Output: 7
+Explanation:
+The characters are printed as follows:
+- Move the pointer clockwise to 'b' in 1 second.
+- Type the character 'b' in 1 second.
+- Move the pointer counterclockwise to 'z' in 2 seconds.
+- Type the character 'z' in 1 second.
+- Move the pointer clockwise to 'a' in 1 second.
+- Type the character 'a' in 1 second.
+Example 3:
+
+Input: word = "zjpc"
+Output: 34
+Explanation:
+The characters are printed as follows:
+- Move the pointer counterclockwise to 'z' in 1 second.
+- Type the character 'z' in 1 second.
+- Move the pointer clockwise to 'j' in 10 seconds.
+- Type the character 'j' in 1 second.
+- Move the pointer clockwise to 'p' in 6 seconds.
+- Type the character 'p' in 1 second.
+- Move the pointer counterclockwise to 'c' in 13 seconds.
+- Type the character 'c' in 1 second.
+ 
+
+Constraints:
+
+1 <= word.length <= 100
+word consists of lowercase English letters.
+solution:
+class Solution:
+    def minTimeToType(self, word: str) -> int:
+    
+        total = 0
+        current = 0
+        for ch in word:
+            target = ord(ch) - ord('a')
+            diff = abs(target - current)
+            total += min(diff, 26 - diff) + 1
+            current = target
+        return total
+
+4. 1207. Unique Number of Occurrences
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an array of integers arr, return true if the number of occurrences of each value in the array is unique or false otherwise.
+
+ 
+
+Example 1:
+
+Input: arr = [1,2,2,1,1,3]
+Output: true
+Explanation: The value 1 has 3 occurrences, 2 has 2 and 3 has 1. No two values have the same number of occurrences.
+Example 2:
+
+Input: arr = [1,2]
+Output: false
+Example 3:
+
+Input: arr = [-3,0,1,-3,1,1,1,-3,10,0]
+Output: true
+ 
+
+Constraints:
+
+1 <= arr.length <= 1000
+-1000 <= arr[i] <= 1000
+solution:
+from collections import Counter
+class Solution:
+    def uniqueOccurrences(self, arr: list[int]) -> bool:
+        counters = Counter(arr)
+        freq = list(counters.values())
+        return len(freq) == len(set(freq))
+
+5. 1704. Determine if String Halves Are Alike
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s of even length. Split this string into two halves of equal lengths, and let a be the first half and b be the second half.
+
+Two strings are alike if they have the same number of vowels ('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'). Notice that s contains uppercase and lowercase letters.
+
+Return true if a and b are alike. Otherwise, return false.
+
+ 
+
+Example 1:
+
+Input: s = "book"
+Output: true
+Explanation: a = "bo" and b = "ok". a has 1 vowel and b has 1 vowel. Therefore, they are alike.
+Example 2:
+
+Input: s = "textbook"
+Output: false
+Explanation: a = "text" and b = "book". a has 1 vowel whereas b has 2. Therefore, they are not alike.
+Notice that the vowel o is counted twice.
+ 
+
+Constraints:
+
+2 <= s.length <= 1000
+s.length is even.
+s consists of uppercase and lowercase letters.
+solution:
+class Solution:
+    def halvesAreAlike(self, s: str) -> bool:
+        indexx = len(s) // 2
+        v = {'a','e','i','o','u'}
+        a = s[:indexx].lower()
+        b = s[indexx:].lower()
+        counta = sum(1 for ch in a if ch in v)
+        countb = sum(1 for ch in b if ch in v)
+        return counta == countb
+
+Codechef:
+1. Chef and Spells
+Chef has three spells. Their powers are 
+A
+A, 
+B
+B, and 
+C
+C respectively. Initially, Chef has 
+0
+0 hit points, and if he uses a spell with power 
+P
+P, then his number of hit points increases by 
+P
+P.
+
+Before going to sleep, Chef wants to use exactly two spells out of these three. Find the maximum number of hit points Chef can have after using the spells.
+
+Input Format
+The first line of the input contains a single integer 
+T
+T denoting the number of test cases. The description of 
+T
+T test cases follows.
+The first and only line of each test case contains three space-separated integers 
+A
+A, 
+B
+B, and 
+C
+C.
+Output Format
+For each test case, print a single line containing one integer — the maximum number of hit points.
+
+Constraints
+1
+≤
+T
+≤
+10
+4
+1≤T≤10 
+4
+ 
+1
+≤
+A
+,
+B
+,
+C
+≤
+10
+8
+1≤A,B,C≤10 
+8
+ 
+Subtasks
+Subtask #1 (100 points): original constraints
+
+Sample 1:
+Input
+Output
+2
+4 2 8
+10 14 18
+12
+32
+Explanation:
+Example case 1: Chef has three possible options:
+
+Use the first and second spell and have 
+4
++
+2
+=
+6
+4+2=6 hitpoints.
+Use the second and third spell and have 
+2
++
+8
+=
+10
+2+8=10 hitpoints.
+Use the first and third spell and have 
+4
++
+8
+=
+12
+4+8=12 hitpoints.
+Chef should choose the third option and use the spells with power 
+4
+4 and 
+8
+8 to have 
+12
+12 hitpoints.
+
+Example case 2: Chef should use the spells with power 
+14
+14 and 
+18
+18.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    new = list(map(int, input().split()))
+    total = sum(new) - min(new)
+    print(total)
+
+2. Smallest Possible Whole Number
+You are given two integers 
+N
+N and 
+K
+K. You may perform the following operation any number of times (including zero): change 
+N
+N to 
+N
+−
+K
+N−K, i.e. subtract 
+K
+K from 
+N
+N. Find the smallest non-negative integer value of 
+N
+N you can obtain this way.
+
+Input
+The first line of the input contains a single integer 
+T
+T denoting the number of test cases. The description of 
+T
+T test cases follows.
+The first and only line of each test case contains two space-separated integers 
+N
+N and 
+K
+K.
+Output
+For each test case, print a single line containing one integer — the smallest value you can get.
+
+Constraints
+1
+≤
+T
+≤
+10
+5
+1≤T≤10 
+5
+ 
+1
+≤
+N
+≤
+10
+9
+1≤N≤10 
+9
+ 
+0
+≤
+K
+≤
+10
+9
+0≤K≤10 
+9
+ 
+Subtasks
+Subtask #1 (100 points): original constraints
+
+Sample 1:
+Input
+Output
+3
+5 2
+4 4
+2 5
+1
+0
+2
+Explanation:
+Example case 1:
+
+First, we change 
+N
+=
+5
+N=5 to 
+N
+−
+K
+=
+5
+−
+2
+=
+3
+N−K=5−2=3.
+Then, we have 
+N
+=
+3
+N=3 and we change it to 
+N
+−
+K
+=
+3
+−
+2
+=
+1
+N−K=3−2=1.
+Since 
+1
+<
+K
+1<K, the process stops here and the smallest value is 
+1
+1.
+
+Example case 2: We change 
+N
+=
+4
+N=4 to 
+N
+−
+K
+=
+4
+−
+4
+=
+0
+N−K=4−4=0. Since 
+0
+<
+K
+0<K, the process stops here and the smallest value is 
+0
+0.
+
+Example case 3: Since 
+2
+<
+K
+2<K initially, we should not perform any operations and the smallest value is 
+2
+2.
+solution:
+for _ in range(int(input())):
+    n, k = map(int, input().split())
+    
+    # Handle the edge case where K is 0 to avoid ZeroDivisionError
+    if k == 0:
+        print(n)
+    else:
+        print(n % k)
+
+3. Weight Balance
+No play and eating all day makes your belly fat. This happened to Chef during the lockdown. His weight before the lockdown was 
+w
+1
+w 
+1
+​
+  kg (measured on the most accurate hospital machine) and after 
+M
+M months of lockdown, when he measured his weight at home (on a regular scale, which can be inaccurate), he got the result that his weight was 
+w
+2
+w 
+2
+​
+  kg (
+w
+2
+>
+w
+1
+w 
+2
+​
+ >w 
+1
+​
+ ).
+
+Scientific research in all growing kids shows that their weights increase by a value between 
+x
+1
+x 
+1
+​
+  and 
+x
+2
+x 
+2
+​
+  kg (inclusive) per month, but not necessarily the same value each month. Chef assumes that he is a growing kid. Tell him whether his home scale could be giving correct results.
+
+Input
+The first line of the input contains a single integer 
+T
+T denoting the number of test cases. The description of 
+T
+T test cases follows.
+The first and only line of each test case contains five space-separated integers 
+w
+1
+w 
+1
+​
+ , 
+w
+2
+w 
+2
+​
+ , 
+x
+1
+x 
+1
+​
+ , 
+x
+2
+x 
+2
+​
+  and 
+M
+M.
+Output
+For each test case, print a single line containing the integer 
+1
+1 if the result shown by the scale can be correct or 
+0
+0 if it cannot.
+
+Constraints
+1
+≤
+T
+≤
+10
+5
+1≤T≤10 
+5
+ 
+1
+≤
+w
+1
+<
+w
+2
+≤
+100
+1≤w 
+1
+​
+ <w 
+2
+​
+ ≤100
+0
+≤
+x
+1
+≤
+x
+2
+≤
+10
+0≤x 
+1
+​
+ ≤x 
+2
+​
+ ≤10
+1
+≤
+M
+≤
+10
+1≤M≤10
+Sample 1:
+Input
+Output
+5
+1 2 1 2 2
+2 4 1 2 2
+4 8 1 2 2
+5 8 1 2 2
+1 100 1 2 2
+0
+1
+1
+1
+0
+Explanation:
+Example case 1: Since the increase in Chef's weight is 
+2
+−
+1
+=
+1
+2−1=1 kg and that is less than the minimum possible increase 
+1
+⋅
+2
+=
+2
+1⋅2=2 kg, the scale must be faulty.
+
+Example case 2: Since the increase in Chef's weight is 
+4
+−
+2
+=
+2
+4−2=2 kg, which is equal to the minimum possible increase 
+1
+⋅
+2
+=
+2
+1⋅2=2 kg, the scale is showing correct results.
+
+Example case 3: Since the increase in Chef's weight is 
+8
+−
+4
+=
+4
+8−4=4 kg, which is equal to the maximum possible increase 
+2
+⋅
+2
+=
+4
+2⋅2=4 kg, the scale is showing correct results.
+
+Example case 4: Since the increase in Chef's weight 
+8
+−
+5
+=
+3
+8−5=3 kg lies in the interval 
+[
+1
+⋅
+2
+,
+2
+⋅
+2
+]
+[1⋅2,2⋅2] kg, the scale is showing correct results.
+
+Example case 5: Since the increase in Chef's weight is 
+100
+−
+1
+=
+99
+100−1=99 kg and that is more than the maximum possible increase 
+2
+⋅
+2
+=
+4
+2⋅2=4 kg, the weight balance must be faulty.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    w1,w2,x1,x2,m = map(int,input().split())
+    diff = abs(w2 - w1)
+    if (x1 * m) <= diff <= (x2 * m):
+        print(1)
+    else:
+        print(0)
+
+4. Chef and Stock Prices
+Chef wants to buy a stock whose price was 
+S
+S rupees when the market opened. He will buy the stock if and only if its price is in the range 
+[
+A
+,
+B
+]
+[A,B]. The price of the stock has changed by 
+C
+%
+C% by the time he was trying to buy the stock. Will he be able to buy the stock?
+
+Input Format
+First line of the input contains 
+T
+T, the number of testcases. Then the test cases follow.
+Each test case contains 
+4
+4 space-separated integers 
+S
+,
+A
+,
+B
+,
+C
+S,A,B,C in a single line.
+Output Format
+For each test case, if Chef buys the stock print YES, otherwise print NO.
+
+You may print each character of the string in uppercase or lowercase (for example, the strings yEs, yes, Yes, and YES will all be treated as identical).
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+0
+≤
+S
+≤
+10
+6
+0≤S≤10 
+6
+ 
+0
+≤
+A
+≤
+B
+≤
+10
+6
+0≤A≤B≤10 
+6
+ 
+−
+100
+≤
+C
+≤
+100
+−100≤C≤100
+Sample 1:
+Input
+Output
+3
+100 93 108 7
+100 94 100 -7
+183 152 172 -17
+Yes
+No
+No
+Explanation:
+Test Case 
+1
+1: The price of the stock after gaining 
+7
+%
+7% will become 
+107
+107, which is in Chef's range of 
+[
+93
+,
+108
+]
+[93,108]. Hence, Chef will buy the stock.
+Test Case 
+2
+2: The price of the stock after falling 
+7
+%
+7% will become 
+93
+93, which is not in Chef's range of 
+[
+94
+,
+100
+]
+[94,100]. Hence, Chef will not buy the stock.
+Test Case 
+3
+3: The price of the stock after falling 
+17
+%
+17% will become 
+151.89
+151.89, which is not in Chef's range of 
+[
+152
+,
+172
+]
+[152,172]. Hence, Chef will not buy the stock.
+solution:
+for _ in range(int(input())):
+    s, a, b, c = map(int, input().split())
+    # Calculate the new price after C% change
+    final_price = s + (s * c) / 100
+    
+    # Check if the final price is within the range [a, b]
+    if a <= final_price <= b:
+        print("YES")
+    else:
+        print("NO")
+
+5. Turn It
+Chef is playing Need For Speed. Currently, his car is running on a straight road with a velocity 
+U
+U metres per second and approaching a 
+90
+∘
+90 
+∘
+  turn which is 
+S
+S metres away from him. To successfully cross the turn, velocity of the car when entering the turn must not exceed 
+V
+V metres per second.
+
+The brakes of Chef's car allow him to slow down with a deceleration (negative acceleration) not exceeding 
+A
+A metres per squared second. Tell him whether he can cross the turn successfully. The velocity 
+v
+v when entering the turn can be determined from Newton's 2nd law to be 
+v
+2
+=
+U
+2
++
+2
+⋅
+a
+⋅
+S
+v 
+2
+ =U 
+2
+ +2⋅a⋅S if the car is moving with a uniform acceleration 
+a
+a.
+
+Input
+The first line of the input contains a single integer 
+T
+T denoting the number of test cases. The description of 
+T
+T test cases follows.
+The first and only line of each test case contains four space-separated integers 
+U
+U, 
+V
+V, 
+A
+A and 
+S
+S.
+Output
+For each test case, print a single line containing the string "Yes" if Chef can cross the turn successfully or "No" if he cannot (without quotes).
+
+You may print each character of each string in uppercase or lowercase (for example, the strings "yEs", "yes", "Yes" and "YES" will all be treated as identical).
+
+Constraints
+1
+≤
+T
+≤
+10
+5
+1≤T≤10 
+5
+ 
+1
+≤
+U
+,
+V
+,
+A
+,
+S
+≤
+10
+4
+1≤U,V,A,S≤10 
+4
+ 
+Subtasks
+Subtask #1 (100 points): original constraints
+
+Sample 1:
+Input
+Output
+3
+1 1 1 1
+2 1 1 1
+2 2 1 1
+Yes
+No
+Yes
+Explanation:
+Example case 1: Since 
+U
+=
+V
+=
+1
+U=V=1, Chef does not need to brake and will be able to turn successfully.
+
+Example case 2: The smallest velocity Chef's car can have even with the maximum deceleration is 
+2
+⋅
+2
+−
+2
+⋅
+1
+⋅
+1
+=
+2
+2⋅2−2⋅1⋅1
+​
+ = 
+2
+​
+ , which is greater than the maximum allowed velocity for a safe turn.
+
+Example case 3: The smallest velocity Chef's car can have with the maximum deceleration is again 
+2
+2
+​
+ , which is smaller than the maximum allowed velocity for a safe turn.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    u, v, a, s = map(int, input().split())
+    # Check using squared velocities to avoid square roots and negative numbers
+    if (u * u) - (2 * a * s) <= (v * v):
+        print("Yes")
+    else:
+        print("No")
+
+c = 5, l = 5

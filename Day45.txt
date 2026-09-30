@@ -1,0 +1,743 @@
+Leetcode:
+1. 2094. Finding 3-Digit Even Numbers
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array digits, where each element is a digit. The array may contain duplicates.
+
+You need to find all the unique integers that follow the given requirements:
+
+The integer consists of the concatenation of three elements from digits in any arbitrary order.
+The integer does not have leading zeros.
+The integer is even.
+For example, if the given digits were [1, 2, 3], integers 132 and 312 follow the requirements.
+
+Return a sorted array of the unique integers.
+
+ 
+
+Example 1:
+
+Input: digits = [2,1,3,0]
+Output: [102,120,130,132,210,230,302,310,312,320]
+Explanation: All the possible integers that follow the requirements are in the output array. 
+Notice that there are no odd integers or integers with leading zeros.
+Example 2:
+
+Input: digits = [2,2,8,8,2]
+Output: [222,228,282,288,822,828,882]
+Explanation: The same digit can be used as many times as it appears in digits. 
+In this example, the digit 8 is used twice each time in 288, 828, and 882. 
+Example 3:
+
+Input: digits = [3,7,5]
+Output: []
+Explanation: No even integers can be formed using the given digits.
+ 
+
+Constraints:
+
+3 <= digits.length <= 100
+0 <= digits[i] <= 9
+solution:
+from itertools import permutations
+class Solution:
+    def findEvenNumbers(self, digits: list[int]) -> list[int]:
+        result = set()
+        for a,b,c in permutations(digits, 3):
+            if a==0:
+                continue
+            if c & 1 ==1:
+                continue
+            result.add(a*100 + b*10 + c)
+
+        return sorted(result)
+
+2. 3258. Count Substrings That Satisfy K-Constraint I
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a binary string s and an integer k.
+
+A binary string satisfies the k-constraint if either of the following conditions holds:
+
+The number of 0's in the string is at most k.
+The number of 1's in the string is at most k.
+Return an integer denoting the number of substrings of s that satisfy the k-constraint.
+
+ 
+
+Example 1:
+
+Input: s = "10101", k = 1
+
+Output: 12
+
+Explanation:
+
+Every substring of s except the substrings "1010", "10101", and "0101" satisfies the k-constraint.
+
+Example 2:
+
+Input: s = "1010101", k = 2
+
+Output: 25
+
+Explanation:
+
+Every substring of s except the substrings with a length greater than 5 satisfies the k-constraint.
+
+Example 3:
+
+Input: s = "11111", k = 1
+
+Output: 15
+
+Explanation:
+
+All substrings of s satisfy the k-constraint.
+
+ 
+
+Constraints:
+
+1 <= s.length <= 50 
+1 <= k <= s.length
+s[i] is either '0' or '1'.
+solution:
+class Solution:
+    def countKConstraintSubstrings(self, s: str, k: int) -> int:
+        l=z=o=a=0
+        for r in range(len(s)):
+            z+=s[r]=='0';o+=s[r]=='1'
+            while z>k and o>k:
+                z-=s[l]=='0';o-=s[l]=='1';l+=1
+            a+=r-l+1
+        return a
+
+3. 1374. Generate a String With Characters That Have Odd Counts
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an integer n, return a string with n characters such that each character in such string occurs an odd number of times.
+
+The returned string must contain only lowercase English letters. If there are multiples valid strings, return any of them.  
+
+ 
+
+Example 1:
+
+Input: n = 4
+Output: "pppz"
+Explanation: "pppz" is a valid string since the character 'p' occurs three times and the character 'z' occurs once. Note that there are many other valid strings such as "ohhh" and "love".
+Example 2:
+
+Input: n = 2
+Output: "xy"
+Explanation: "xy" is a valid string since the characters 'x' and 'y' occur once. Note that there are many other valid strings such as "ag" and "ur".
+Example 3:
+
+Input: n = 7
+Output: "holasss"
+ 
+
+Constraints:
+
+1 <= n <= 500
+solution:
+class Solution:
+    def generateTheString(self, n: int) -> str:
+        if n & 1 == 1:
+            return "a" * n
+        else:
+            return "a" * (n - 1) + "b"
+
+4. 2960. Count Tested Devices After Test Operations
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed integer array batteryPercentages having length n, denoting the battery percentages of n 0-indexed devices.
+
+Your task is to test each device i in order from 0 to n - 1, by performing the following test operations:
+
+If batteryPercentages[i] is greater than 0:
+Increment the count of tested devices.
+Decrease the battery percentage of all devices with indices j in the range [i + 1, n - 1] by 1, ensuring their battery percentage never goes below 0, i.e, batteryPercentages[j] = max(0, batteryPercentages[j] - 1).
+Move to the next device.
+Otherwise, move to the next device without performing any test.
+Return an integer denoting the number of devices that will be tested after performing the test operations in order.
+
+ 
+
+Example 1:
+
+Input: batteryPercentages = [1,1,2,1,3]
+Output: 3
+Explanation: Performing the test operations in order starting from device 0:
+At device 0, batteryPercentages[0] > 0, so there is now 1 tested device, and batteryPercentages becomes [1,0,1,0,2].
+At device 1, batteryPercentages[1] == 0, so we move to the next device without testing.
+At device 2, batteryPercentages[2] > 0, so there are now 2 tested devices, and batteryPercentages becomes [1,0,1,0,1].
+At device 3, batteryPercentages[3] == 0, so we move to the next device without testing.
+At device 4, batteryPercentages[4] > 0, so there are now 3 tested devices, and batteryPercentages stays the same.
+So, the answer is 3.
+Example 2:
+
+Input: batteryPercentages = [0,1,2]
+Output: 2
+Explanation: Performing the test operations in order starting from device 0:
+At device 0, batteryPercentages[0] == 0, so we move to the next device without testing.
+At device 1, batteryPercentages[1] > 0, so there is now 1 tested device, and batteryPercentages becomes [0,1,1].
+At device 2, batteryPercentages[2] > 0, so there are now 2 tested devices, and batteryPercentages stays the same.
+So, the answer is 2.
+ 
+
+Constraints:
+
+1 <= n == batteryPercentages.length <= 100 
+0 <= batteryPercentages[i] <= 100
+solution:
+class Solution:
+    def countTestedDevices(self, batteryPercentages: List[int]) -> int:
+        count = 0
+        for b in batteryPercentages:
+            if b - count > 0:
+                count+= 1
+        return count
+
+5. 4006. Count Valid Prefixes
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a binary string s.
+
+A prefix of s is considered valid if its characters can be rearranged to form an alternating string.
+
+Return the number of valid prefixes of s.
+
+A string is considered alternating if no two adjacent characters are equal.
+
+ 
+
+Example 1:
+
+Input: s = "00101"
+
+Output: 3
+
+Explanation:
+
+The valid prefixes are:
+
+"0": It is already an alternating string.
+"001": It can be rearranged into "010", which is an alternating string.
+"00101": It can be rearranged into "01010", which is an alternating string.
+Thus, the answer is 3.
+
+Example 2:
+
+Input: s = "101"
+
+Output: 3
+
+Explanation:
+
+All prefixes of s = "101" are already alternating strings. Thus, the answer is 3.
+
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists only of '0' and '1'.
+solution:
+class Solution:
+    def countValidPrefixes(self, s: str) -> int:
+        diff = 0
+        result = 0
+        for ch in s:
+            diff += 1 if ch == '0' else -1
+            result += abs(diff) <= 1
+        return result
+
+Codechef:
+1. Maximum Length Even Subarray
+You are given an integer 
+N
+N. Consider the sequence containing the integers 
+1
+,
+2
+,
+…
+,
+N
+1,2,…,N in increasing order (each exactly once). Find the maximum length of its contiguous subsequence with an even sum.
+
+Input Format
+The first line of the input contains a single integer 
+T
+T denoting the number of test cases. The description of 
+T
+T test cases follows.
+The first and only line of each test case contains a single integer 
+N
+N.
+Output Format
+For each test case, print a single line containing one integer --- the maximum length of a contiguous subsequence with even sum.
+
+Constraints
+1
+≤
+T
+≤
+10
+4
+1≤T≤10 
+4
+ 
+1
+≤
+N
+≤
+10
+4
+1≤N≤10 
+4
+ 
+Subtasks
+Subtask #1 (100 points): original constraints
+
+Sample 1:
+Input
+Output
+3
+3
+4
+5
+3
+4
+4
+Explanation:
+Example case 1: The optimal choice is to choose the entire sequence, since the sum of all its elements is 
+1
++
+2
++
+3
+=
+6
+1+2+3=6, which is even.
+
+Example case 3: One of the optimal choices is to choose the subsequence 
+[
+1
+,
+2
+,
+3
+,
+4
+]
+[1,2,3,4], which has an even sum.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    l = [i for i in range(1,int(input()) + 1)]
+    summed = sum(l)
+    if summed & 1 == 0:
+        print(len(l))
+    else:
+        print(len(l) - 1)
+
+2. Distinct Pair Sums
+You are given a range of integers 
+{
+L
+,
+L
++
+1
+,
+…
+,
+R
+}
+{L,L+1,…,R}. An integer 
+X
+X is said to be reachable if it can be represented as a sum of two not necessarily distinct integers in this range. Find the number of distinct reachable integers.
+
+Input
+The first line of the input contains a single integer 
+T
+T denoting the number of test cases. The description of 
+T
+T test cases follows.
+The first and only line of each test case contains two space-separated integers 
+L
+L and 
+R
+R.
+Output
+For each test case, print a single line containing one integer — the number of reachable integers.
+
+Constraints
+1
+≤
+T
+≤
+10
+5
+1≤T≤10 
+5
+ 
+1
+≤
+L
+≤
+R
+≤
+10
+6
+1≤L≤R≤10 
+6
+ 
+Sample 1:
+Input
+Output
+2
+2 2
+2 3
+1
+3
+Explanation:
+Example case 1: The only reachable integer is 
+2
++
+2
+=
+4
+2+2=4.
+
+Example case 2: 
+4
+4, 
+5
+5 and 
+6
+6 are reachable, since 
+2
++
+2
+=
+4
+2+2=4, 
+2
++
+3
+=
+5
+2+3=5 and 
+3
++
+3
+=
+6
+3+3=6.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    l,r = map(int, input().split())
+    print(2 * (r - l) + 1)
+
+3. Tom And Jerry 1
+There is a grid of size 
+10
+5
+×
+10
+5
+10 
+5
+ ×10 
+5
+ , covered completely in railway tracks. Tom is riding in a train, currently in cell 
+(
+a
+,
+b
+)
+(a,b), and Jerry is tied up in a different cell 
+(
+c
+,
+d
+)
+(c,d), unable to move. The train has no brakes. It shall move exactly 
+K
+K steps, and then its fuel will run out and it shall stop. In one step, the train must move to one of its neighboring cells, sharing a side. Tom can’t move without the train, as the grid is covered in tracks. Can Tom reach Jerry’s cell after exactly 
+K
+K steps?
+
+Note: Tom can go back to the same cell multiple times.
+
+Input Format
+The first line contains an integer 
+T
+T, the number of test cases. Then the test cases follow.
+Each test case contains a single line of input, five integers 
+a
+,
+b
+,
+c
+,
+d
+,
+K
+a,b,c,d,K.
+Output Format
+For each testcase, output in a single line "YES" if Tom can reach Jerry's cell in exactly 
+K
+K moves and "NO" if not.
+
+You may print each character of the string in uppercase or lowercase (for example, the strings "yEs", "yes", "Yes" and "YES" will all be treated as identical).
+
+Constraints
+1
+≤
+T
+≤
+10
+5
+1≤T≤10 
+5
+ 
+0
+≤
+a
+,
+b
+,
+c
+,
+d
+≤
+10
+5
+0≤a,b,c,d≤10 
+5
+ 
+(
+a
+,
+b
+)
+≠
+(
+c
+,
+d
+)
+(a,b)=(c,d)
+1
+≤
+K
+≤
+2
+⋅
+10
+5
+1≤K≤2⋅10 
+5
+ 
+Subtasks
+Subtask #1 (100 points): original constraints
+
+Sample 1:
+Input
+Output
+3
+1 1 2 2 2
+1 1 2 3 4
+1 1 1 0 3
+YES
+NO
+YES
+Explanation:
+Test Case 
+1
+1: A possible sequence of moves is 
+(
+1
+,
+1
+)
+→
+(
+1
+,
+2
+)
+→
+(
+2
+,
+2
+)
+(1,1)→(1,2)→(2,2).
+
+Test Case 
+2
+2: There is a possible sequence in 
+3
+3 moves, but not in exactly 
+4
+4 moves.
+
+Test Case 
+3
+3: A possible sequence of moves is 
+(
+1
+,
+1
+)
+→
+(
+1
+,
+0
+)
+→
+(
+0
+,
+0
+)
+→
+(
+1
+,
+0
+)
+(1,1)→(1,0)→(0,0)→(1,0).
+solution:
+t = int(input())
+for _ in range(t):
+    a, b, c, d, k = map(int, input().split())
+    dist = abs(a - c) + abs(b - d)
+    if k >= dist and (k - dist) % 2 == 0:
+        print("YES")
+    else:
+        print("NO")
+
+HackerRank:
+1.  re.findall()
+The expression re.findall() returns all the non-overlapping matches of patterns in a string as a list of strings.
+Code
+
+>>> import re
+>>> re.findall(r'\w','http://www.hackerrank.com/')
+['h', 't', 't', 'p', 'w', 'w', 'w', 'h', 'a', 'c', 'k', 'e', 'r', 'r', 'a', 'n', 'k', 'c', 'o', 'm']
+re.finditer()
+The expression re.finditer() returns an iterator yielding MatchObject instances over all non-overlapping matches for the re pattern in the string.
+Code
+
+>>> import re
+>>> re.finditer(r'\w','http://www.hackerrank.com/')
+<callable-iterator object at 0x0266C790>
+>>> map(lambda x: x.group(),re.finditer(r'\w','http://www.hackerrank.com/'))
+['h', 't', 't', 'p', 'w', 'w', 'w', 'h', 'a', 'c', 'k', 'e', 'r', 'r', 'a', 'n', 'k', 'c', 'o', 'm']
+Task
+You are given a string . It consists of alphanumeric characters, spaces and symbols(+,-).
+Your task is to find all the substrings of  that contains  or more vowels.
+Also, these substrings must lie in between  consonants and should contain vowels only.
+
+Note :
+Vowels are defined as: AEIOU and aeiou.
+Consonants are defined as: QWRTYPSDFGHJKLZXCVBNM and qwrtypsdfghjklzxcvbnm.
+
+Input Format
+
+A single line of input containing string .
+
+Constraints
+
+
+Output Format
+
+Print the matched substrings in their order of occurrence on separate lines.
+If no match is found, print -1.
+
+Sample Input
+
+rabcdeefgyYhFjkIoomnpOeorteeeeet
+Sample Output
+
+ee
+Ioo
+Oeo
+eeeee
+Explanation
+
+ee is located between consonant  and .
+Ioo is located between consonant  and .
+Oeo is located between consonant  and .
+eeeee is located between consonant  and .
+solution:
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+import re
+
+s = input()
+pattern = r'(?<=[^aeiouAEIOU])([aeiouAEIOU]{2,})(?=[^aeiouAEIOU])'
+
+matches = re.findall(pattern, s)
+
+if matches:
+    for m in matches:
+        print(m)
+else:
+    print(-1)
+
+2. You are given a string .
+ contains alphanumeric characters only.
+ Your task is to sort the string  in the following manner:
+
+All sorted lowercase letters are ahead of uppercase letters.
+All sorted uppercase letters are ahead of digits.
+All sorted odd digits are ahead of sorted even digits.
+Input Format
+
+A single line of input contains the string .
+
+Constraints
+
+Output Format
+
+Output the sorted string .
+
+Sample Input
+
+Sorting1234
+Sample Output
+
+ginortS1324
+solution:
+print(''.join(sorted(input(), key=lambda c: (
+    0 if c.islower() else 1 if c.isupper() else 2 if int(c) % 2 else 3, c
+))))
+
+l = 5, c = 3, h = 2

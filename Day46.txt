@@ -1,0 +1,678 @@
+Leetcode:
+1. 1304. Find N Unique Integers Sum up to Zero
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an integer n, return any array containing n unique integers such that they add up to 0.
+
+ 
+
+Example 1:
+
+Input: n = 5
+Output: [-7,-1,1,3,4]
+Explanation: These arrays also are accepted [-5,-1,1,2,3] , [-3,-1,2,-2,4].
+Example 2:
+
+Input: n = 3
+Output: [-1,0,1]
+Example 3:
+
+Input: n = 1
+Output: [0]
+ 
+
+Constraints:
+
+1 <= n <= 1000
+solution:
+class Solution:
+    def sumZero(self, n: int) -> list[int]:
+        res = []
+        for i in range(1, n//2 + 1):
+            res.append(i)
+            res.append(-i)
+
+        if n & 1 == 1:
+            res.append(0)
+
+        return res
+
+2. 3074. Apple Redistribution into Boxes
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an array apple of size n and an array capacity of size m.
+
+There are n packs where the ith pack contains apple[i] apples. There are m boxes as well, and the ith box has a capacity of capacity[i] apples.
+
+Return the minimum number of boxes you need to select to redistribute these n packs of apples into boxes.
+
+Note that, apples from the same pack can be distributed into different boxes.
+
+ 
+
+Example 1:
+
+Input: apple = [1,3,2], capacity = [4,3,1,5,2]
+Output: 2
+Explanation: We will use boxes with capacities 4 and 5.
+It is possible to distribute the apples as the total capacity is greater than or equal to the total number of apples.
+Example 2:
+
+Input: apple = [5,5,5], capacity = [2,4,2,7]
+Output: 4
+Explanation: We will need to use all the boxes.
+ 
+
+Constraints:
+
+1 <= n == apple.length <= 50
+1 <= m == capacity.length <= 50
+1 <= apple[i], capacity[i] <= 50
+The input is generated such that it's possible to redistribute packs of apples into boxes.
+ 
+
+solution:
+class Solution:
+    def minimumBoxes(self, apple: List[int], capacity: List[int]) -> int:
+        total_apples = sum(apple)
+        capacity.sort(reverse = True)
+        boxes = 0
+        for cap in capacity:
+            total_apples -= cap
+            boxes += 1
+            if total_apples <= 0:
+                return boxes
+
+        return boxes
+
+3. 349. Intersection of Two Arrays
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must be unique and you may return the result in any order.
+
+ 
+
+Example 1:
+
+Input: nums1 = [1,2,2,1], nums2 = [2,2]
+Output: [2]
+Example 2:
+
+Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+Output: [9,4]
+Explanation: [4,9] is also accepted.
+ 
+
+Constraints:
+
+1 <= nums1.length, nums2.length <= 1000
+0 <= nums1[i], nums2[i] <= 1000
+solution:
+class Solution:
+    def intersection(self, nums1: list[int], nums2: list[int]) -> list[int]:
+        return list(set(nums1) & set(nums2))
+
+4. 
+Code
+Testcase
+Testcase
+Test Result
+136. Single Number
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.
+
+You must implement a solution with a linear runtime complexity and use only constant extra space.
+
+ 
+
+Example 1:
+
+Input: nums = [2,2,1]
+
+Output: 1
+
+Example 2:
+
+Input: nums = [4,1,2,1,2]
+
+Output: 4
+
+Example 3:
+
+Input: nums = [1]
+
+Output: 1
+
+ 
+
+Constraints:
+
+1 <= nums.length <= 3 * 104
+-3 * 104 <= nums[i] <= 3 * 104
+Each element in the array appears twice except for one element which appears only once.
+solution:
+class Solution:
+    def singleNumber(self, nums: list[int]) -> int:
+        res = 0
+        for num in nums:
+            res ^= num
+        return res
+
+5. 2089. Find Target Indices After Sorting Array
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed integer array nums and a target element target.
+
+A target index is an index i such that nums[i] == target.
+
+Return a list of the target indices of nums after sorting nums in non-decreasing order. If there are no target indices, return an empty list. The returned list must be sorted in increasing order.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,5,2,3], target = 2
+Output: [1,2]
+Explanation: After sorting, nums is [1,2,2,3,5].
+The indices where nums[i] == 2 are 1 and 2.
+Example 2:
+
+Input: nums = [1,2,5,2,3], target = 3
+Output: [3]
+Explanation: After sorting, nums is [1,2,2,3,5].
+The index where nums[i] == 3 is 3.
+Example 3:
+
+Input: nums = [1,2,5,2,3], target = 5
+Output: [4]
+Explanation: After sorting, nums is [1,2,2,3,5].
+The index where nums[i] == 5 is 4.
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+1 <= nums[i], target <= 100
+ 
+solution:
+class Solution:
+    def targetIndices(self, nums: list[int], target: int) -> list[int]:
+        nums.sort()
+        res = [i for i,num in enumerate(nums) if num == target]
+        return res
+
+Codechef:
+1. Fitness
+Chef wants to become fit for which he decided to walk to the office and return home by walking. It is known that Chef's office is 
+X
+X km away from his home.
+
+If his office is open on 
+5
+5 days in a week, find the number of kilometers Chef travels through office trips in a week.
+
+Input Format
+First line will contain 
+T
+T, number of test cases. Then the test cases follow.
+Each test case contains of a single line consisting of single integer 
+X
+X.
+Output Format
+For each test case, output the number of kilometers Chef travels through office trips in a week.
+
+Constraints
+1
+≤
+T
+≤
+10
+1≤T≤10
+1
+≤
+X
+≤
+10
+1≤X≤10
+Sample 1:
+Input
+Output
+4
+1
+3
+7
+10
+10
+30
+70
+100
+Explanation:
+Test case 
+1
+1: The office is 
+1
+1 km away. Thus, to go to the office and come back home, Chef has to walk 
+2
+2 kms in a day. In a week with 
+5
+5 working days, Chef has to travel 
+2
+⋅
+5
+=
+10
+2⋅5=10 kms in total.
+
+Test case 
+2
+2: The office is 
+3
+3 kms away. Thus, to go to the office and come back home, Chef has to walk 
+6
+6 kms in a day. In a week with 
+5
+5 working days, Chef has to travel 
+6
+⋅
+5
+=
+30
+6⋅5=30 kms in total.
+
+Test case 
+3
+3: The office is 
+7
+7 kms away. Thus, to go to the office and come back home, Chef has to walk 
+14
+14 kms in a day. In a week with 
+5
+5 working days, Chef has to travel 
+14
+⋅
+5
+=
+70
+14⋅5=70 kms in total.
+
+Test case 
+4
+4: The office is 
+10
+10 kms away. Thus, to go to the office and come back home, Chef has to walk 
+20
+20 kms in a day. In a week with 
+5
+5 working days, Chef has to travel 
+20
+⋅
+5
+=
+100
+20⋅5=100 kms in total.
+solution:
+t = int(input())
+
+while t > 0:
+    x = int(input())
+    t -= 1
+    # Your code goes here
+    print(5 * (x * 2))
+
+
+2. Second Max of Three Numbers
+Problem Statement
+Write a program that accepts sets of three numbers, and prints the second-maximum number among the three.
+
+Input
+First line contains the number of triples, N.
+The next N lines which follow each have three space separated integers.
+Output
+For each of the N triples, output one new line which contains the second-maximum integer among the three.
+
+Constraints
+1 ≤ N ≤ 6
+1 ≤ every integer ≤ 10000
+The three integers in a single triplet are all distinct. That is, no two of them are equal.
+Sample 1:
+Input
+Output
+3
+1 2 3
+10 15 5
+100 999 500
+2
+10
+500
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    l = sorted(map(int, input().split()), reverse = True)
+    print(l[1])
+
+3. Chef and Chocolates
+Chef has 
+X
+X 5 rupee coins and 
+Y
+Y 10 rupee coins. Chef goes to a shop to buy chocolates for Chefina where each chocolate costs 
+Z
+Z rupees. Find the maximum number of chocolates that Chef can buy for Chefina.
+
+Input Format
+The first line contains a single integer 
+T
+T — the number of test cases. Then the test cases follow.
+The first and only line of each test case contains three integers 
+X
+X, 
+Y
+Y and 
+Z
+Z — the number of 5 rupee coins, the number of 10 rupee coins and the cost of each chocolate.
+Output Format
+For each test case, output the maximum number of chocolates that Chef can buy for Chefina.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+X
+,
+Y
+,
+Z
+≤
+1000
+1≤X,Y,Z≤1000
+Sample 1:
+Input
+Output
+4
+10 10 10
+3 1 8
+8 1 3
+4 4 1000
+15
+3
+16
+0
+Explanation:
+Test case 
+1
+1: Chef has 
+10
+⋅
+5
++
+10
+⋅
+10
+=
+150
+10⋅5+10⋅10=150 rupees in total. Since each chocolate costs 
+10
+10 rupees, Chef can spend all 
+150
+150 rupees and buy 
+15
+15 chocolates for Chefina.
+
+Test case 
+2
+2: Chef has 
+3
+⋅
+5
++
+1
+⋅
+10
+=
+25
+3⋅5+1⋅10=25 rupees in total. Since each chocolate costs 
+8
+8 rupees, Chef can buy a maximum of 
+3
+3 chocolates for Chefina, leaving him with 
+1
+1 rupee.
+
+Test case 
+3
+3: Chef has 
+8
+⋅
+5
++
+1
+⋅
+10
+=
+50
+8⋅5+1⋅10=50 rupees in total. Since each chocolate costs 
+3
+3 rupees, Chef can buy a maximum of 
+16
+16 chocolates for Chefina, leaving him with 
+2
+2 rupee.
+
+Test case 
+4
+4: Chef has 
+4
+⋅
+5
++
+4
+⋅
+10
+=
+60
+4⋅5+4⋅10=60 rupees in total. Since each chocolate costs 
+1000
+1000 rupees, Chef can buy no chocolate for Chefina, leaving him with 
+60
+60 rupees.
+solution:
+t = int(input())
+
+while t > 0:
+    x, y, z = map(int, input().split())
+    # Your code goes here
+    print(((x * 5) + (y * 10)) // z )
+    t -= 1
+
+4. Find Remainder
+Write a program to find the remainder when an integer A is divided by an integer B.
+
+Input
+
+The first line contains an integer T, the total number of test cases. Then T lines follow, each line contains two Integers A and B.
+
+Output
+For each test case, find the remainder when A is divided by B, and display it in a new line.
+
+Constraints
+1 ≤ T ≤ 1000
+1 ≤ A,B ≤ 10000
+Sample 1:
+Input
+Output
+3 
+1 2
+100 200
+40 15
+1
+100
+10
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    a,b = map(int, input().split())
+    print(a % b)
+
+5. Candy Store
+Chef has started working at the candy store. The store has 
+100
+100 chocolates in total.
+
+Chef’s daily goal is to sell 
+X
+X chocolates. For each chocolate sold, he will get 
+1
+1 rupee. However, if Chef exceeds his daily goal, he gets 
+2
+2 rupees per chocolate for each extra chocolate.
+
+If Chef sells 
+Y
+Y chocolates in a day, find the total amount he made.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of two space-separated integers 
+X
+X and 
+Y
+Y — the daily goal of Chef, and the number of chocolates he actually sells.
+Output Format
+For each test case, output on a new line the total amount Chef made in a day.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+X
+,
+Y
+≤
+10
+1≤X,Y≤10
+Sample 1:
+Input
+Output
+4
+3 1
+5 5
+4 7
+2 3
+1
+5
+10
+4
+Explanation:
+Test case 
+1
+1: Chef's daily goal was 
+3
+3. Since he sold only 
+1
+1 chocolate, he'll get only 
+1
+1 rupee.
+
+Test case 
+2
+2: Chef's daily goal was 
+5
+5. Since he sold 
+5
+5 chocolates, he'll get 
+5
+5 rupees.
+
+Test case 
+3
+3: Chef's daily goal was 
+4
+4. Since he sold 
+7
+7 chocolate, he'll get 
+4
+4 rupees for the 
+4
+4 chocolates as his daily goal and 
+2
+2 rupees per chocolate for the extra 
+3
+3 chocolates. The total amount he gets is 
+4
++
+3
+⋅
+2
+=
+10
+4+3⋅2=10.
+
+Test case 
+4
+4: Chef's daily goal was 
+2
+2. Since he sold 
+3
+3 chocolate, he'll get 
+2
+2 rupees for the 
+2
+2 chocolates as his daily goal and 
+2
+2 rupees per chocolate for the extra 
+1
+1 chocolate. The total amount he gets is 
+2
++
+1
+⋅
+2
+=
+4
+2+1⋅2=4.
+solution:
+t = int(input())
+
+while t > 0:
+    x, y = map(int, input().split())
+    # Your code goes here
+    if x < y:
+        print( x + ( y -x) * 2)
+    elif x == y:
+        print(y)
+    else:
+        print(y)
+    t -= 1
+
+
+l = 5, c = 5

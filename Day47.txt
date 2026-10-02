@@ -1,0 +1,794 @@
+Leetcode:
+1. 3992. Rearrange String to Avoid Character Pair
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s and two distinct lowercase English letters x and y.
+
+Rearrange the characters of s to construct a new string t such that:
+
+t is a permutation of s.
+Every occurrence of y appears before every occurrence of x in t.
+Return any valid string t.
+
+ 
+
+Example 1:
+
+Input: s = "aabc", x = "a", y = "c"
+
+Output: "cbaa"
+
+Explanation:
+
+The string "cbaa" is a permutation of "aabc", and every occurrence of 'c' appears before every occurrence of 'a'.
+
+Example 2:
+
+Input: s = "dcab", x = "d", y = "b"
+
+Output: "cabd"
+
+Explanation:
+
+The string "cabd" is a permutation of "dcab", and every occurrence of 'b' appears before every occurrence of 'd'.
+
+Example 3:
+
+Input: s = "axe", x = "o", y = "x"
+
+Output: "axe"
+
+Explanation:
+
+The string "axe" is already valid. Since 'o' does not occur in the string, the required condition is automatically satisfied.
+
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists of lowercase English letters.
+x and y are lowercase English letters.
+x != y
+solution:
+class Solution:
+    def rearrangeString(self, s, x, y):
+        return y * s.count(y) + s.replace(x,"").replace(y,"") + x * s.count(x)
+
+2. 657. Robot Return to Origin
+Easy
+Topics
+premium lock icon
+Companies
+There is a robot starting at the position (0, 0), the origin, on a 2D plane. Given a sequence of its moves, judge if this robot ends up at (0, 0) after it completes its moves.
+
+You are given a string moves that represents the move sequence of the robot where moves[i] represents its ith move. Valid moves are 'R' (right), 'L' (left), 'U' (up), and 'D' (down).
+
+Return true if the robot returns to the origin after it finishes all of its moves, or false otherwise.
+
+Note: The way that the robot is "facing" is irrelevant. 'R' will always make the robot move to the right once, 'L' will always make it move left, etc. Also, assume that the magnitude of the robot's movement is the same for each move.
+
+ 
+
+Example 1:
+
+Input: moves = "UD"
+Output: true
+Explanation: The robot moves up once, and then down once. All moves have the same magnitude, so it ended up at the origin where it started. Therefore, we return true.
+Example 2:
+
+Input: moves = "LL"
+Output: false
+Explanation: The robot moves left twice. It ends up two "moves" to the left of the origin. We return false because it is not at the origin at the end of its moves.
+ 
+
+Constraints:
+
+1 <= moves.length <= 2 * 104
+moves only contains the characters 'U', 'D', 'L' and 'R'.
+solution:
+class Solution:
+    def judgeCircle(self, moves: str) -> bool:
+       return moves.count("U") == moves.count("D") and moves.count("L") == moves.count("R")
+
+3. 944. Delete Columns to Make Sorted
+Easy
+Topics
+premium lock icon
+Companies
+You are given an array of n strings strs, all of the same length.
+
+The strings can be arranged such that there is one on each line, making a grid.
+
+For example, strs = ["abc", "bce", "cae"] can be arranged as follows:
+abc
+bce
+cae
+You want to delete the columns that are not sorted lexicographically. In the above example (0-indexed), columns 0 ('a', 'b', 'c') and 2 ('c', 'e', 'e') are sorted, while column 1 ('b', 'c', 'a') is not, so you would delete column 1.
+
+Return the number of columns that you will delete.
+
+ 
+
+Example 1:
+
+Input: strs = ["cba","daf","ghi"]
+Output: 1
+Explanation: The grid looks as follows:
+  cba
+  daf
+  ghi
+Columns 0 and 2 are sorted, but column 1 is not, so you only need to delete 1 column.
+Example 2:
+
+Input: strs = ["a","b"]
+Output: 0
+Explanation: The grid looks as follows:
+  a
+  b
+Column 0 is the only column and is sorted, so you will not delete any columns.
+Example 3:
+
+Input: strs = ["zyx","wvu","tsr"]
+Output: 3
+Explanation: The grid looks as follows:
+  zyx
+  wvu
+  tsr
+All 3 columns are not sorted, so you will delete all 3.
+ 
+
+Constraints:
+
+n == strs.length
+1 <= n <= 100
+1 <= strs[i].length <= 1000
+strs[i] consists of lowercase English letters.
+solution:
+class Solution:
+    def minDeletionSize(self, strs: list[str]) -> int:
+        return sum(1 for col in zip(*strs) if list(col) != sorted(col))
+
+4. 3870. Count Commas in Range
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer n.
+
+Return the total number of commas used when writing all integers from [1, n] (inclusive) in standard number formatting.
+
+In standard formatting:
+
+A comma is inserted after every three digits from the right.
+Numbers with fewer than 4 digits contain no commas.
+ 
+
+Example 1:
+
+Input: n = 1002
+
+Output: 3
+
+Explanation:
+
+The numbers "1,000", "1,001", and "1,002" each contain one comma, giving a total of 3.
+
+Example 2:
+
+Input: n = 998
+
+Output: 0
+
+Explanation:
+
+All numbers from 1 to 998 have fewer than four digits. Therefore, no commas are used.
+
+ 
+
+Constraints:
+
+1 <= n <= 105
+solution:
+class Solution:
+    def countCommas(self, n: int) -> int:
+        return max(0, n - 999)
+
+
+5. 3184. Count Pairs That Form a Complete Day I
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an integer array hours representing times in hours, return an integer denoting the number of pairs i, j where i < j and hours[i] + hours[j] forms a complete day.
+
+A complete day is defined as a time duration that is an exact multiple of 24 hours.
+
+For example, 1 day is 24 hours, 2 days is 48 hours, 3 days is 72 hours, and so on.
+
+ 
+
+Example 1:
+
+Input: hours = [12,12,30,24,24]
+
+Output: 2
+
+Explanation:
+
+The pairs of indices that form a complete day are (0, 1) and (3, 4).
+
+Example 2:
+
+Input: hours = [72,48,24,3]
+
+Output: 3
+
+Explanation:
+
+The pairs of indices that form a complete day are (0, 1), (0, 2), and (1, 2).
+
+ 
+
+Constraints:
+
+1 <= hours.length <= 100
+1 <= hours[i] <= 109
+solution:
+class Solution:
+    def countCompleteDayPairs(self, hours: List[int]) -> int:
+        count = 0
+        for i in range(len(hours)):
+            for j in range(i+1,len(hours)):
+                if (hours[i] + hours[j]) % 24 == 0:
+                    count += 1
+        return count 
+
+Codechef:
+1. Scalene Triangle
+Given 
+A
+,
+B
+,
+A,B, and 
+C
+C as the sides of a triangle, find whether the triangle is scalene.
+
+Note:
+
+A triangle is said to be scalene if all three sides of the triangle are distinct.
+It is guaranteed that the sides represent a valid triangle.
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of three space-separated integers 
+A
+,
+B
+,
+A,B, and 
+C
+C — the length of the three sides of the triangle.
+Output Format
+For each test case, output on a new line, YES, if the triangle is scalene, and NO otherwise.
+
+You may print each character of the string in uppercase or lowercase. For example, YES, yes, Yes, and yEs are all considered identical.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+A
+≤
+B
+≤
+C
+≤
+10
+1≤A≤B≤C≤10
+C
+<
+(
+A
++
+B
+)
+C<(A+B)
+Sample 1:
+Input
+Output
+4
+2 3 4
+1 2 2
+2 2 2
+3 5 6
+YES
+NO
+NO
+YES
+Explanation:
+Test case 
+1
+1: The side lengths are 
+2
+,
+3
+,
+2,3, and 
+4
+4. Since no two side lengths are equal, the triangle is scalene.
+
+Test case 
+2
+2: The side lengths are 
+1
+,
+2
+,
+1,2, and 
+2
+2. The sides 
+B
+B and 
+C
+C have the same length. Thus, the triangle is not scalene.
+
+Test case 
+3
+3: The side lengths are 
+2
+,
+2
+,
+2,2, and 
+2
+2. The sides 
+A
+,
+B
+,
+A,B, and 
+C
+C have the same length. Thus, the triangle is not scalene.
+
+Test case 
+4
+4: The side lengths are 
+3
+,
+5
+,
+3,5, and 
+6
+6. Since no two side lengths are equal, the triangle is scalene.
+solution:
+t = int(input())
+
+while t > 0:
+    a, b, c = map(int, input().split())
+    # Your code goes here
+    print("YES" if a !=b and b != c else "NO")
+    t -= 1
+
+2. Sum of Digits
+You're given an integer N. Write a program to calculate the sum of all the digits of N.
+
+Input Format
+The first line contains an integer T, the total number of testcases. Then follow T lines, each line contains an integer N.
+
+Output Format
+For each test case, calculate the sum of digits of N, and display it in a new line.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+N
+≤
+1000000
+1≤N≤1000000
+Sample 1:
+Input
+Output
+3 
+12345
+31203
+2123
+15
+9
+8
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    print(sum(map(int, input())))
+
+3. Favourite Numbers
+Alice likes numbers which are even, and are a multiple of 7.
+Bob likes numbers which are odd, and are a multiple of 9.
+Alice, Bob, and Charlie find a number 
+A
+A.
+
+If Alice likes 
+A
+A, Alice takes home the number.
+If Bob likes 
+A
+A, Bob takes home the number.
+If both Alice and Bob don't like the number, Charlie takes it home.
+Given 
+A
+A, find who takes it home.
+
+Note: You can prove that there is no integer 
+A
+A such that both Alice and Bob like it.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of a single integer, 
+A
+A.
+Output Format
+For each test case, output on a new line who takes the number home - "Alice", "Bob", or "Charlie".
+
+You may print each character in uppercase or lowercase. For example, Alice, alice, aLiCe, and ALICE are all considered identical.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+A
+≤
+1000
+1≤A≤1000
+Sample 1:
+Input
+Output
+8
+7
+14
+21
+18
+27
+63
+126
+8
+Charlie
+Alice
+Charlie
+Charlie
+Bob
+Bob
+Alice
+Charlie
+Explanation:
+Testcase 1: 7 is not even, hence Alice doesn't like it. It is odd, but isn't a multiple of 9. Hence Bob doesn't like it. Therefore, Charlie takes it home.
+
+Testcase 2: 14 is even and a multiple of 7. Therefore, Alice likes it and takes it home.
+
+Testcase 3: 21 is not even, hence Alice doesn't like it. It is odd, but isn't a multiple of 9. Hence Bob doesn't like it. Therefore, Charlie takes it home.
+
+Testcase 4: 18 is even but not a multiple of 7, hence Alice doesn't like it. It is not odd, and hence Bob doesn't like it. Therefore, Charlie takes it home.
+
+Testcase 5: 27 is odd and a multiple of 9. Therefore, Bob likes it and takes it home.
+
+Testcase 6: 63 is odd and a multiple of 9. Therefore, Bob likes it and takes it home.
+
+Testcase 7: 126 is even and a multiple of 7. Therefore, Alice likes it and takes it home.
+
+Testcase 8: 8 is even but not a multiple of 7, hence Alice doesn't like it. It is not odd, and hence Bob doesn't like it. Therefore, Charlie takes it home.
+solution:
+t = int(input())
+
+while t > 0:
+    a = int(input())
+    # Your code goes here
+    if a & 1 == 0 and a % 7 == 0:
+        print("Alice")
+    elif a & 1 == 1 and a % 9 == 0:
+        print("Bob")
+    else:
+        print("Charlie")
+    t -= 1
+
+
+4. World Chess Championship
+The World Chess Championship 
+2022
+2022 is about to start. 
+14
+14 Classical games will be played between Chef and Carlsen in the championship, where each game has one of three outcomes — it can be won by Carlsen, won by Chef, or it can be a draw. The winner of a game gets 
+2
+2 points, and the loser gets 
+0
+0 points. If it’s a draw, both players get 
+1
+1 point each.
+
+The total prize pool of the championship is 
+100
+⋅
+X
+100⋅X. At end of the 
+14
+14 Classical games, if one player has strictly more points than the other, he is declared the champion and gets 
+60
+⋅
+X
+60⋅X as his prize money, and the loser gets 
+40
+⋅
+X
+40⋅X.
+
+If the total points are tied, then the defending champion Carlsen is declared the winner. However, if this happens, the winner gets only 
+55
+⋅
+X
+55⋅X, and the loser gets 
+45
+⋅
+X
+45⋅X.
+
+Given the results of all the 
+14
+14 games, output the prize money that Carlsen receives.
+
+The results are given as a string of length 
+14
+14 consisting of the characters C, N, and D.
+
+C denotes a victory by Carlsen.
+N denotes a victory by Chef.
+D denotes a draw.
+Input Format
+The first line of input contains an integer 
+T
+T, denoting the number of test cases. The description of 
+T
+T test cases follows.
+The first line of each test case contains one integer 
+X
+X, denoting that the total prize pool is 
+100
+⋅
+X
+100⋅X.
+The second line contains the results of the match, as a string of length 
+14
+14 containing only the characters C, N, and D.
+Output Format
+For each test case, output in a single line the total prize money won by Carlsen.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+X
+≤
+10
+6
+1≤X≤10 
+6
+ 
+∣
+S
+∣
+=
+14
+∣S∣=14
+S
+S contains only characters D, C, N.
+Subtasks
+Subtask #1 (100 points): Original constraints
+
+Sample 1:
+Input
+Output
+4
+100
+CCCCCCCCCCCCCC
+400
+CDCDCDCDCDCDCD
+30
+DDCCNNDDDCCNND
+1
+NNDNNDDDNNDNDN
+6000
+24000
+1650
+40
+Explanation:
+Test case 
+1
+1: Since Carlsen won all the games, he will be crowned the champion and will get 
+60
+⋅
+X
+60⋅X as the prize money which is 
+60
+⋅
+100
+=
+6000
+60⋅100=6000
+
+Test case 
+2
+2: Carlsen won 
+7
+7 games and drew 
+7
+7, so his score is 
+2
+⋅
+7
++
+1
+⋅
+7
+=
+21
+2⋅7+1⋅7=21. Chef lost 
+7
+7 games and drew 
+7
+7, so his score is 
+0
+⋅
+7
++
+1
+⋅
+7
+=
+7
+0⋅7+1⋅7=7. Since Carlsen has more points, he will be crowned the champion and will get 
+60
+⋅
+X
+60⋅X as the prize money which is 
+60
+⋅
+400
+=
+24000
+60⋅400=24000
+
+Test case 
+3
+3: Carlsen and Chef both end up with 
+14
+14 points. So, Carlsen is declared the winner, but because the points were tied, he receives 
+55
+⋅
+X
+=
+55
+⋅
+30
+=
+1650
+55⋅X=55⋅30=1650 in prize money.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    x = int(input())
+    s  =  input()
+    carlsen_score = 2 * s.count("C") + s.count("D")
+    chef_score = 2 * s.count("N") + s.count("D")
+    if carlsen_score > chef_score:
+        print(60 * x)
+    elif carlsen_score < chef_score:
+        print(40 * x)
+    else:
+        print(55 * x)
+
+5. DDMM or MMDD
+Chef is confused by all the different formats dates can be written in. Here's a simple problem Chef wants you to solve.
+
+You are given a date string 
+S
+S. The date follows the Gregorian calendar, the one used in most parts of the world.
+
+Identify whether it is of the form DD/MM/YYYY or MM/DD/YYYY, or if it can be of both forms. Here DD denotes the 2-digit day, MM denotes the 2-digit month and YYYY denotes the 4-digit year.
+
+It is guaranteed that 
+S
+S is a valid date taking at least one of these forms.
+
+For example,
+
+21/05/2001 is of the form DD/MM/YYYY and not MM/DD/YYYY.
+10/15/2069 is of the form MM/DD/YYYY and not DD/MM/YYYY.
+05/11/1999 can be of both forms.
+Input Format
+The first line contains a single integer 
+T
+T — the number of test cases. Then the test cases follow.
+Each test case consists of a single line containing a string of 
+10
+10 characters 
+S
+S — the date string 
+S
+S, which is of the form DD/MM/YYYY or MM/DD/YYYY. It is guaranteed that 
+S
+S is a valid date taking at least one of these forms.
+Output Format
+For each test case, output "BOTH" if the date string satisfies both forms. Otherwise output "DD/MM/YYYY" if it is of the form DD/MM/YYYY, else "MM/DD/YYYY". Note that the output may be case-insensitive. So "DD/MM/YYYY", "dd/mm/yyyy" and so on will be considered the same.
+
+Constraints
+1
+≤
+T
+≤
+2023
+1≤T≤2023
+S
+S is of the form DD/MM/YYYY or MM/DD/YYYY
+Sample 1:
+Input
+Output
+4
+21/05/2001
+10/15/2069
+05/11/1999
+29/02/2024
+DD/MM/YYYY
+MM/DD/YYYY
+BOTH
+DD/MM/YYYY
+Explanation:
+Fun fact: 29/02/2024 (read as DD/MM/YYYY) is a leap year day.
+solution:
+t = int(input())
+
+while t > 0:
+    s = input()
+    # Your code goes here
+    a,b,y = map(int,s.split("/"))
+    can_ddmm = 1 <= a <= 31 and 1 <= b <= 12
+    can_mmdd = 1 <= a <= 12 and 1 <= b <= 31
+    if can_ddmm and can_mmdd:
+        print("BOTH")
+    elif can_ddmm:
+        print("DD/MM/YYYY")
+    else:
+        print("MM/DD/YYYY")
+    t -= 1
+
+l = 5, c = 5

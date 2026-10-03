@@ -1,0 +1,735 @@
+Leetcode:
+1. 3712. Sum of Elements With Frequency Divisible by K
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array nums and an integer k.
+
+Return an integer denoting the sum of all elements in nums whose frequency is divisible by k, or 0 if there are no such elements.
+
+Note: An element is included in the sum exactly as many times as it appears in the array if its total frequency is divisible by k.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,2,3,3,3,3,4], k = 2
+
+Output: 16
+
+Explanation:
+
+The number 1 appears once (odd frequency).
+The number 2 appears twice (even frequency).
+The number 3 appears four times (even frequency).
+The number 4 appears once (odd frequency).
+So, the total sum is 2 + 2 + 3 + 3 + 3 + 3 = 16.
+
+Example 2:
+
+Input: nums = [1,2,3,4,5], k = 2
+
+Output: 0
+
+Explanation:
+
+There are no elements that appear an even number of times, so the total sum is 0.
+
+Example 3:
+
+Input: nums = [4,4,4,1,2,3], k = 3
+
+Output: 12
+
+Explanation:
+
+The number 1 appears once.
+The number 2 appears once.
+The number 3 appears once.
+The number 4 appears three times.
+So, the total sum is 4 + 4 + 4 = 12.
+
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+1 <= nums[i] <= 100
+1 <= k <= 100
+solution:
+from collections import Counter
+class Solution:
+    def sumDivisibleByK(self, nums: List[int], k: int) -> int:
+        counters = Counter(nums)
+        total = 0
+        for key, value in counters.items():
+            if value % k == 0:
+                total += key * value
+
+        return total
+
+2. 2032. Two Out of Three
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given three integer arrays nums1, nums2, and nums3, return a distinct array containing all the values that are present in at least two out of the three arrays. You may return the values in any order.
+ 
+
+Example 1:
+
+Input: nums1 = [1,1,3,2], nums2 = [2,3], nums3 = [3]
+Output: [3,2]
+Explanation: The values that are present in at least two arrays are:
+- 3, in all three arrays.
+- 2, in nums1 and nums2.
+Example 2:
+
+Input: nums1 = [3,1], nums2 = [2,3], nums3 = [1,2]
+Output: [2,3,1]
+Explanation: The values that are present in at least two arrays are:
+- 2, in nums2 and nums3.
+- 3, in nums1 and nums2.
+- 1, in nums1 and nums3.
+Example 3:
+
+Input: nums1 = [1,2,2], nums2 = [4,3,3], nums3 = [5]
+Output: []
+Explanation: No value is present in at least two arrays.
+ 
+
+Constraints:
+
+1 <= nums1.length, nums2.length, nums3.length <= 100
+1 <= nums1[i], nums2[j], nums3[k] <= 100
+solution:
+class Solution:
+    def twoOutOfThree(self, nums1: list[int], nums2: list[int], nums3: list[int]) -> list[int]:
+        s1, s2, s3 = set(nums1), set(nums2), set(nums3)
+        return list((s1 & s2) | (s2 & s3) | (s1 & s3))
+
+3. 2363. Merge Similar Items
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given two 2D integer arrays, items1 and items2, representing two sets of items. Each array items has the following properties:
+
+items[i] = [valuei, weighti] where valuei represents the value and weighti represents the weight of the ith item.
+The value of each item in items is unique.
+Return a 2D integer array ret where ret[i] = [valuei, weighti], with weighti being the sum of weights of all items with value valuei.
+
+Note: ret should be returned in ascending order by value.
+
+ 
+
+Example 1:
+
+Input: items1 = [[1,1],[4,5],[3,8]], items2 = [[3,1],[1,5]]
+Output: [[1,6],[3,9],[4,5]]
+Explanation: 
+The item with value = 1 occurs in items1 with weight = 1 and in items2 with weight = 5, total weight = 1 + 5 = 6.
+The item with value = 3 occurs in items1 with weight = 8 and in items2 with weight = 1, total weight = 8 + 1 = 9.
+The item with value = 4 occurs in items1 with weight = 5, total weight = 5.  
+Therefore, we return [[1,6],[3,9],[4,5]].
+Example 2:
+
+Input: items1 = [[1,1],[3,2],[2,3]], items2 = [[2,1],[3,2],[1,3]]
+Output: [[1,4],[2,4],[3,4]]
+Explanation: 
+The item with value = 1 occurs in items1 with weight = 1 and in items2 with weight = 3, total weight = 1 + 3 = 4.
+The item with value = 2 occurs in items1 with weight = 3 and in items2 with weight = 1, total weight = 3 + 1 = 4.
+The item with value = 3 occurs in items1 with weight = 2 and in items2 with weight = 2, total weight = 2 + 2 = 4.
+Therefore, we return [[1,4],[2,4],[3,4]].
+Example 3:
+
+Input: items1 = [[1,3],[2,2]], items2 = [[7,1],[2,2],[1,4]]
+Output: [[1,7],[2,4],[7,1]]
+Explanation:
+The item with value = 1 occurs in items1 with weight = 3 and in items2 with weight = 4, total weight = 3 + 4 = 7. 
+The item with value = 2 occurs in items1 with weight = 2 and in items2 with weight = 2, total weight = 2 + 2 = 4. 
+The item with value = 7 occurs in items2 with weight = 1, total weight = 1.
+Therefore, we return [[1,7],[2,4],[7,1]].
+ 
+
+Constraints:
+
+1 <= items1.length, items2.length <= 1000
+items1[i].length == items2[i].length == 2
+1 <= valuei, weighti <= 1000
+Each valuei in items1 is unique.
+Each valuei in items2 is unique.
+solution:
+from collections import Counter
+class Solution:
+    def mergeSimilarItems(self, items1: list[list[int]], items2: list[list[int]]) -> list[list[int]]:
+        c = Counter(dict(items1)) + Counter(dict(items2))
+        return [[k,v] for k,v in sorted(c.items())]
+
+4. 3090. Maximum Length Substring With Two Occurrences
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a string s, return the maximum length of a substring such that it contains at most two occurrences of each character.
+ 
+
+Example 1:
+
+Input: s = "bcbbbcba"
+
+Output: 4
+
+Explanation:
+
+The following substring has a length of 4 and contains at most two occurrences of each character: "bcbbbcba".
+Example 2:
+
+Input: s = "aaaa"
+
+Output: 2
+
+Explanation:
+
+The following substring has a length of 2 and contains at most two occurrences of each character: "aaaa".
+ 
+
+Constraints:
+
+2 <= s.length <= 100
+s consists only of lowercase English letters.
+solution:
+class Solution:
+    def maximumLengthSubstring(self, s: str) -> int:
+        count = [0] * 26
+        left = 0
+        max_len = 0
+        
+        for right in range(len(s)):
+            idx = ord(s[right]) - 97
+            count[idx] += 1
+            
+            while count[idx] > 2:
+                count[ord(s[left]) - 97] -= 1
+                left += 1
+            
+            max_len = max(max_len, right - left + 1)
+        
+        return max_len
+
+5. 3042. Count Prefix and Suffix Pairs I
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed string array words.
+
+Let's define a boolean function isPrefixAndSuffix that takes two strings, str1 and str2:
+
+isPrefixAndSuffix(str1, str2) returns true if str1 is both a prefix and a suffix of str2, and false otherwise.
+For example, isPrefixAndSuffix("aba", "ababa") is true because "aba" is a prefix of "ababa" and also a suffix, but isPrefixAndSuffix("abc", "abcd") is false.
+
+Return an integer denoting the number of index pairs (i, j) such that i < j, and isPrefixAndSuffix(words[i], words[j]) is true.
+
+ 
+
+Example 1:
+
+Input: words = ["a","aba","ababa","aa"]
+Output: 4
+Explanation: In this example, the counted index pairs are:
+i = 0 and j = 1 because isPrefixAndSuffix("a", "aba") is true.
+i = 0 and j = 2 because isPrefixAndSuffix("a", "ababa") is true.
+i = 0 and j = 3 because isPrefixAndSuffix("a", "aa") is true.
+i = 1 and j = 2 because isPrefixAndSuffix("aba", "ababa") is true.
+Therefore, the answer is 4.
+Example 2:
+
+Input: words = ["pa","papa","ma","mama"]
+Output: 2
+Explanation: In this example, the counted index pairs are:
+i = 0 and j = 1 because isPrefixAndSuffix("pa", "papa") is true.
+i = 2 and j = 3 because isPrefixAndSuffix("ma", "mama") is true.
+Therefore, the answer is 2.  
+Example 3:
+
+Input: words = ["abab","ab"]
+Output: 0
+Explanation: In this example, the only valid index pair is i = 0 and j = 1, and isPrefixAndSuffix("abab", "ab") is false.
+Therefore, the answer is 0.
+ 
+
+Constraints:
+
+1 <= words.length <= 50
+1 <= words[i].length <= 10
+words[i] consists only of lowercase English letters.
+solution:
+class Solution:
+    def countPrefixSuffixPairs(self, words: List[str]) -> int:
+        count  =  0
+        n = len(words)
+        def isPrefixAndSuffix(str1, str2):
+
+            return str2.startswith(str1) and str2.endswith(str1)
+
+        for i in range(n):
+            for j in range(i+1, n):
+                if isPrefixAndSuffix(words[i], words[j]):
+                    count += 1
+        
+
+        return count
+
+codechef:
+1. Largest Odd Substring
+You are given a string 
+n
+u
+m
+s
+nums consisting of digits representing a large integer. Your task is to find the largest-valued odd integer (as a substring of 
+n
+u
+m
+s
+nums) that can be obtained.
+
+A substring is a contiguous sequence of characters within the string.
+
+Function Declaration
+Function Name
+f
+i
+n
+d
+L
+a
+r
+g
+e
+s
+t
+O
+d
+d
+S
+u
+b
+s
+t
+r
+i
+n
+g
+findLargestOddSubstring – This function finds the largest-valued odd integer that can be obtained as a substring of the given numeric string.
+
+Parameters
+n
+u
+m
+num : A string representing a large integer, consisting only of digits (
+0
+–
+9
+0–9).
+Return Value
+This function prints:
+
+The largest odd integer substring if it exists.
+−
+1
+−1 if no odd integer substring can be formed.
+Constraints
+1
+≤
+∣
+n
+u
+m
+∣
+≤
+10
+5
+1≤∣num∣≤10 
+5
+ 
+The string 
+n
+u
+m
+num contains only digits 
+0
+–
+9
+0–9
+The string does not contain leading zeros
+There is no limit on the size of the integer represented by the substring
+Input Format
+The first line contains a single string num.
+Output Format
+Print a single line:
+
+The largest odd integer substring of num
+Or -1 if no odd substring exists
+Sample 1:
+Input
+Output
+128764
+1287
+Explanation:
+The largest odd substring ends at the first odd digit from the right, which is '7'.
+
+Sample 2:
+Input
+Output
+60042
+-1
+Explanation:
+There are no odd digits in the string, so no odd substring exists.
+
+Sample 3:
+Input
+Output
+987654321
+987654321
+Explanation:
+The last digit is '1', which is odd, so the entire number is the largest odd substring.
+solution:
+def findLargestOddSubstring(num):
+    # Traverse from the end to find the last odd digit
+    for i in range(len(num) - 1, -1, -1):
+        if int(num[i]) % 2 != 0:  # Check if digit is odd
+            return num[:i + 1]
+    return "-1"
+
+2. Convert String to Title Case
+Given a string S consisting of only lowercase and uppercase English letters and spaces, your task is to convert it into title case. In title case, the first letter of each word is capitalized while the rest are in lowercase, except for words that are entirely in uppercase (considered as acronyms), which should remain unchanged.
+
+Note:
+
+Words are defined as contiguous sequences of English letters separated by spaces.
+Acronyms are words that are entirely in uppercase and should remain unchanged.
+Assume the input does not contain leading, trailing, or multiple spaces between words.
+Input Format
+The first line contains a single integer T, the number of test cases.
+Each of the next T lines contains a string S.
+Output Format
+For each test case, print a single line containing the string S converted into title case.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+∣
+S
+∣
+≤
+1000
+1≤∣S∣≤1000, where 
+∣
+S
+∣
+∣S∣ is the length of the string.
+Sample 1:
+Input
+Output
+5
+hello world
+this is a CODECHEF problem
+WELCOME to the JUNGLE
+the quick BROWN fOx
+programming in PYTHON
+Hello World
+This Is A CODECHEF Problem
+WELCOME To The JUNGLE
+The Quick BROWN Fox
+Programming In PYTHON
+Explanation:
+In the first test case, each word is capitalized as they are not acronyms.
+In the second test case, "CODECHEF" is an acronym and remains in uppercase.
+In the third test case, "WELCOME" and "JUNGLE" are considered acronyms.
+In the fourth test case, "BROWN" is an acronym, while the rest of the words follow the title case rule.
+In the fifth test case, "PYTHON" is an acronym, and the rest of the string is converted to title case.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    string = input().split()
+    res = []
+    for s in string:
+        if s == s.upper():
+            res.append(s)
+        else:
+            res.append(s.capitalize())
+            
+    print(" ".join(res))
+
+3. Password
+Chef is planning to setup a secure password for his Codechef account. For a password to be secure the following conditions should be satisfied:
+
+Password must contain at least one lower case letter 
+[
+a
+−
+z
+]
+[a−z];
+
+Password must contain at least one upper case letter [A−Z] strictly inside (first or the last character won’t be considered)
+
+Password must contain at least one digit 
+[
+0
+−
+9
+]
+[0−9] strictly inside;
+
+Password must contain at least one special character from the set 
+{
+{ '@', '#', '%', '&', '?' 
+}
+} strictly inside;
+
+Password must be at least 
+10
+10 characters in length, but it can be longer.
+
+Chef has generated several strings and now wants you to check whether the passwords are secure based on the above criteria. Please help Chef in doing so.
+
+Input
+First line will contain 
+T
+T, number of testcases. Then the testcases follow.
+Each testcase contains of a single line of input, string 
+S
+S.
+Output
+For each testcase, output in a single line "YES" if the password is secure and "NO" if it is not.
+
+Constraints
+1
+≤
+∣
+S
+∣
+≤
+20
+1≤∣S∣≤20
+All the characters in 
+S
+S are one of the following: lower case letters 
+[
+a
+−
+z
+]
+[a−z], upper case letters 
+[
+A
+−
+Z
+]
+[A−Z], digits 
+[
+0
+−
+9
+]
+[0−9], special characters from the set 
+{
+{ '@', '#', '%', '&', '?' 
+}
+}
+Sum of length of strings over all tests is atmost 
+10
+6
+10 
+6
+ 
+Sample 1:
+Input
+Output
+3
+#cookOff#P1
+U@code4CHEFINA
+gR3@tPWD
+NO
+YES
+NO
+Explanation:
+Example case 1: Condition 
+3
+3 is not satisfied, because the only digit is not strictly inside.
+
+Example case 2: All conditions are satisfied.
+
+Example case 3: Condition 
+5
+5 is not satisfied, because the length of this string is 8.
+solution:
+# cook your dish here
+import re
+pattern = r'^(?=.{10,}$)(?=.+[A-Z].+$)(?=.+[0-9].+$)(?=.+[@#%&?].+$)(?=.*[a-z]).+$'
+for _ in range(int(input())):
+    password = input()
+    print("Yes" if re.match(pattern, password) else "No")
+    
+4. Chef and the Wildcard Matching
+Chef wants to implement wildcard pattern matching supporting only the wildcard '?'. The wildcard character '?' can be substituted by any single lower case English letter for matching. He has two strings X and Y of equal length, made up of lower case letters and the character '?'. He wants to know whether the strings X and Y can be matched or not.
+
+Input
+The first line of input contain an integer T denoting the number of test cases. Each test case consists of two lines, the first line contains the string X and the second contains the string Y.
+
+Output
+For each test case, output a single line with the word Yes if the strings can be matched, otherwise output No.
+
+Constraints
+1 ≤ T ≤ 50
+Both X and Y have equal length and the length is between 1 and 10.
+Both X and Y consist of lower case letters and the character '?'.
+Sample 1:
+Input
+Output
+2
+s?or?
+sco??
+stor?
+sco??
+Yes
+No
+Explanation:
+Test case 
+1
+1: One of the possible ways to match both the strings is 
+score
+score. This can be done by:
+
+Replace 
+1
+s
+t
+1 
+st
+  and 
+2
+n
+d
+2 
+nd
+  
+?
+? of string 
+X
+X by characters 
+c
+c and 
+e
+e respectively.
+Replace 
+1
+s
+t
+1 
+st
+  and 
+2
+n
+d
+2 
+nd
+  
+?
+? of string 
+Y
+Y by characters 
+r
+r and 
+e
+e respectively.
+Test case 
+2
+2: There exists no way to fill the 
+?
+? such that the strings become equal. Thus, the answer is No.
+solution:
+t = int(input())
+
+while t > 0:
+    x = input()
+    y = input()
+    # Your code goes here
+    can_match = True
+    for i in range(len(x)):
+        if x[i] != y[i] and x[i] != "?" and y[i] != "?":
+            can_match = False
+            break
+    print("Yes" if can_match else "No")
+    t -= 1
+
+
+5. Convert string to number
+You are given a string that represents a positive number. Your task is to write a program that converts this string into its numerical equivalent without using any in-built parsing, conversion libraries, or direct type casting methods. The string will not contain any leading zeros, decimals, or any non-numeric characters.
+
+Complete the function stringToNumber in the IDE
+
+Input Format
+The first line contains a single integer, T, the number of test cases.
+The following T lines each contain a single string, S, representing the number.
+Output Format
+For each test case, print the numerical equivalent of the string.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+∣
+S
+∣
+≤
+10
+1≤∣S∣≤10, where 
+∣
+S
+∣
+∣S∣ is the length of the string.
+S will only contain digits (0-9) and will not have leading zeros.
+Sample 1:
+Input
+Output
+3
+123
+42
+1001
+123
+42
+1001
+solution:
+def string_to_number(s):
+    # Write your code here
+    res = 0
+    for num in s:
+        res = res * 10 + (ord(num) - ord("0"))
+        
+    return res
+
+l - 5, c = 5

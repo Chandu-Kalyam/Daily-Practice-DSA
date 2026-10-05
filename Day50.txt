@@ -1,0 +1,1138 @@
+Leetcode:
+1. 1925. Count Square Sum Triples
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A square triple (a,b,c) is a triple where a, b, and c are integers and a2 + b2 = c2.
+
+Given an integer n, return the number of square triples such that 1 <= a, b, c <= n.
+
+ 
+
+Example 1:
+
+Input: n = 5
+Output: 2
+Explanation: The square triples are (3,4,5) and (4,3,5).
+Example 2:
+
+Input: n = 10
+Output: 4
+Explanation: The square triples are (3,4,5), (4,3,5), (6,8,10), and (8,6,10).
+ 
+
+Constraints:
+
+1 <= n <= 250
+solution:
+class Solution:
+    def countTriples(self, n: int) -> int:
+        squares = {i * i  for i in range(1, n+1)}
+        count = 0
+        for a in range(1, n+1):
+            a2 = a* a
+            for b in range(a+1, n+1):
+                if a2 + b * b in squares:
+                    count += 1
+
+
+        return count * 2
+
+2. 1876. Substrings of Size Three with Distinct Characters
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A string is good if there are no repeated characters.
+
+Given a string s​​​​​, return the number of good substrings of length three in s​​​​​​.
+
+Note that if there are multiple occurrences of the same substring, every occurrence should be counted.
+
+A substring is a contiguous sequence of characters in a string.
+
+ 
+
+Example 1:
+
+Input: s = "xyzzaz"
+Output: 1
+Explanation: There are 4 substrings of size 3: "xyz", "yzz", "zza", and "zaz". 
+The only good substring of length 3 is "xyz".
+Example 2:
+
+Input: s = "aababcabc"
+Output: 4
+Explanation: There are 7 substrings of size 3: "aab", "aba", "bab", "abc", "bca", "cab", and "abc".
+The good substrings are "abc", "bca", "cab", and "abc".
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s​​​​​​ consists of lowercase English letters.
+solution:
+class Solution:
+    def countGoodSubstrings(self, s: str) -> int:
+        count = 0
+        for i in range(len(s) - 2):
+            if len({s[i], s[i+1], s[i+2]}) == 3:
+                count += 1
+        return count
+
+3. 3120. Count the Number of Special Characters I
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string word. A letter is called special if it appears both in lowercase and uppercase in word.
+
+Return the number of special letters in word.
+
+ 
+
+Example 1:
+
+Input: word = "aaAbcBC"
+
+Output: 3
+
+Explanation:
+
+The special characters in word are 'a', 'b', and 'c'.
+
+Example 2:
+
+Input: word = "abc"
+
+Output: 0
+
+Explanation:
+
+No character in word appears in uppercase.
+
+Example 3:
+
+Input: word = "abBCab"
+
+Output: 1
+
+Explanation:
+
+The only special character in word is 'b'.
+
+ 
+
+Constraints:
+
+1 <= word.length <= 50
+word consists of only lowercase and uppercase English letters.
+solution:
+class Solution:
+    def numberOfSpecialChars(self, word: str) -> int:
+        set_words = set(word)
+        count = 0
+        for word in set_words:
+            if word.islower():
+                if word.upper() in set_words:
+                    count += 1
+
+        return count
+
+4. The Hamming distance between two integers is the number of positions at which the corresponding bits are different.
+
+Given two integers x and y, return the Hamming distance between them.
+
+ 
+
+Example 1:
+
+Input: x = 1, y = 4
+Output: 2
+Explanation:
+1   (0 0 0 1)
+4   (0 1 0 0)
+       ↑   ↑
+The above arrows point to positions where the corresponding bits are different.
+Example 2:
+
+Input: x = 3, y = 1
+Output: 1
+ 
+
+Constraints:
+
+0 <= x, y <= 231 - 1
+ 
+
+Note: This question is the same as 2220: Minimum Bit Flips to Convert Number.
+solution:
+class Solution:
+    def hammingDistance(self, x: int, y: int) -> int:
+        return (x ^ y).bit_count()
+
+5. 2220. Minimum Bit Flips to Convert Number
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A bit flip of a number x is choosing a bit in the binary representation of x and flipping it from either 0 to 1 or 1 to 0.
+
+For example, for x = 7, the binary representation is 111 and we may choose any bit (including any leading zeros not shown) and flip it. We can flip the first bit from the right to get 110, flip the second bit from the right to get 101, flip the fifth bit from the right (a leading zero) to get 10111, etc.
+Given two integers start and goal, return the minimum number of bit flips to convert start to goal.
+
+ 
+
+Example 1:
+
+Input: start = 10, goal = 7
+Output: 3
+Explanation: The binary representation of 10 and 7 are 1010 and 0111 respectively. We can convert 10 to 7 in 3 steps:
+- Flip the first bit from the right: 1010 -> 1011.
+- Flip the third bit from the right: 1011 -> 1111.
+- Flip the fourth bit from the right: 1111 -> 0111.
+It can be shown we cannot convert 10 to 7 in less than 3 steps. Hence, we return 3.
+Example 2:
+
+Input: start = 3, goal = 4
+Output: 3
+Explanation: The binary representation of 3 and 4 are 011 and 100 respectively. We can convert 3 to 4 in 3 steps:
+- Flip the first bit from the right: 011 -> 010.
+- Flip the second bit from the right: 010 -> 000.
+- Flip the third bit from the right: 000 -> 100.
+It can be shown we cannot convert 3 to 4 in less than 3 steps. Hence, we return 3.
+ 
+
+Constraints:
+
+0 <= start, goal <= 109
+solution:
+class Solution:
+    def minBitFlips(self, start: int, goal: int) -> int:
+        return (start ^ goal).bit_count()
+
+Codechef:
+1.Wordle
+Chef invented a modified wordle.
+
+There is a hidden word 
+S
+S and a guess word 
+T
+T, both of length 
+5
+5.
+
+Chef defines a string 
+M
+M to determine the correctness of the guess word. For the 
+i
+t
+h
+i 
+th
+  index:
+
+If the guess at the 
+i
+t
+h
+i 
+th
+  index is correct, the 
+i
+t
+h
+i 
+th
+  character of 
+M
+M is 
+G
+G.
+If the guess at the 
+i
+t
+h
+i 
+th
+  index is wrong, the 
+i
+t
+h
+i 
+th
+  character of 
+M
+M is 
+B
+B.
+Given the hidden word 
+S
+S and guess 
+T
+T, determine string 
+M
+M.
+
+Input Format
+First line will contain 
+T
+T, number of test cases. Then the test cases follow.
+Each test case contains of two lines of input.
+First line contains the string 
+S
+S - the hidden word.
+Second line contains the string 
+T
+T - the guess word.
+Output Format
+For each test case, print the value of string 
+M
+M.
+
+You may print each character of the string in uppercase or lowercase (for example, the strings 
+BgBgB
+BgBgB, 
+BGBGB
+BGBGB, 
+bgbGB
+bgbGB and 
+bgbgb
+bgbgb will all be treated as identical).
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+∣
+S
+∣
+=
+∣
+T
+∣
+=
+5
+∣S∣=∣T∣=5
+S
+,
+T
+S,T contain uppercase english alphabets only.
+Sample 1:
+Input
+Output
+3
+ABCDE
+EDCBA
+ROUND
+RINGS
+START
+STUNT
+BBGBB
+GBBBB
+GGBBG
+Explanation:
+Test Case 
+1
+1: Given string 
+S
+=
+ABCDE
+S=ABCDE and 
+T
+=
+EDCBA
+T=EDCBA. The string 
+M
+M is:
+
+Comparing the first indices, 
+A
+≠
+E
+A=E, thus, 
+M
+[
+1
+]
+=
+B
+M[1]=B.
+Comparing the second indices, 
+B
+≠
+D
+B=D, thus, 
+M
+[
+2
+]
+=
+B
+M[2]=B.
+Comparing the third indices, 
+C
+=
+C
+C=C, thus, 
+M
+[
+3
+]
+=
+G
+M[3]=G.
+Comparing the fourth indices, 
+D
+≠
+B
+D=B, thus, 
+M
+[
+4
+]
+=
+B
+M[4]=B.
+Comparing the fifth indices, 
+E
+≠
+A
+E=A, thus, 
+M
+[
+5
+]
+=
+B
+M[5]=B.
+Thus, 
+M
+=
+BBGBB
+M=BBGBB.
+Test Case 
+2
+2: Given string 
+S
+=
+ROUND
+S=ROUND and 
+T
+=
+RINGS
+T=RINGS. The string 
+M
+M is:
+
+Comparing the first indices, 
+R
+=
+R
+R=R, thus, 
+M
+[
+1
+]
+=
+G
+M[1]=G.
+Comparing the second indices, 
+O
+≠
+I
+O=I, thus, 
+M
+[
+2
+]
+=
+B
+M[2]=B.
+Comparing the third indices, 
+U
+≠
+N
+U=N, thus, 
+M
+[
+3
+]
+=
+B
+M[3]=B.
+Comparing the fourth indices, 
+N
+≠
+G
+N=G, thus, 
+M
+[
+4
+]
+=
+B
+M[4]=B.
+Comparing the fifth indices, 
+D
+≠
+S
+D=S, thus, 
+M
+[
+5
+]
+=
+B
+M[5]=B.
+Thus, 
+M
+=
+GBBBB
+M=GBBBB.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    s = input()
+    t = input()
+    new = ["G" if s[i] == t[i] else "B" for i in range(len(s))]
+    print("".join(new))
+
+2. Different Consecutive Characters
+Chef has a binary string 
+S
+S of length 
+N
+N. Chef can perform the following operation on 
+S
+S:
+
+Insert any character (
+0
+0 or 
+1
+1) at any position in 
+S
+S.
+Find the minimum number of operations Chef needs to perform so that no two consecutive characters are same in 
+S
+S.
+
+Input Format
+The first line contains a single integer 
+T
+T — the number of test cases. Then the test cases follow.
+The first line of each test case contains an integer 
+N
+N — the length of the binary string 
+S
+S.
+The second line of each test case contains a binary string 
+S
+S of length 
+N
+N containing 
+0
+0s and 
+1
+1s only.
+Output Format
+For each test case, output on a new line the minimum number of operations Chef needs to perform so that no two consecutive characters are same in 
+S
+S.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+N
+≤
+1000
+1≤N≤1000
+Sample 1:
+Input
+Output
+3
+2
+11
+4
+0101
+5
+00100
+1
+0
+2
+Explanation:
+Test case 1: We can perform the following operations: 
+11
+→
+1
+0
+‾
+1
+11→1 
+0
+​
+ 1.
+
+Test case 2: We do not need to perform any operations.
+
+Test case 3: We can perform the following operations: 
+00100
+→
+0
+1
+‾
+0100
+→
+01010
+1
+‾
+0
+00100→0 
+1
+​
+ 0100→01010 
+1
+​
+ 0.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n = int(input())
+    line = input()
+    count = 0
+    for i in range(n-1):
+        if line[i] == line[i+1]:
+            count += 1 
+    print(count)
+
+3. Chef and Happy String
+Chef has a string 
+S
+S with him. Chef is happy if the string contains a contiguous substring of length strictly greater than 
+2
+2 in which all its characters are vowels.
+
+Determine whether Chef is happy or not.
+
+Note that, in english alphabet, vowels are a, e, i, o, and u.
+
+Input Format
+First line will contain 
+T
+T, number of test cases. Then the test cases follow.
+Each test case contains of a single line of input, a string 
+S
+S.
+Output Format
+For each test case, if Chef is happy, print HAPPY else print SAD.
+
+You may print each character of the string in uppercase or lowercase (for example, the strings hAppY, Happy, haPpY, and HAPPY will all be treated as identical).
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+3
+≤
+∣
+S
+∣
+≤
+1000
+3≤∣S∣≤1000, where 
+∣
+S
+∣
+∣S∣ is the length of 
+S
+S.
+S
+S will only contain lowercase English letters.
+Sample 1:
+Input
+Output
+4
+aeiou
+abxy
+aebcdefghij
+abcdeeafg
+Happy
+Sad
+Sad
+Happy
+Explanation:
+Test case 
+1
+1: Since the string aeiou is a contiguous substring and consists of all vowels and has a length 
+>
+2
+>2, Chef is happy.
+
+Test case 
+2
+2: Since none of the contiguous substrings of the string consist of all vowels and have a length 
+>
+2
+>2, Chef is sad.
+
+Test case 
+3
+3: Since none of the contiguous substrings of the string consist of all vowels and have a length 
+>
+2
+>2, Chef is sad.
+
+Test case 
+4
+4: Since the string eea is a contiguous substring and consists of all vowels and has a length 
+>
+2
+>2, Chef is happy.
+sollution:
+t = int(input())
+vowels = set('aeiou')
+while t > 0:
+    s = input()
+    # Your code goes here
+    count = 0
+    happy = False
+    for c in s:
+        if c in vowels:
+            count += 1
+            if count >= 3:
+                happy = True
+                break
+        else:
+            count = 0
+    print("Happy" if happy else "Sad")
+    
+    t -= 1
+
+4. Blobby Volley Scores
+Alice and Bob are playing a game of Blobby Volley. In this game, in each turn, one player is the server and the other player is the receiver. Initially, Alice is the server, and Bob is the receiver.
+
+If the server wins the point in this turn, their score increases by 1, and they remain as the server for the next turn.
+But if the receiver wins the point in this turn, their score does not increase. But they become the server in the next turn.
+In other words, your score increases only when you win a point when you are the server.
+Please see the Sample Inputs and Explanation for more detailed explanation.
+
+They start with a score of 
+0
+0 each, and play 
+N
+N turns. The winner of each of those hands is given to you as a string consisting of 'A's and 'B's. 'A' denoting that Alice won that point, and 'B' denoting that Bob won that point. Your job is the find the score of both of them after the 
+N
+N turns.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of two lines of input.
+The first line of each test case contains one integer 
+N
+N — the number of turns.
+The line contains a string 
+S
+S of length 
+N
+N.
+If the 
+i
+t
+h
+i 
+th
+  character of this string is 'A', then Alice won that point.
+If the 
+i
+t
+h
+i 
+th
+  character of this string is 'B', then Bob won that point.
+Output Format
+For each test case, output on a new line, two space-separated integers - Alice's final score, and Bob's final score.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+N
+≤
+1000
+1≤N≤1000
+Length of 
+∣
+S
+∣
+∣S∣ = 
+N
+N
+S
+S consists only of the characters 'A' and 'B'.
+Sample 1:
+Input
+Output
+4
+3
+AAA
+4
+BBBB
+5
+ABABB
+5
+BABAB
+3 0
+0 3
+1 1
+0 0
+Explanation:
+Testcase 1: The given string is "AAA".
+
+Score is 0, 0.
+Turn 1. Alice is the server, and Bob is the receiver. Alice wins.
+Score is 1, 0.
+Turn 2. Alice is the server, and Bob is the receiver. Alice wins.
+Score is 2, 0.
+Turn 3. Alice is the server, and Bob is the receiver. Alice wins.
+Score is 3, 0.
+This is the final score, and so the output is 3 0.
+
+Testcase 3: The given string is "ABABB".
+
+Score is 0, 0.
+Turn 1. Alice is the server, and Bob is the receiver. Alice wins.
+Score is 1, 0.
+Turn 2. Alice is the server, and Bob is the receiver. Bob wins.
+Score is 1, 0. [Note that Bob's score doesn't increase]
+Turn 3. Bob is the server, and Alice is the receiver. Alice wins.
+Score is 1, 0. [Note that Alice's score doesn't increase]
+Turn 4. Alice is the server, and Bob is the receiver. Bob wins.
+Score is 1, 0. [Note that Bob's score doesn't increase]
+Turn 5. Bob is the server, and Alice is the receiver. Bob wins.
+Score is 1, 1.
+This is the final score, and so the output is 1 1.
+
+Testcase 4: The given string is "BABAB".
+
+Score is 0, 0.
+Turn 1. Alice is the server, and Bob is the receiver. Bob wins.
+Score is 0, 0.
+Turn 2. Bob is the server, and Alice is the receiver. Alice wins.
+Score is 0, 0.
+Turn 3. Alice is the server, and Bob is the receiver. Bob wins.
+Score is 0, 0.
+Turn 4. Bob is the server, and Alice is the receiver. Alice wins.
+Score is 0, 0.
+Turn 5. Alice is the server, and Bob is the receiver. Bob wins.
+Score is 0, 0.
+This is the final score, and so the output is 0 0.
+solution:
+t = int(input())
+
+while t > 0:
+    n = int(input())
+    s = input().strip()
+    
+    alice_score = 0
+    bob_score = 0
+    server = 'A'   # Alice starts as server
+    
+    for c in s:
+        if c == server:
+            # Server wins → score +1, stays server
+            if c == 'A':
+                alice_score += 1
+            else:
+                bob_score += 1
+        else:
+            # Receiver wins → no score change, but becomes server
+            server = c
+    
+    print(alice_score, bob_score)
+    t -= 1
+
+5. Average Permutation
+You are given an integer 
+N
+N.
+
+Find a permutation 
+P
+=
+[
+P
+1
+,
+P
+2
+,
+…
+,
+P
+N
+]
+P=[P 
+1
+​
+ ,P 
+2
+​
+ ,…,P 
+N
+​
+ ] of the integers 
+{
+1
+,
+2
+,
+…
+,
+N
+}
+{1,2,…,N} such that sum of averages of all consecutive triplets is minimized, i.e.
+
+∑
+i
+=
+1
+N
+−
+2
+P
+i
++
+P
+i
++
+1
++
+P
+i
++
+2
+3
+i=1
+∑
+N−2
+​
+  
+3
+P 
+i
+​
+ +P 
+i+1
+​
+ +P 
+i+2
+​
+ 
+​
+ 
+is minimized.
+
+If multiple permutations are possible, print any of them.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+The first and only line of each test case contains an integer N, the size of the permutation.
+Output Format
+For each test case, output on a new line a permutation which satisfies the above conditions.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+3
+≤
+N
+≤
+10
+5
+3≤N≤10 
+5
+ 
+The sum of 
+N
+N over all test cases won't exceed 
+3
+⋅
+10
+5
+3⋅10 
+5
+ .
+Sample 1:
+Input
+Output
+2
+4
+3
+3 2 1 4
+3 2 1
+Explanation:
+Test case 
+1
+1: The sum is 
+P
+1
++
+P
+2
++
+P
+3
+3
++
+P
+2
++
+P
+3
++
+P
+4
+3
+=
+3
++
+2
++
+1
+3
++
+2
++
+1
++
+4
+3
+=
+6
+/
+3
++
+7
+/
+3
+=
+4.333
+…
+3
+P 
+1
+​
+ +P 
+2
+​
+ +P 
+3
+​
+ 
+​
+ + 
+3
+P 
+2
+​
+ +P 
+3
+​
+ +P 
+4
+​
+ 
+​
+ = 
+3
+3+2+1
+​
+ + 
+3
+2+1+4
+​
+ =6/3+7/3=4.333… Among all possible permutations of 
+{
+1
+,
+2
+,
+3
+,
+4
+}
+{1,2,3,4}, this is one of the permutations which provides the minimum result.
+
+Test case 
+2
+2: The sum is 
+3
++
+2
++
+1
+3
+=
+6
+/
+3
+=
+2
+3
+3+2+1
+​
+ =6/3=2. Every permutation of size 
+3
+3 will have this value, hence it is the minimum possible.
+solution::
+# Read number of test cases
+t = int(input())
+
+for _ in range(t):
+    n = int(input())
+    
+    # Odds in descending order
+    odds = list(range(n if n % 2 == 1 else n - 1, 0, -2))
+    # Evens in ascending order
+    evens = list(range(2, n + 1, 2))
+    
+    result = odds + evens
+    print(*result)
+
+l = 5, c= 5
+

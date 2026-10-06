@@ -1,0 +1,813 @@
+Leetcode:
+1. 3750. Minimum Number of Flips to Reverse Binary String
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a positive integer n.
+
+Let s be the binary representation of n without leading zeros.
+
+The reverse of a binary string s is obtained by writing the characters of s in the opposite order.
+
+You may flip any bit in s (change 0 → 1 or 1 → 0). Each flip affects exactly one bit.
+
+Return the minimum number of flips required to make s equal to the reverse of its original form.
+
+ 
+
+Example 1:
+
+Input: n = 7
+
+Output: 0
+
+Explanation:
+
+The binary representation of 7 is "111". Its reverse is also "111", which is the same. Hence, no flips are needed.
+
+Example 2:
+
+Input: n = 10
+
+Output: 4
+
+Explanation:
+
+The binary representation of 10 is "1010". Its reverse is "0101". All four bits must be flipped to make them equal. Thus, the minimum number of flips required is 4.
+
+ 
+
+Constraints:
+
+1 <= n <= 109
+solution:
+class Solution:
+    def minimumFlips(self, n: int) -> int:
+        s = bin(n)[2:]
+        return sum(a!=b for a,b in zip(s, s[::-1]))
+
+2. 2670. Find the Distinct Difference Array
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed array nums of length n.
+
+The distinct difference array of nums is an array diff of length n such that diff[i] is equal to the number of distinct elements in the suffix nums[i + 1, ..., n - 1] subtracted from the number of distinct elements in the prefix nums[0, ..., i].
+
+Return the distinct difference array of nums.
+
+Note that nums[i, ..., j] denotes the subarray of nums starting at index i and ending at index j inclusive. Particularly, if i > j then nums[i, ..., j] denotes an empty subarray.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,4,5]
+Output: [-3,-1,1,3,5]
+Explanation: For index i = 0, there is 1 element in the prefix and 4 distinct elements in the suffix. Thus, diff[0] = 1 - 4 = -3.
+For index i = 1, there are 2 distinct elements in the prefix and 3 distinct elements in the suffix. Thus, diff[1] = 2 - 3 = -1.
+For index i = 2, there are 3 distinct elements in the prefix and 2 distinct elements in the suffix. Thus, diff[2] = 3 - 2 = 1.
+For index i = 3, there are 4 distinct elements in the prefix and 1 distinct element in the suffix. Thus, diff[3] = 4 - 1 = 3.
+For index i = 4, there are 5 distinct elements in the prefix and no elements in the suffix. Thus, diff[4] = 5 - 0 = 5.
+Example 2:
+
+Input: nums = [3,2,3,4,2]
+Output: [-2,-1,0,2,3]
+Explanation: For index i = 0, there is 1 element in the prefix and 3 distinct elements in the suffix. Thus, diff[0] = 1 - 3 = -2.
+For index i = 1, there are 2 distinct elements in the prefix and 3 distinct elements in the suffix. Thus, diff[1] = 2 - 3 = -1.
+For index i = 2, there are 2 distinct elements in the prefix and 2 distinct elements in the suffix. Thus, diff[2] = 2 - 2 = 0.
+For index i = 3, there are 3 distinct elements in the prefix and 1 distinct element in the suffix. Thus, diff[3] = 3 - 1 = 2.
+For index i = 4, there are 3 distinct elements in the prefix and no elements in the suffix. Thus, diff[4] = 3 - 0 = 3.
+ 
+
+Constraints:
+
+1 <= n == nums.length <= 50
+1 <= nums[i] <= 50
+solution:
+class Solution:
+    def distinctDifferenceArray(self, nums: List[int]) -> List[int]:
+        res = []
+        for i in range(len(nums)):
+            res.append(len(set(nums[:i+1])) - len(set(nums[i+1:])))
+
+        return res
+
+3. 2138. Divide a String Into Groups of Size k
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A string s can be partitioned into groups of size k using the following procedure:
+
+The first group consists of the first k characters of the string, the second group consists of the next k characters of the string, and so on. Each element can be a part of exactly one group.
+For the last group, if the string does not have k characters remaining, a character fill is used to complete the group.
+Note that the partition is done so that after removing the fill character from the last group (if it exists) and concatenating all the groups in order, the resultant string should be s.
+
+Given the string s, the size of each group k and the character fill, return a string array denoting the composition of every group s has been divided into, using the above procedure.
+
+ 
+
+Example 1:
+
+Input: s = "abcdefghi", k = 3, fill = "x"
+Output: ["abc","def","ghi"]
+Explanation:
+The first 3 characters "abc" form the first group.
+The next 3 characters "def" form the second group.
+The last 3 characters "ghi" form the third group.
+Since all groups can be completely filled by characters from the string, we do not need to use fill.
+Thus, the groups formed are "abc", "def", and "ghi".
+Example 2:
+
+Input: s = "abcdefghij", k = 3, fill = "x"
+Output: ["abc","def","ghi","jxx"]
+Explanation:
+Similar to the previous example, we are forming the first three groups "abc", "def", and "ghi".
+For the last group, we can only use the character 'j' from the string. To complete this group, we add 'x' twice.
+Thus, the 4 groups formed are "abc", "def", "ghi", and "jxx".
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists of lowercase English letters only.
+1 <= k <= 100
+fill is a lowercase English letter.
+solution:
+class Solution:
+    def divideString(self, s: str, k: int, fill: str) -> list[str]:
+        # Pad string to multiple of k, then slice
+        if len(s) % k != 0:
+            s += fill * (k - len(s) % k)
+        return [s[i:i+k] for i in range(0, len(s), k)]
+
+4. 496. Next Greater Element I
+Easy
+Topics
+premium lock icon
+Companies
+The next greater element of some element x in an array is the first greater element that is to the right of x in the same array.
+
+You are given two distinct 0-indexed integer arrays nums1 and nums2, where nums1 is a subset of nums2.
+
+For each 0 <= i < nums1.length, find the index j such that nums1[i] == nums2[j] and determine the next greater element of nums2[j] in nums2. If there is no next greater element, then the answer for this query is -1.
+
+Return an array ans of length nums1.length such that ans[i] is the next greater element as described above.
+
+ 
+
+Example 1:
+
+Input: nums1 = [4,1,2], nums2 = [1,3,4,2]
+Output: [-1,3,-1]
+Explanation: The next greater element for each value of nums1 is as follows:
+- 4 is underlined in nums2 = [1,3,4,2]. There is no next greater element, so the answer is -1.
+- 1 is underlined in nums2 = [1,3,4,2]. The next greater element is 3.
+- 2 is underlined in nums2 = [1,3,4,2]. There is no next greater element, so the answer is -1.
+Example 2:
+
+Input: nums1 = [2,4], nums2 = [1,2,3,4]
+Output: [3,-1]
+Explanation: The next greater element for each value of nums1 is as follows:
+- 2 is underlined in nums2 = [1,2,3,4]. The next greater element is 3.
+- 4 is underlined in nums2 = [1,2,3,4]. There is no next greater element, so the answer is -1.
+ 
+
+Constraints:
+
+1 <= nums1.length <= nums2.length <= 1000
+0 <= nums1[i], nums2[i] <= 104
+All integers in nums1 and nums2 are unique.
+All the integers of nums1 also appear in nums2.
+ 
+
+Follow up: Could you find an O(nums1.length + nums2.length) solution?
+solution:
+class Solution:
+    def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
+        return [
+            next((y for y in nums2[nums2.index(x)+1:] if y > x), -1)
+            for x in nums1
+        ]
+
+5. 3856. Trim Trailing Vowels
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s that consists of lowercase English letters.
+
+Return the string obtained by removing all trailing vowels from s.
+
+The vowels consist of the characters 'a', 'e', 'i', 'o', and 'u'.
+
+ 
+
+Example 1:
+
+Input: s = "idea"
+
+Output: "id"
+
+Explanation:
+
+Removing "idea", we obtain the string "id".
+
+Example 2:
+
+Input: s = "day"
+
+Output: "day"
+
+Explanation:
+
+There are no trailing vowels in the string "day".
+
+Example 3:
+
+Input: s = "aeiou"
+
+Output: ""
+
+Explanation:
+
+Removing "aeiou", we obtain the string "".
+
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists of only lowercase English letters.
+ 
+solution:
+class Solution:
+    def trimTrailingVowels(self, s: str) -> str:
+        return s.rstrip("aeiou")
+
+Codechef:
+1.Hotel Bytelandia
+A holiday weekend is coming up, and Hotel Bytelandia needs to find out if it has enough rooms to accommodate all potential guests. A number of guests have made reservations. Each reservation consists of an arrival time, and a departure time. The hotel management has hired you to calculate the maximum number of guests that will be at the hotel simultaneously. Note that if one guest arrives at the same time another leaves, they are never considered to be at the hotel simultaneously (see the second example).
+
+Input
+Input will begin with an integer T, the number of test cases. Each test case begins with an integer N, the number of guests. Two lines follow, each with exactly N positive integers. The i-th integer of the first line is the arrival time of the i-th guest, and the i-th integer of the second line is the departure time of the i-th guest (which will be strictly greater than the arrival time).
+
+Output
+For each test case, print the maximum number of guests that are simultaneously at the hotel.
+
+Constraints
+T≤100
+N≤100
+All arrival/departure times will be between 1 and 1000, inclusive
+Sample 1:
+Input
+Output
+3
+3
+1 2 3
+4 5 6
+5
+1 2 3 4 5
+2 3 4 5 6
+7
+13 6 5 8 2 10 12
+19 18 6 9 9 11 15
+
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n = int(input())
+    nums1 = map(int, input().split())
+    nums2 = map(int, input().split())
+    
+    # Constraints say times are up to 1000
+    count = [0] * 1002
+    
+    for a, d in zip(nums1, nums2):
+        # A guest is present from arrival 'a' up to just before departure 'd'
+        for time in range(a, d):
+            count[time] += 1
+            
+    print(max(count))
+
+2. Search an element in an array
+You are given an array 
+A
+A of size 
+N
+N and an element 
+X
+X. Your task is to find whether the array 
+A
+A contains the element 
+X
+X or not.
+
+Function Declaration
+Function Name
+s
+o
+l
+v
+e
+solve – This function checks whether a given element X is present in the array A.
+
+Parameters
+N
+N : An integer representing the number of elements in the array.
+X
+X : An integer representing the element to be searched.
+A
+A : A list/array of integers of length N, representing the input array.
+Return Value
+Returns a string:
+
+"YES" if the element 
+X
+X exists in the array 
+A
+A.
+"NO" if the element 
+X
+X is not present in the array.
+Input Format
+The first line contains two space-separated integers 
+N
+N and 
+X
+X — the size of array and the element to be searched.
+The second line contains all the elements of array 
+A
+A
+Output Format
+Output "YES" if the element 
+X
+X is present in 
+A
+A, otherwise output "NO".
+
+Constraints
+1
+≤
+N
+,
+X
+≤
+10
+5
+1≤N,X≤10 
+5
+ 
+1
+≤
+A
+i
+≤
+10
+5
+1≤A 
+i
+​
+ ≤10 
+5
+ 
+Sample 1:
+Input
+Output
+5 3
+7 3 5 2 1
+YES
+Sample 2:
+Input
+Output
+5 10
+7 3 5 2 1
+NO
+solution:
+def solve(N, X, A):
+    # write your code here
+    if X in A:
+        return "YES"
+    else:
+        return "NO"
+
+3. Find maximum in an Array
+Given a list of 
+N
+N integers, representing height of mountains. Find the height of the tallest mountain.
+
+Input:
+First line will contain 
+T
+T, number of testcases. Then the testcases follow.
+The first line in each testcase contains one integer, 
+N
+N.
+The following line contains 
+N
+N space separated integers: the height of each mountains.
+Output:
+For each testcase, output one line with one integer: the height of the tallest mountain for that test case.
+
+Constraints
+1
+≤
+T
+≤
+10
+1≤T≤10
+1
+≤
+N
+≤
+100000
+1≤N≤100000
+0
+≤
+0≤ height of each mountain 
+≤
+10
+9
+≤10 
+9
+ 
+Sample 1:
+Input
+Output
+1
+5
+4 7 6 3 1
+7
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n = int(input())
+    print(max(map(int,input().split())))
+
+4. Largest and Second Largest
+You are given an array 
+A
+A of 
+N
+N integers.
+Find the maximum sum of two distinct integers in the array.
+
+Note: It is guaranteed that there exist at least two distinct integers in the array.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of multiple lines of input.
+The first line of each test case contains single integer 
+N
+N — the size of the array.
+The next line contains 
+N
+N space-separated integers, denoting the array 
+A
+A.
+Output Format
+For each test case, output on a new line, the maximum sum of two distinct integers in the array.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+2
+≤
+N
+≤
+10
+5
+2≤N≤10 
+5
+ 
+1
+≤
+A
+i
+≤
+1000
+1≤A 
+i
+​
+ ≤1000
+The sum of 
+N
+N over all test cases does not exceed 
+2
+⋅
+10
+5
+2⋅10 
+5
+ .
+Sample 1:
+Input
+Output
+4
+3
+4 1 6
+7
+3 7 2 1 1 5 3
+5
+8 2 9 4 9
+2
+1 2
+10
+12
+17
+3
+Explanation:
+Test case 
+1
+1: The maximum sum of two distinct elements is 
+4
++
+6
+=
+10
+4+6=10 .
+
+Test case 
+2
+2: The maximum sum of two distinct elements is 
+7
++
+5
+=
+12
+7+5=12.
+
+Test case 
+3
+3: The maximum sum of two distinct elements is 
+8
++
+9
+=
+17
+8+9=17.
+
+Test case 
+4
+4: The maximum sum of two distinct elements is 
+1
++
+2
+=
+3
+1+2=3.
+solution:
+t = int(input())
+
+while t > 0:
+    n = int(input())
+    a = list(set((map(int, input().split()))))
+    t -= 1
+    # Your code goes here
+    max1 = max(a)
+    a.remove(max1)
+    max2 = max(a)
+    print(max1 + max2)
+
+5. MIN To MAX
+You are given an array 
+A
+A of size 
+N
+N.
+
+Let 
+M
+M be the minimum value present in the array initially.
+In one operation, you can choose an element 
+A
+i
+A 
+i
+​
+  
+(
+1
+≤
+i
+≤
+N
+)
+(1≤i≤N) and an integer 
+X
+X 
+(
+1
+≤
+X
+≤
+100
+)
+(1≤X≤100), and set 
+A
+i
+=
+X
+A 
+i
+​
+ =X.
+
+Determine the minimum number of operations required to make 
+M
+M the maximum value in the array 
+A
+A.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of multiple lines of input.
+The first line of each test case contains a single integer 
+N
+N - the size of the array.
+The next line of each test case contains 
+N
+N space-separated integers 
+A
+1
+,
+A
+2
+,
+…
+,
+A
+N
+A 
+1
+​
+ ,A 
+2
+​
+ ,…,A 
+N
+​
+  - the elements of the array.
+Output Format
+For each test case, output on a new line, the minimum number of operations required to make 
+M
+M the maximum value in the array 
+A
+A.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+N
+≤
+100
+1≤N≤100
+1
+≤
+A
+i
+≤
+100
+1≤A 
+i
+​
+ ≤100
+Sample 1:
+Input
+Output
+3
+2
+1 2
+4
+2 2 3 4
+1
+1
+1
+2
+0
+Explanation:
+Test case 
+1
+1: The minimum value in the array, 
+M
+M, is initially 
+1
+1. We can use one operation as following:
+
+Choose 
+A
+2
+A 
+2
+​
+  and set it as 
+X
+=
+1
+X=1. Thus, the final array becomes 
+[
+1
+,
+1
+]
+[1,1].
+Since all elements of the final array are 
+1
+1, the maximum value of the array is now 
+1
+1. It can be shown that this is the minimum number of operations required to do so.
+
+Test case 
+2
+2: The minimum value in the array, 
+M
+M, is initially 
+2
+2. We can use two operations as following:
+
+Choose 
+A
+4
+A 
+4
+​
+  and set it as 
+X
+=
+2
+X=2. Thus, the array becomes 
+[
+2
+,
+2
+,
+3
+,
+2
+]
+[2,2,3,2].
+Choose 
+A
+3
+A 
+3
+​
+  and set it as 
+X
+=
+2
+X=2. Thus, the array becomes 
+[
+2
+,
+2
+,
+2
+,
+2
+]
+[2,2,2,2].
+Since all elements of the final array are 
+2
+2, the maximum value of the array is now 
+2
+2.
+
+Test case 
+3
+3: The minimum value in the array, 
+M
+M, is initially 
+1
+1. It is also the maximum value of the array. Hence, no operations are required.
+solution:
+class Solution:
+    def count_non_minimum(self, nums):
+        # write your code here
+        if not nums:
+            return 0
+        mini = min(nums)
+        return len(nums) - nums.count(mini)
+        
+l = 5, c= 5

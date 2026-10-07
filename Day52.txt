@@ -1,0 +1,1188 @@
+Leetcode:
+1. 2733. Neither Minimum nor Maximum
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an integer array nums containing distinct positive integers, find and return any number from the array that is neither the minimum nor the maximum value in the array, or -1 if there is no such number.
+
+Return the selected integer.
+
+ 
+
+Example 1:
+
+Input: nums = [3,2,1,4]
+Output: 2
+Explanation: In this example, the minimum value is 1 and the maximum value is 4. Therefore, either 2 or 3 can be valid answers.
+Example 2:
+
+Input: nums = [1,2]
+Output: -1
+Explanation: Since there is no number in nums that is neither the maximum nor the minimum, we cannot select a number that satisfies the given condition. Therefore, there is no answer.
+Example 3:
+
+Input: nums = [2,1,3]
+Output: 2
+Explanation: Since 2 is neither the maximum nor the minimum value in nums, it is the only valid answer. 
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+1 <= nums[i] <= 100
+All values in nums are distinct
+solution:
+class Solution:
+    def findNonMinOrMax(self, nums: List[int]) -> int:
+        return sorted(nums)[1] if len(nums) >= 3 else -1 
+
+2. 2788. Split Strings by Separator
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an array of strings words and a character separator, split each string in words by separator.
+
+Return an array of strings containing the new strings formed after the splits, excluding empty strings.
+
+Notes
+
+separator is used to determine where the split should occur, but it is not included as part of the resulting strings.
+A split may result in more than two strings.
+The resulting strings must maintain the same order as they were initially given.
+ 
+
+Example 1:
+
+Input: words = ["one.two.three","four.five","six"], separator = "."
+Output: ["one","two","three","four","five","six"]
+Explanation: In this example we split as follows:
+
+"one.two.three" splits into "one", "two", "three"
+"four.five" splits into "four", "five"
+"six" splits into "six" 
+
+Hence, the resulting array is ["one","two","three","four","five","six"].
+Example 2:
+
+Input: words = ["$easy$","$problem$"], separator = "$"
+Output: ["easy","problem"]
+Explanation: In this example we split as follows: 
+
+"$easy$" splits into "easy" (excluding empty strings)
+"$problem$" splits into "problem" (excluding empty strings)
+
+Hence, the resulting array is ["easy","problem"].
+Example 3:
+
+Input: words = ["|||"], separator = "|"
+Output: []
+Explanation: In this example the resulting split of "|||" will contain only empty strings, so we return an empty array []. 
+ 
+
+Constraints:
+
+1 <= words.length <= 100
+1 <= words[i].length <= 20
+characters in words[i] are either lowercase English letters or characters from the string ".,|$#@" (excluding the quotes)
+separator is a character from the string ".,|$#@" (excluding the quotes)
+solution:
+class Solution:
+    def splitWordsBySeparator(self, words: List[str], separator: str) -> List[str]:
+        res = []
+        for word in words:
+            for part in word.split(separator):
+                if part:                # ✓ Filter empty strings
+                    res.append(part)
+        return res
+
+3. 905. Sort Array By Parity
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Given an integer array nums, move all the even integers at the beginning of the array followed by all the odd integers.
+
+Return any array that satisfies this condition.
+
+ 
+
+Example 1:
+
+Input: nums = [3,1,2,4]
+Output: [2,4,3,1]
+Explanation: The outputs [4,2,3,1], [2,4,1,3], and [4,2,1,3] would also be accepted.
+Example 2:
+
+Input: nums = [0]
+Output: [0]
+ 
+
+Constraints:
+
+1 <= nums.length <= 5000
+0 <= nums[i] <= 5000
+solution:
+class Solution:
+    def sortArrayByParity(self, nums: list[int]) -> list[int]:
+        res = []
+        for num in nums:
+            if num & 1 == 0:
+                res.append(num)
+        
+        for num in nums:
+            if num & 1 == 1:
+                res.append(num)
+
+        return res
+
+4. 1450. Number of Students Doing Homework at a Given Time
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given two integer arrays startTime and endTime and given an integer queryTime.
+
+The ith student started doing their homework at the time startTime[i] and finished it at time endTime[i].
+
+Return the number of students doing their homework at time queryTime. More formally, return the number of students where queryTime lays in the interval [startTime[i], endTime[i]] inclusive.
+
+ 
+
+Example 1:
+
+Input: startTime = [1,2,3], endTime = [3,2,7], queryTime = 4
+Output: 1
+Explanation: We have 3 students where:
+The first student started doing homework at time 1 and finished at time 3 and wasn't doing anything at time 4.
+The second student started doing homework at time 2 and finished at time 2 and also wasn't doing anything at time 4.
+The third student started doing homework at time 3 and finished at time 7 and was the only student doing homework at time 4.
+Example 2:
+
+Input: startTime = [4], endTime = [4], queryTime = 4
+Output: 1
+Explanation: The only student was doing their homework at the queryTime.
+ 
+
+Constraints:
+
+startTime.length == endTime.length
+1 <= startTime.length <= 100
+1 <= startTime[i] <= endTime[i] <= 1000
+1 <= queryTime <= 1000
+solution:
+class Solution:
+    def busyStudent(self, startTime: List[int], endTime: List[int], queryTime: int) -> int:
+        return sum(s <= queryTime <= e for s, e in zip(startTime, endTime))
+
+5. 3270. Find the Key of the Numbers
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+You are given three positive integers num1, num2, and num3.
+
+The key of num1, num2, and num3 is defined as a four-digit number such that:
+
+Initially, if any number has less than four digits, it is padded with leading zeros.
+The ith digit (1 <= i <= 4) of the key is generated by taking the smallest digit among the ith digits of num1, num2, and num3.
+Return the key of the three numbers without leading zeros (if any).
+
+ 
+
+Example 1:
+
+Input: num1 = 1, num2 = 10, num3 = 1000
+
+Output: 0
+
+Explanation:
+
+On padding, num1 becomes "0001", num2 becomes "0010", and num3 remains "1000".
+
+The 1st digit of the key is min(0, 0, 1).
+The 2nd digit of the key is min(0, 0, 0).
+The 3rd digit of the key is min(0, 1, 0).
+The 4th digit of the key is min(1, 0, 0).
+Hence, the key is "0000", i.e. 0.
+
+Example 2:
+
+Input: num1 = 987, num2 = 879, num3 = 798
+
+Output: 777
+
+Example 3:
+
+Input: num1 = 1, num2 = 2, num3 = 3
+
+Output: 1
+
+ 
+
+Constraints:
+
+1 <= num1, num2, num3 <= 9999
+solution:
+class Solution:
+    def generateKey(self, num1: int, num2: int, num3: int) -> int:
+        a, b, c = f"{num1:04d}", f"{num2:04d}", f"{num3:04d}"
+        return int(''.join(min(x, y, z) for x, y, z in zip(a, b, c)))
+
+Codechef:
+1. Copy and Paste
+Chef has binary string 
+A
+A of length 
+N
+N. He constructs a new binary string 
+B
+B by concatenating 
+M
+M copies of 
+A
+A together. For example, if 
+A
+=
+"10010"
+A="10010", 
+M
+=
+3
+M=3, then 
+B
+=
+"100101001010010"
+B="100101001010010".
+
+Chef calls an index 
+i
+i 
+(
+1
+≤
+i
+≤
+N
+⋅
+M
+)
+(1≤i≤N⋅M) good if:
+
+p
+r
+e
+f
+i
+=
+s
+u
+f
+i
++
+1
+pref 
+i
+​
+ =suf 
+i+1
+​
+ .
+Here, 
+p
+r
+e
+f
+j
+=
+B
+1
++
+B
+2
++
+…
++
+B
+j
+pref 
+j
+​
+ =B 
+1
+​
+ +B 
+2
+​
+ +…+B 
+j
+​
+  and 
+s
+u
+f
+j
+=
+B
+j
++
+B
+j
++
+1
++
+…
++
+B
+N
+⋅
+M
+suf 
+j
+​
+ =B 
+j
+​
+ +B 
+j+1
+​
+ +…+B 
+N⋅M
+​
+  (Note that 
+s
+u
+f
+N
+⋅
+M
++
+1
+=
+0
+suf 
+N⋅M+1
+​
+ =0 by definition)
+
+Chef wants to find the number of good indices in 
+B
+B. Can you help him do so?
+
+Input Format
+The first line contains a single integer 
+T
+T — the number of test cases. Then the test cases follow.
+The first line of each test case contains two space-separated integers 
+N
+N and 
+M
+M — the length of the binary string 
+A
+A and the number of times 
+A
+A is concatenated to form 
+B
+B.
+The second line of each test case contains a binary string 
+A
+A of length 
+N
+N containing 
+0
+0s and 
+1
+1s only.
+Output Format
+For each test case, output the number of good indices in 
+B
+B.
+
+Constraints
+1
+≤
+T
+≤
+10
+5
+1≤T≤10 
+5
+ 
+1
+≤
+N
+,
+M
+≤
+10
+5
+1≤N,M≤10 
+5
+ 
+A
+A is a binary string, i.e, contains only the characters 
+0
+0 and 
+1
+1.
+The sum of 
+N
+N over all test cases does not exceed 
+2
+⋅
+10
+5
+2⋅10 
+5
+ .
+The sum of 
+M
+M over all test cases does not exceed 
+2
+⋅
+10
+5
+2⋅10 
+5
+ .
+Sample 1:
+Input
+Output
+3
+2 2
+00
+2 4
+11
+3 3
+101
+4
+1
+2
+Explanation:
+Test case 
+1
+1: 
+B
+=
+"0000"
+B="0000". In this string, all the indices are good.
+
+Test case 
+2
+2: 
+B
+=
+"11111111"
+B="11111111". In this string, only 
+i
+=
+4
+i=4 is good.
+
+Test case 
+3
+3: 
+B
+=
+"101101101"
+B="101101101". In this string, 
+i
+=
+4
+i=4 and 
+i
+=
+5
+i=5 are good.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n, m = map(int, input().split())
+    a = input()
+    s = a.count('1') * m
+    if s % 2: print(0); continue
+    if s == 0: print(n * m); continue
+    t, p, c, sa = s // 2, 0, 0, s // m
+    for i in range(n):
+        r = t - p
+        if r >= 0 and r % sa == 0:
+            k = r // sa
+            if 0 <= k < m and 1 <= k * n + i <= n * m - 1: c += 1
+        p += a[i] == '1'
+    print(c)
+
+2. Red Light, Green Light
+“You won’t get caught if you hide behind someone.”
+
+Sang-Woo advises Gi-Hun to hide behind someone to avoid getting shot.
+
+Gi-Hun follows Sang-Woo's advice and hides behind Ali, who saved his life earlier. Gi-Hun and Ali both have the same height, 
+K
+K. Many players saw this trick and also started hiding behind Ali.
+
+Now, there are 
+N
+N players standing between Gi-Hun and Ali in a straight line, with the 
+i
+th
+i 
+th
+  player having height 
+H
+i
+H 
+i
+​
+ . Gi-Hun wants to know the minimum number of players who need to get shot so that Ali is visible in his line of sight.
+
+Note:
+
+Line of sight is a straight line drawn between the topmost point of two objects. Ali is visible to Gi-Hun if nobody between them crosses this line.
+Even if there are some players who have the same height as that of Gi-Hun and Ali, Ali will be visible in Gi-Hun's line of sight.
+Gi-Hun and Ali have the same height.
+Input Format
+The first line of input contains a single integer 
+T
+T, denoting the number of test cases. The description of 
+T
+T test cases follows.
+The first line of each test case contains two space-separated integers 
+N
+N and 
+K
+K, denoting the total number of players between Gi-Hun and Ali and the height of both of them respectively.
+The second line of each test case contains 
+N
+N space-separated integers, denoting the heights of the players between Gi-Hun and Ali.
+Output Format
+For each test case, output in a single line the minimum number of players who need to get shot so that Ali is visible in Gi-Hun's line of sight.
+
+Constraints
+1
+≤
+T
+≤
+10
+5
+1≤T≤10 
+5
+ 
+1
+≤
+N
+≤
+10
+5
+1≤N≤10 
+5
+ 
+1
+≤
+K
+≤
+10
+6
+1≤K≤10 
+6
+ 
+1
+≤
+H
+i
+≤
+10
+6
+1≤H 
+i
+​
+ ≤10 
+6
+  for every 
+1
+≤
+i
+≤
+N
+1≤i≤N.
+The sum of 
+N
+N across all test cases does not exceed 
+5
+⋅
+10
+5
+5⋅10 
+5
+ .
+Sample 1:
+Input
+Output
+3
+4 10
+2 13 4 16
+5 8
+9 3 8 8 4
+4 6
+1 2 3 4
+2
+1
+0
+Explanation:
+Test Case 1: Gi-Hun and Ali have height 
+10
+10. For Ali to be visible to Gi-Hun, the second person (with height 
+13
+13) and the fourth person (with height 
+16
+16) need to get shot. Hence, the minimum number of players who need to get shot is 
+2
+2.
+
+Test Case 2: Gi-Hun and Ali have height 
+8
+8. For Ali to be visible to Gi-Hun, the first person (with height 
+9
+9) needs to get shot. Hence, the minimum number of players who need to get shot is 
+1
+1.
+
+Test Case 3: Nobody needs to get shot because everyone is shorter than Gi-Hun and Ali.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n,k = map(int, input().split())
+    nums = map(int, input().split())
+    count = 0
+    for num in nums:
+        if num > k:
+            count += 1
+            
+    print(count)
+
+3. Compress the Video
+Chef recorded a video explaining his favorite recipe. However, the size of the video is too large to upload on the internet. He wants to compress the video so that it has the minimum size possible.
+
+Chef's video has 
+N
+N frames initially. The value of the 
+i
+t
+h
+i 
+th
+  frame is 
+A
+i
+A 
+i
+​
+ . Chef can do the following type of operation any number of times:
+
+Choose an index 
+i
+i 
+(
+1
+≤
+i
+≤
+N
+)
+(1≤i≤N) such that the value of the 
+i
+t
+h
+i 
+th
+  frame is equal to the value of either of its neighbors and remove the 
+i
+t
+h
+i 
+th
+  frame.
+Find the minimum number of frames Chef can achieve.
+
+Input Format
+First line will contain 
+T
+T, the number of test cases. Then the test cases follow.
+The first line of each test case contains a single integer 
+N
+N - the number of frames initially.
+The second line contains 
+N
+N space-separated integers, 
+A
+1
+,
+A
+2
+,
+…
+,
+A
+N
+A 
+1
+​
+ ,A 
+2
+​
+ ,…,A 
+N
+​
+  - the values of the frames.
+Output Format
+For each test case, output in a single line the minimum number of frames Chef can achieve.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+N
+≤
+10
+5
+1≤N≤10 
+5
+ 
+1
+≤
+A
+i
+≤
+10
+6
+1≤A 
+i
+​
+ ≤10 
+6
+ 
+Sum of 
+N
+N over all test cases does not exceed 
+2
+⋅
+10
+5
+2⋅10 
+5
+ .
+Sample 1:
+Input
+Output
+4
+1
+5
+2
+1 1
+3
+1 2 3
+4
+2 1 2 2
+1
+1
+3
+3
+Explanation:
+Test case 
+1
+1: There is only one frame with value 
+5
+5. Since there are no neighbors, Chef won't remove any frame and the minimum number of frames Chef can achieve is 
+1
+1.
+
+Test case 
+2
+2: There are two frames where both frames have value 
+1
+1. Chef can remove the first frame as the value of the first frame is equal to that of the second frame. The remaining frames have values 
+[
+1
+]
+[1]. The minimum number of frames Chef can achieve is 
+1
+1.
+
+Test case 
+3
+3: There are 
+3
+3 frames. All frames have distinct values. Thus, the minimum number of frames Chef can achieve is 
+3
+3.
+
+Test case 
+4
+4: Chef can remove the fourth frame as the value of the fourth frame is equal to that of the third frame. The remaining frames have values 
+[
+2
+,
+1
+,
+2
+]
+[2,1,2]. Thus, the minimum number of frames Chef can achieve is 
+3
+3.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n = int(input())
+    a = list(map(int, input().split()))
+    count = 1
+    for i in range(1, n):
+        if a[i] != a[i-1]:
+            count += 1
+    print(count)
+
+4. Difficulty Rating Order
+Our Chef has some students in his coding class who are practicing problems. Given the difficulty of the problems that the students have solved in order, help the Chef identify if they are solving them in non-decreasing order of difficulty. Non-decreasing means that the values in an array is either increasing or remaining the same, but not decreasing. That is, the students should not solve a problem with difficulty 
+d
+1
+d 
+1
+​
+ , and then later a problem with difficulty 
+d
+2
+d 
+2
+​
+ , where 
+d
+1
+>
+d
+2
+d 
+1
+​
+ >d 
+2
+​
+ .
+
+Output “Yes” if the problems are attempted in non-decreasing order of difficulty rating and “No” if not.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases. The description of the test cases follows.
+Each test case consists of 
+2
+2 lines of input.
+The first line contains a single integer 
+N
+N, the number of problems solved by the students
+The second line contains 
+N
+N space-separate integers, the difficulty ratings of the problems attempted by the students in order.
+Output Format
+For each test case, output in a new line “Yes” if the problems are attempted in non-decreasing order of difficulty rating and “No” if not. The output should be printed without the quotes.
+Each letter of the output may be printed in either lowercase or uppercase. For example, the strings yes, YeS, and YES will all be treated as equivalent.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+2
+≤
+N
+≤
+100
+2≤N≤100
+1
+≤
+1≤ difficulty of each problem 
+≤
+5000
+≤5000
+Sample 1:
+Input
+Output
+4
+3
+1 2 3
+3
+1 1 2
+5
+100 200 300 400 350
+5
+1000 2000 5000 3000 1000
+Yes
+Yes
+No
+No
+Explanation:
+Test case 
+1
+1: 
+1
+≤
+2
+≤
+3
+1≤2≤3. The students have solved problems in increasing order, and so the answer is "Yes".
+
+Test case 
+2
+2: 
+1
+≤
+1
+≤
+2
+1≤1≤2. The students have solved problems in non-decreasing order, and so the answer is "Yes".
+
+Test case 
+3
+3: 
+400
+>
+350
+400>350, but the students have solved a 
+400
+400-difficulty level problem before solving a 
+350
+350-difficulty problem. The students have not solved problems in non-decreasing order, and so the answer is "No".
+
+Test case 
+4
+4: 
+5000
+>
+3000
+5000>3000, but the students have solved a 
+5000
+5000-difficulty level problem before solving a 
+3000
+3000-difficulty problem. The students have not solved problems in non-decreasing order, and so the answer is "No".
+solution:
+t = int(input())
+
+while t > 0:
+    n = int(input())
+    d = list(map(int, input().split()))
+    # Your code goes here
+    if sorted(d) == d:
+        print("Yes")
+    else:
+        print("No")
+    t -= 1
+
+5. The Squid Game
+"Let the games begin."
+
+Squid Game has become a blockbuster hit and the frontman is now finding it difficult to accommodate all the participants in Squid Game 2.0. So, he decided that he will allow only those participants who could solve the following problem.
+
+There are a total of 
+N
+N players who are competing in the Squid Game, numbered from 
+1
+1 to 
+N
+N. When the 
+i
+th
+i 
+th
+  player gets eliminated from the game, 
+A
+i
+A 
+i
+​
+  amount of money is added to the prize pool. The game is played until 
+N
+−
+1
+N−1 players get eliminated, and the only player left is declared as the winner. The winner gets all the money present in the prize pool.
+
+You are given an array 
+A
+A consisting of 
+N
+N elements, where 
+A
+i
+A 
+i
+​
+  denotes the prize money added to the prize pool when the 
+i
+th
+i 
+th
+  player gets eliminated from the game. Find the maximum prize that the winner can get, given that you can choose any player to be the winner.
+
+Input Format
+The first line of input contains a single integer 
+T
+T, denoting the number of test cases. The description of 
+T
+T test cases follows.
+The first line of each test case contains an integer 
+N
+N, denoting the number of players.
+The second line of each test case contains 
+N
+N space-separated integers 
+A
+1
+,
+A
+2
+,
+…
+,
+A
+N
+A 
+1
+​
+ ,A 
+2
+​
+ ,…,A 
+N
+​
+ , denoting the amount of money added to the prize pool when the 
+i
+th
+i 
+th
+  (
+1
+≤
+i
+≤
+N
+1≤i≤N) player dies.
+Output Format
+For each test case, output in a single line the maximum prize that the winner can get, given that you can choose any player to be the winner.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+2
+≤
+N
+≤
+10
+5
+2≤N≤10 
+5
+ 
+0
+≤
+A
+i
+≤
+10
+4
+0≤A 
+i
+​
+ ≤10 
+4
+ 
+The sum of 
+N
+N across all test cases does not exceed 
+10
+6
+10 
+6
+ .
+Sample 1:
+Input
+Output
+3
+3
+3 1 2
+5
+1 1 1 1 1
+6
+3 6 4 2 5 1
+5
+4
+20
+Explanation:
+Test Case 1:
+
+If we choose the first player to be the winner, he will win the game when the second and third players die. Hence, the amount of money won by him will be 
+1
++
+2
+=
+3
+1+2=3.
+If we choose the second player to be the winner, he will win the game when the first and third players die. Hence, the amount of money won by him will be 
+3
++
+2
+=
+5
+3+2=5.
+If we choose the third player to be the winner, he will win the game when the first and second players die. Hence, the amount of money won by him will be 
+3
++
+1
+=
+4
+3+1=4.
+Therefore, we can clearly see that the maximum amount of money that can be won by any player is 
+5
+5.
+
+Test Case 2: Irrespective of who is chosen, the winner will always win an amount of 
+4
+4.
+
+Test Case 3: If we choose the sixth player to be the winner, the amount won by him will be 
+3
++
+6
++
+4
++
+2
++
+5
+=
+20
+3+6+4+2+5=20. It can be proven that if we choose any other player to be the winner, the amount is less than 
+20
+20. Hence, the maximum amount of money that can be won by any player is 
+20
+20.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n = int(input())
+    nums = list(map(int, input().split()))
+    print(sum(nums) - min(nums))
+
+c = 5, l = 5

@@ -1,0 +1,760 @@
+LeetCode:
+1. 412. Fizz Buzz
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Given an integer n, return a string array answer (1-indexed) where:
+
+answer[i] == "FizzBuzz" if i is divisible by 3 and 5.
+answer[i] == "Fizz" if i is divisible by 3.
+answer[i] == "Buzz" if i is divisible by 5.
+answer[i] == i (as a string) if none of the above conditions are true.
+ 
+
+Example 1:
+
+Input: n = 3
+Output: ["1","2","Fizz"]
+Example 2:
+
+Input: n = 5
+Output: ["1","2","Fizz","4","Buzz"]
+Example 3:
+
+Input: n = 15
+Output: ["1","2","Fizz","4","Buzz","Fizz","7","8","Fizz","Buzz","11","Fizz","13","14","FizzBuzz"]
+ 
+
+Constraints:
+
+1 <= n <= 104
+solution:
+class Solution:
+    def fizzBuzz(self, n: int) -> list[str]:
+        res = []
+        for i in range(1, n+1):
+            if i%3== 0 and i % 5 ==0:
+                res.append("FizzBuzz")
+            elif i%3 == 0:
+                res.append("Fizz")
+            elif i%5 == 0:
+                res.append("Buzz")
+            else:
+                res.append(str(i))
+
+        return res
+
+2. 2932. Maximum Strong Pair XOR I
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed integer array nums. A pair of integers x and y is called a strong pair if it satisfies the condition:
+
+|x - y| <= min(x, y)
+You need to select two integers from nums such that they form a strong pair and their bitwise XOR is the maximum among all strong pairs in the array.
+
+Return the maximum XOR value out of all possible strong pairs in the array nums.
+
+Note that you can pick the same integer twice to form a pair.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,4,5]
+Output: 7
+Explanation: There are 11 strong pairs in the array nums: (1, 1), (1, 2), (2, 2), (2, 3), (2, 4), (3, 3), (3, 4), (3, 5), (4, 4), (4, 5) and (5, 5).
+The maximum XOR possible from these pairs is 3 XOR 4 = 7.
+Example 2:
+
+Input: nums = [10,100]
+Output: 0
+Explanation: There are 2 strong pairs in the array nums: (10, 10) and (100, 100).
+The maximum XOR possible from these pairs is 10 XOR 10 = 0 since the pair (100, 100) also gives 100 XOR 100 = 0.
+Example 3:
+
+Input: nums = [5,6,25,30]
+Output: 7
+Explanation: There are 6 strong pairs in the array nums: (5, 5), (5, 6), (6, 6), (25, 25), (25, 30) and (30, 30).
+The maximum XOR possible from these pairs is 25 XOR 30 = 7 since the only other non-zero XOR value is 5 XOR 6 = 3.
+ 
+
+Constraints:
+
+1 <= nums.length <= 50
+1 <= nums[i] <= 100
+solution:
+class Solution:
+    def maximumStrongPairXor(self, nums: List[int]) -> int:
+        nums = sorted(set(nums))
+        ans = 0
+        for i, x in enumerate(nums):
+            for y in nums[i:]:
+                if y > 2 * x:
+                    break
+                ans = max(ans, x ^ y)
+        return ans
+
+3. 884. Uncommon Words from Two Sentences
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+A sentence is a string of single-space separated words where each word consists only of lowercase letters.
+
+A word is uncommon if it appears exactly once in one of the sentences, and does not appear in the other sentence.
+
+Given two sentences s1 and s2, return a list of all the uncommon words. You may return the answer in any order.
+
+ 
+
+Example 1:
+
+Input: s1 = "this apple is sweet", s2 = "this apple is sour"
+
+Output: ["sweet","sour"]
+
+Explanation:
+
+The word "sweet" appears only in s1, while the word "sour" appears only in s2.
+
+Example 2:
+
+Input: s1 = "apple apple", s2 = "banana"
+
+Output: ["banana"]
+
+ 
+
+Constraints:
+
+1 <= s1.length, s2.length <= 200
+s1 and s2 consist of lowercase English letters and spaces.
+s1 and s2 do not have leading or trailing spaces.
+All the words in s1 and s2 are separated by a single space.
+solution:
+from collections import Counter
+class Solution:
+    def uncommonFromSentences(self, s1: str, s2: str) -> list[str]:
+        s1 = s1.split()
+        s2 = s2.split()
+        new_s = s1 + s2
+        counters = Counter(new_s)
+        return [key for key,value in counters.items() if value == 1]
+
+4. 1460. Make Two Arrays Equal by Reversing Subarrays
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given two integer arrays of equal length target and arr. In one step, you can select any non-empty subarray of arr and reverse it. You are allowed to make any number of steps.
+
+Return true if you can make arr equal to target or false otherwise.
+
+ 
+
+Example 1:
+
+Input: target = [1,2,3,4], arr = [2,4,1,3]
+Output: true
+Explanation: You can follow the next steps to convert arr to target:
+1- Reverse subarray [2,4,1], arr becomes [1,4,2,3]
+2- Reverse subarray [4,2], arr becomes [1,2,4,3]
+3- Reverse subarray [4,3], arr becomes [1,2,3,4]
+There are multiple ways to convert arr to target, this is not the only way to do so.
+Example 2:
+
+Input: target = [7], arr = [7]
+Output: true
+Explanation: arr is equal to target without any reverses.
+Example 3:
+
+Input: target = [3,7,9], arr = [3,7,11]
+Output: false
+Explanation: arr does not have value 9 and it can never be converted to target.
+ 
+
+Constraints:
+
+target.length == arr.length
+1 <= target.length <= 1000
+1 <= target[i] <= 1000
+1 <= arr[i] <= 1000
+solution:
+from collections import Counter
+class Solution:
+    def canBeEqual(self, target: list[int], arr: list[int]) -> bool:
+        return Counter(target) == Counter(arr)
+
+5. 3726. Remove Zeros in Decimal Representation
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a positive integer n.
+
+Return the integer obtained by removing all zeros from the decimal representation of n.
+
+ 
+
+Example 1:
+
+Input: n = 1020030
+
+Output: 123
+
+Explanation:
+
+After removing all zeros from 1020030, we get 123.
+
+Example 2:
+
+Input: n = 1
+
+Output: 1
+
+Explanation:
+
+1 has no zero in its decimal representation. Therefore, the answer is 1.
+
+ 
+
+Constraints:
+
+1 <= n <= 1015
+solution:
+class Solution:
+    def removeZeros(self, n: int) -> int:
+        return int(str(n).replace("0", ""))
+
+Codechef:
+1. Chef and Consecutive Ones
+Chef has a binary array 
+n
+u
+m
+s
+nums containing only 
+0
+0s and 
+1
+1s.
+He wants to find the maximum number of consecutive 
+1
+1s in the array regardless of how many such streaks exist. Can you help Chef determine this?
+
+Function Declaration
+Function Name
+f
+i
+n
+d
+M
+a
+x
+C
+o
+n
+s
+e
+c
+u
+t
+i
+v
+e
+O
+n
+e
+s
+findMaxConsecutiveOnes - This function computes the maximum length of a contiguous segment of 1s in a binary array.
+
+Parameters
+n
+u
+m
+s
+nums: A binary array of integers where each element is either 0 or 1.
+Return Value
+Returns a single integer representing the maximum number of consecutive 1s in the array.
+Constraints
+1
+≤
+N
+≤
+10
+5
+1≤N≤10 
+5
+ 
+n
+u
+m
+s
+[
+i
+]
+∈
+0
+,
+1
+nums[i]∈0,1
+Input Format
+The first line contains a single integer 
+N
+N — the size of the array.
+The second line contains 
+N
+N space-separated integers representing the binary array 
+n
+u
+m
+s
+nums.
+Output Format
+Print a single integer — the maximum number of consecutive 1s in the array.
+Sample 1:
+Input
+Output
+5
+0 1 1 0 1
+2
+Explanation:
+The two 1s at positions 2 and 3 are consecutive, so the maximum streak is 2.
+solution:
+def findMaxConsecutiveOnes(nums):
+    best = cur = 0
+    for x in nums:
+        cur = cur + 1 if x else 0
+        best = max(best, cur)
+    return best
+
+2. CodeChef Streak
+CodeChef offers a feature called streak count. A streak is maintained if you solve at least one problem daily.
+
+Om and Addy actively maintain their streaks on CodeChef. Over a span of 
+N
+N consecutive days, you have observed the count of problems solved by each of them.
+
+Your task is to determine the maximum streak achieved by Om and Addy and find who had the longer maximum streak.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of multiple lines of input.
+The first line of each test case contains an integer 
+N
+N — the number of days.
+The second line of each test case contains 
+N
+N space-separated integers, the 
+i
+t
+h
+i 
+th
+  of which is 
+A
+i
+A 
+i
+​
+ , representing the problems solved by Om on the 
+i
+t
+h
+i 
+th
+  day.
+The third line of each test case contains 
+N
+N space-separated integers, the 
+i
+t
+h
+i 
+th
+  of which is 
+B
+i
+B 
+i
+​
+ , representing the problems solved by Addy on the 
+i
+t
+h
+i 
+th
+  day.
+Output Format
+For each test case, output:
+
+OM, if Om has longer maximum streak than Addy;
+ADDY, if Addy has longer maximum streak than Om;
+DRAW, if both have equal maximum streak.
+You may print each character in uppercase or lowercase. For example, OM, om, Om, and oM, are all considered the same.
+
+Constraints
+1
+≤
+T
+≤
+10
+5
+1≤T≤10 
+5
+ 
+1
+≤
+N
+≤
+10
+5
+1≤N≤10 
+5
+ 
+0
+≤
+A
+i
+,
+B
+i
+≤
+10
+9
+0≤A 
+i
+​
+ ,B 
+i
+​
+ ≤10 
+9
+ 
+The sum of 
+N
+N over all test cases won't exceed 
+6
+⋅
+10
+5
+6⋅10 
+5
+ .
+Sample 1:
+Input
+Output
+3
+6
+1 7 3 0 2 13
+0 2 3 4 5 0
+3
+1 3 4
+3 1 2
+5
+1 2 3 0 1
+1 2 0 2 3
+Addy
+Draw
+Om
+Explanation:
+Test case 
+1
+1: Om has a maximum streak of 
+3
+3 days, while Addy has a maximum streak of 
+4
+4 days.
+
+Test case 
+2
+2: Both have the same maximum streak of 
+3
+3 days.
+
+Test case 
+3
+3: Addy has a maximum streak of 
+2
+2 days and Om has a maximum streak of 
+3
+3 days.
+solution:
+t = int(input())
+
+while t > 0:
+    n = int(input())
+    a = list(map(int, input().split()))
+    b = list(map(int, input().split()))
+    t -= 1
+    best_a = cur = 0
+    for x in a:
+        if x > 0:
+            cur += 1
+            if cur > best_a:
+                best_a = cur
+        else:
+            cur = 0
+    
+    best_b = cur = 0
+    for x in b:
+        if x > 0:
+            cur += 1
+            if cur > best_b:
+                best_b = cur
+        else:
+            cur = 0
+    
+    if best_a > best_b:
+        print("OM")
+    elif best_b > best_a:
+        print("ADDY")
+    else:
+        print("DRAW")
+    
+3. Repeating Pairs
+You are given a string 
+S
+S consisting of lowercase English letters.
+
+For every two adjacent characters in 
+S
+S, consider the pair they form. For example, the string abca contains the pairs ab, bc, and ca.
+
+A pair is called repeating if it appears at least twice in the string.
+
+Find the number of distinct repeating pairs in 
+S
+S.
+
+For example, in ababcabc, the pair ab appears 
+3
+3 times and bc appears 
+2
+2 times, so the answer is 
+2
+2.
+
+Input Format
+The first line contains the string 
+S
+S.
+Output Format
+Print a single integer — the number of distinct consecutive character pairs that appear more than once.
+Constraints
+1
+≤
+∣
+S
+∣
+≤
+10
+5
+1≤∣S∣≤10 
+5
+ 
+S
+S consists only of lowercase English letters.
+Sample 1:
+Input
+Output
+ababcabc
+2
+Explanation:
+The consecutive pairs are:
+
+ab, ba, ab, bc, ca, ab, bc
+
+The pair ab appears 
+3
+3 times and bc appears 
+2
+2 times.
+
+Therefore, there are 2 distinct repeating pairs.
+
+Sample 2:
+Input
+Output
+aaaa
+1
+Explanation:
+The consecutive pairs are:
+
+aa, aa, aa
+
+Only the pair aa appears more than once.
+
+Therefore, the answer is 1.
+# cook your dish here
+from collections import Counter
+s = input().strip()
+counters = Counter(s[i:i+2] for i in range(len(s) - 1))
+ans = sum(1 for value in counters.values() if value > 1)
+print(ans)
+
+4. Most Frequent Letter
+You are given a string 
+S
+S containing uppercase and lowercase English letters, digits, spaces, and special characters.
+
+Only the alphabetic characters in the string are considered. Letter case is ignored, so uppercase and lowercase forms of the same letter are treated as equal. For example, A and a represent the same letter.
+
+Find the letter that appears most frequently in 
+S
+S.
+
+If multiple letters have the same maximum frequency, choose the one that comes first alphabetically.
+
+Print the answer as a lowercase letter.
+
+Input Format
+The first line contains the string 
+S
+S.
+Output Format
+Print a single lowercase letter — the most frequent alphabetic character in 
+S
+S.
+Constraints
+1
+≤
+∣
+S
+∣
+≤
+10
+5
+1≤∣S∣≤10 
+5
+ 
+S
+S may contain uppercase and lowercase English letters, digits, spaces, and special characters.
+S
+S contains at least one English alphabetic character.
+Sample 1:
+Input
+Output
+Hello, World! 123
+l
+Explanation:
+Ignoring non-alphabetic characters and letter case, the string becomes helloworld.
+
+The letter l appears 
+3
+3 times, which is more than any other letter.
+
+Therefore, the answer is l.
+
+Sample 2:
+Input
+Output
+zzYYxx
+x
+Explanation:
+After ignoring case, the letters x, y, and z each appear 
+2
+2 times.
+
+Since x comes first alphabetically, the answer is x.
+solution:
+from collections import Counter
+
+s = input().lower()
+counters = Counter(c for c in s if c.isalpha())
+
+best = min(counters, key = lambda c : (-counters[c], c))
+print(best)
+
+5. Find the Term
+You are given a string 
+S
+S and another string 
+T
+T.
+
+Your task is to determine whether 
+T
+T appears in 
+S
+S as a contiguous substring.
+
+The search is case-sensitive, so uppercase and lowercase letters are considered different.
+
+Print YES if 
+T
+T occurs in 
+S
+S; otherwise, print NO.
+
+Input Format
+The first line contains the string 
+S
+S.
+The second line contains the string 
+T
+T.
+Output Format
+Print YES if 
+T
+T is present in 
+S
+S, Otherwise, print NO.
+Constraints
+1
+≤
+∣
+S
+∣
+≤
+1000
+1≤∣S∣≤1000
+1
+≤
+∣
+T
+∣
+≤
+100
+1≤∣T∣≤100
+The search is case-sensitive.
+Sample 1:
+Input
+Output
+The quick brown fox jumps over the lazy dog
+brown
+YES
+Explanation:
+The string brown appears as a contiguous substring of 
+S
+S.
+
+Therefore, the answer is YES.
+
+Sample 2:
+Input
+Output
+Competitive Programming
+programming
+NO
+Explanation:
+The search is case-sensitive. The string contains Programming, but not programming.
+
+Therefore, the answer is NO.
+solution:
+s = input()
+t = input()
+
+print("YES" if t in s else "NO")
+l = 5, c = 5

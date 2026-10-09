@@ -1,0 +1,684 @@
+Leetcode:
+1. 2928. Distribute Candies Among Children I
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given two positive integers n and limit.
+
+Return the total number of ways to distribute n candies among 3 children such that no child gets more than limit candies.
+
+ 
+
+Example 1:
+
+Input: n = 5, limit = 2
+Output: 3
+Explanation: There are 3 ways to distribute 5 candies such that no child gets more than 2 candies: (1, 2, 2), (2, 1, 2) and (2, 2, 1).
+Example 2:
+
+Input: n = 3, limit = 3
+Output: 10
+Explanation: There are 10 ways to distribute 3 candies such that no child gets more than 3 candies: (0, 0, 3), (0, 1, 2), (0, 2, 1), (0, 3, 0), (1, 0, 2), (1, 1, 1), (1, 2, 0), (2, 0, 1), (2, 1, 0) and (3, 0, 0).
+ 
+
+Constraints:
+
+1 <= n <= 50
+1 <= limit <= 50
+solution:
+class Solution:
+    def distributeCandies(self, n: int, limit: int) -> int:
+        def C2(x):
+            return x * (x - 1) // 2 if x >= 2 else 0
+        return (C2(n + 2)
+                - 3 * C2(n - limit + 1)
+                + 3 * C2(n - 2 * limit)
+                - C2(n - 3 * limit - 1))
+
+2. 1394. Find Lucky Integer in an Array
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an array of integers arr, a lucky integer is an integer that has a frequency in the array equal to its value.
+
+Return the largest lucky integer in the array. If there is no lucky integer return -1.
+
+ 
+
+Example 1:
+
+Input: arr = [2,2,3,4]
+Output: 2
+Explanation: The only lucky number in the array is 2 because frequency[2] == 2.
+Example 2:
+
+Input: arr = [1,2,2,3,3,3]
+Output: 3
+Explanation: 1, 2 and 3 are all lucky numbers, return the largest of them.
+Example 3:
+
+Input: arr = [2,2,2,3,3]
+Output: -1
+Explanation: There are no lucky numbers in the array.
+ 
+
+Constraints:
+
+1 <= arr.length <= 500
+1 <= arr[i] <= 500
+solution:
+from collections import Counter
+
+class Solution:
+    def findLucky(self, arr: list[int]) -> int:
+        counters = Counter(arr)
+        return max((k for k, v in counters.items() if k == v), default=-1)
+
+3. 3750. Minimum Number of Flips to Reverse Binary String
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a positive integer n.
+
+Let s be the binary representation of n without leading zeros.
+
+The reverse of a binary string s is obtained by writing the characters of s in the opposite order.
+
+You may flip any bit in s (change 0 → 1 or 1 → 0). Each flip affects exactly one bit.
+
+Return the minimum number of flips required to make s equal to the reverse of its original form.
+
+ 
+
+Example 1:
+
+Input: n = 7
+
+Output: 0
+
+Explanation:
+
+The binary representation of 7 is "111". Its reverse is also "111", which is the same. Hence, no flips are needed.
+
+Example 2:
+
+Input: n = 10
+
+Output: 4
+
+Explanation:
+
+The binary representation of 10 is "1010". Its reverse is "0101". All four bits must be flipped to make them equal. Thus, the minimum number of flips required is 4.
+
+ 
+
+Constraints:
+
+1 <= n <= 109
+solution:
+class Solution:
+    def minimumFlips(self, n: int) -> int:
+        s = bin(n)[2:]
+        return sum(a!=b for a,b in zip(s, s[::-1]))
+
+4. 2566. Maximum Difference by Remapping a Digit
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer num. You know that Bob will sneakily remap one of the 10 possible digits (0 to 9) to another digit.
+
+Return the difference between the maximum and minimum values Bob can make by remapping exactly one digit in num.
+
+Notes:
+
+When Bob remaps a digit d1 to another digit d2, Bob replaces all occurrences of d1 in num with d2.
+Bob can remap a digit to itself, in which case num does not change.
+Bob can remap different digits for obtaining minimum and maximum values respectively.
+The resulting number after remapping can contain leading zeroes.
+ 
+
+Example 1:
+
+Input: num = 11891
+Output: 99009
+Explanation: 
+To achieve the maximum value, Bob can remap the digit 1 to the digit 9 to yield 99899.
+To achieve the minimum value, Bob can remap the digit 1 to the digit 0, yielding 890.
+The difference between these two numbers is 99009.
+Example 2:
+
+Input: num = 90
+Output: 99
+Explanation:
+The maximum value that can be returned by the function is 99 (if 0 is replaced by 9) and the minimum value that can be returned by the function is 0 (if 9 is replaced by 0).
+Thus, we return 99.
+ 
+
+Constraints:
+
+1 <= num <= 108
+solution:
+class Solution:
+    def minMaxDifference(self, num: int) -> int:
+        s = str(num)
+        
+        max_s = s
+        for c in s:
+            if c != "9":
+                max_s = s.replace(c, "9")
+                break
+            
+        min_s = s
+        for c in s:
+            if c != "0":
+                min_s = s.replace(c, "0")
+                break
+        return int(max_s) - int(min_s)
+
+5. 2651. Calculate Delayed Arrival Time
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a positive integer arrivalTime denoting the arrival time of a train in hours, and another positive integer delayedTime denoting the amount of delay in hours.
+
+Return the time when the train will arrive at the station.
+
+Note that the time in this problem is in 24-hours format.
+
+ 
+
+Example 1:
+
+Input: arrivalTime = 15, delayedTime = 5 
+Output: 20 
+Explanation: Arrival time of the train was 15:00 hours. It is delayed by 5 hours. Now it will reach at 15+5 = 20 (20:00 hours).
+Example 2:
+
+Input: arrivalTime = 13, delayedTime = 11
+Output: 0
+Explanation: Arrival time of the train was 13:00 hours. It is delayed by 11 hours. Now it will reach at 13+11=24 (Which is denoted by 00:00 in 24 hours format so return 0).
+ 
+
+Constraints:
+
+1 <= arrivaltime < 24
+1 <= delayedTime <= 24
+solution:
+class Solution:
+    def findDelayedArrivalTime(self, arrivalTime: int, delayedTime: int) -> int:
+        res = arrivalTime + delayedTime
+        if res >= 24:
+            return res % 24
+        else:
+            return res
+
+Codechef:
+1. World Chess Championship
+The World Chess Championship 
+2022
+2022 is about to start. 
+14
+14 Classical games will be played between Chef and Carlsen in the championship, where each game has one of three outcomes — it can be won by Carlsen, won by Chef, or it can be a draw. The winner of a game gets 
+2
+2 points, and the loser gets 
+0
+0 points. If it’s a draw, both players get 
+1
+1 point each.
+
+The total prize pool of the championship is 
+100
+⋅
+X
+100⋅X. At end of the 
+14
+14 Classical games, if one player has strictly more points than the other, he is declared the champion and gets 
+60
+⋅
+X
+60⋅X as his prize money, and the loser gets 
+40
+⋅
+X
+40⋅X.
+
+If the total points are tied, then the defending champion Carlsen is declared the winner. However, if this happens, the winner gets only 
+55
+⋅
+X
+55⋅X, and the loser gets 
+45
+⋅
+X
+45⋅X.
+
+Given the results of all the 
+14
+14 games, output the prize money that Carlsen receives.
+
+The results are given as a string of length 
+14
+14 consisting of the characters C, N, and D.
+
+C denotes a victory by Carlsen.
+N denotes a victory by Chef.
+D denotes a draw.
+Input Format
+The first line of input contains an integer 
+T
+T, denoting the number of test cases. The description of 
+T
+T test cases follows.
+The first line of each test case contains one integer 
+X
+X, denoting that the total prize pool is 
+100
+⋅
+X
+100⋅X.
+The second line contains the results of the match, as a string of length 
+14
+14 containing only the characters C, N, and D.
+Output Format
+For each test case, output in a single line the total prize money won by Carlsen.
+
+Constraints
+1
+≤
+T
+≤
+1000
+1≤T≤1000
+1
+≤
+X
+≤
+10
+6
+1≤X≤10 
+6
+ 
+∣
+S
+∣
+=
+14
+∣S∣=14
+S
+S contains only characters D, C, N.
+Subtasks
+Subtask #1 (100 points): Original constraints
+
+Sample 1:
+Input
+Output
+4
+100
+CCCCCCCCCCCCCC
+400
+CDCDCDCDCDCDCD
+30
+DDCCNNDDDCCNND
+1
+NNDNNDDDNNDNDN
+6000
+24000
+1650
+40
+Explanation:
+Test case 
+1
+1: Since Carlsen won all the games, he will be crowned the champion and will get 
+60
+⋅
+X
+60⋅X as the prize money which is 
+60
+⋅
+100
+=
+6000
+60⋅100=6000
+
+Test case 
+2
+2: Carlsen won 
+7
+7 games and drew 
+7
+7, so his score is 
+2
+⋅
+7
++
+1
+⋅
+7
+=
+21
+2⋅7+1⋅7=21. Chef lost 
+7
+7 games and drew 
+7
+7, so his score is 
+0
+⋅
+7
++
+1
+⋅
+7
+=
+7
+0⋅7+1⋅7=7. Since Carlsen has more points, he will be crowned the champion and will get 
+60
+⋅
+X
+60⋅X as the prize money which is 
+60
+⋅
+400
+=
+24000
+60⋅400=24000
+
+Test case 
+3
+3: Carlsen and Chef both end up with 
+14
+14 points. So, Carlsen is declared the winner, but because the points were tied, he receives 
+55
+⋅
+X
+=
+55
+⋅
+30
+=
+1650
+55⋅X=55⋅30=1650 in prize money.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    x = int(input())
+    s = input().strip()
+    d = s.count("C") - s.count("N")
+    if d > 0:
+        print(60 * x)
+    elif d < 0:
+        print(40 * x)
+    else:
+        print(55 * x)
+2. DDMM or MMDD
+Chef is confused by all the different formats dates can be written in. Here's a simple problem Chef wants you to solve.
+
+You are given a date string 
+S
+S. The date follows the Gregorian calendar, the one used in most parts of the world.
+
+Identify whether it is of the form DD/MM/YYYY or MM/DD/YYYY, or if it can be of both forms. Here DD denotes the 2-digit day, MM denotes the 2-digit month and YYYY denotes the 4-digit year.
+
+It is guaranteed that 
+S
+S is a valid date taking at least one of these forms.
+
+For example,
+
+21/05/2001 is of the form DD/MM/YYYY and not MM/DD/YYYY.
+10/15/2069 is of the form MM/DD/YYYY and not DD/MM/YYYY.
+05/11/1999 can be of both forms.
+Input Format
+The first line contains a single integer 
+T
+T — the number of test cases. Then the test cases follow.
+Each test case consists of a single line containing a string of 
+10
+10 characters 
+S
+S — the date string 
+S
+S, which is of the form DD/MM/YYYY or MM/DD/YYYY. It is guaranteed that 
+S
+S is a valid date taking at least one of these forms.
+Output Format
+For each test case, output "BOTH" if the date string satisfies both forms. Otherwise output "DD/MM/YYYY" if it is of the form DD/MM/YYYY, else "MM/DD/YYYY". Note that the output may be case-insensitive. So "DD/MM/YYYY", "dd/mm/yyyy" and so on will be considered the same.
+
+Constraints
+1
+≤
+T
+≤
+2023
+1≤T≤2023
+S
+S is of the form DD/MM/YYYY or MM/DD/YYYY
+Sample 1:
+Input
+Output
+4
+21/05/2001
+10/15/2069
+05/11/1999
+29/02/2024
+DD/MM/YYYY
+MM/DD/YYYY
+BOTH
+DD/MM/YYYY
+Explanation:
+Fun fact: 29/02/2024 (read as DD/MM/YYYY) is a leap year day.
+solution:
+t = int(input())
+
+while t > 0:
+    s = input()
+    # Your code goes here
+    d,m,y = map(int, s.split("/"))
+    dd_mm = (1 <=d <=31) and (1<=m<=12)
+    mm_dd = (1 <=d <=12) and (1 <=m<=31)
+    if dd_mm and mm_dd:
+        print("BOTH")
+    elif dd_mm:
+        print("DD/MM/YYYY")
+    else:
+        print("MM/DD/YYYY")
+    t -= 1
+
+3. Largest Odd Substring
+You are given a string 
+n
+u
+m
+s
+nums consisting of digits representing a large integer. Your task is to find the largest-valued odd integer (as a substring of 
+n
+u
+m
+s
+nums) that can be obtained.
+
+A substring is a contiguous sequence of characters within the string.
+
+Function Declaration
+Function Name
+f
+i
+n
+d
+L
+a
+r
+g
+e
+s
+t
+O
+d
+d
+S
+u
+b
+s
+t
+r
+i
+n
+g
+findLargestOddSubstring – This function finds the largest-valued odd integer that can be obtained as a substring of the given numeric string.
+
+Parameters
+n
+u
+m
+num : A string representing a large integer, consisting only of digits (
+0
+–
+9
+0–9).
+Return Value
+This function prints:
+
+The largest odd integer substring if it exists.
+−
+1
+−1 if no odd integer substring can be formed.
+Constraints
+1
+≤
+∣
+n
+u
+m
+∣
+≤
+10
+5
+1≤∣num∣≤10 
+5
+ 
+The string 
+n
+u
+m
+num contains only digits 
+0
+–
+9
+0–9
+The string does not contain leading zeros
+There is no limit on the size of the integer represented by the substring
+Input Format
+The first line contains a single string num.
+Output Format
+Print a single line:
+
+The largest odd integer substring of num
+Or -1 if no odd substring exists
+Sample 1:
+Input
+Output
+128764
+1287
+Explanation:
+The largest odd substring ends at the first odd digit from the right, which is '7'.
+
+Sample 2:
+Input
+Output
+60042
+-1
+Explanation:
+There are no odd digits in the string, so no odd substring exists.
+
+Sample 3:
+Input
+Output
+987654321
+987654321
+Explanation:
+The last digit is '1', which is odd, so the entire number is the largest odd substring.
+solution:
+def findLargestOddSubstring(num):
+    # write your code here...
+    for i in range(len(num)-1, -1, -1):
+        if int(num[i]) % 2 == 1:
+            return num[:i+1]
+    return -1
+
+4. Convert String to Title Case
+Given a string S consisting of only lowercase and uppercase English letters and spaces, your task is to convert it into title case. In title case, the first letter of each word is capitalized while the rest are in lowercase, except for words that are entirely in uppercase (considered as acronyms), which should remain unchanged.
+
+Note:
+
+Words are defined as contiguous sequences of English letters separated by spaces.
+Acronyms are words that are entirely in uppercase and should remain unchanged.
+Assume the input does not contain leading, trailing, or multiple spaces between words.
+Input Format
+The first line contains a single integer T, the number of test cases.
+Each of the next T lines contains a string S.
+Output Format
+For each test case, print a single line containing the string S converted into title case.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+∣
+S
+∣
+≤
+1000
+1≤∣S∣≤1000, where 
+∣
+S
+∣
+∣S∣ is the length of the string.
+Sample 1:
+Input
+Output
+5
+hello world
+this is a CODECHEF problem
+WELCOME to the JUNGLE
+the quick BROWN fOx
+programming in PYTHON
+Hello World
+This Is A CODECHEF Problem
+WELCOME To The JUNGLE
+The Quick BROWN Fox
+Programming In PYTHON
+Explanation:
+In the first test case, each word is capitalized as they are not acronyms.
+In the second test case, "CODECHEF" is an acronym and remains in uppercase.
+In the third test case, "WELCOME" and "JUNGLE" are considered acronyms.
+In the fourth test case, "BROWN" is an acronym, while the rest of the words follow the title case rule.
+In the fifth test case, "PYTHON" is an acronym, and the rest of the string is converted to title case.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    words = list(input().split())
+    
+    for index, word in enumerate(words):
+        if word == word.upper():
+            words[index] = word 
+        else:
+            words[index] = word.title()
+    print(" ".join(words))
+
+l = 5, c = 4

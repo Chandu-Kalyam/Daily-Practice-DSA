@@ -1,0 +1,705 @@
+Leetcode:
+1. 4048. Count Values With Equally Spaced Occurrences I
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array nums.
+
+An integer x is called special if:
+
+x appears exactly three times in nums.
+All three occurrences of x are equally spaced in nums. In other words, if all occurrences of x are at indices i1 < i2 < i3, then i2 - i1 = i3 - i2.
+Return the number of distinct special integers in nums.
+
+ 
+
+Example 1:
+
+Input: nums = [1,8,1,5,1,5,8,5]
+
+Output: 2
+
+Explanation:
+
+1 is special because it occurs exactly three times at equally spaced indices 0, 2, and 4.
+5 is special because it occurs exactly three times at equally spaced indices 3, 5, and 7.
+8 is not special because it occurs only twice.
+Therefore, the answer is 2.
+
+Example 2:
+
+Input: nums = [8,8,8,8]
+
+Output: 0
+
+Explanation:
+
+8 is not special because it does not occur exactly three times. Therefore, the answer is 0.
+
+Example 3:
+
+Input: nums = [8,6,6,8,8]
+
+Output: 0
+
+Explanation:
+
+8 occurs at indices 0, 3, and 4, which are not equally spaced. 6 occurs only twice. Therefore, no integer is special.
+Constraints:
+
+3 <= nums.length <= 100
+1 <= nums[i] <= 100
+solution:
+from collections import defaultdict
+class Solution:
+    def countSpecialIntegers(self, nums: list[int]) -> int:
+        pos = defaultdict(list)
+        for i, x in enumerate(nums):
+            pos[x].append(i)
+
+        count = 0
+        for i in pos.values():
+            if len(i) == 3 and i[1] - i[0] == i[2] - i[1]:
+                count += 1
+        return count
+
+2. 868. Binary Gap
+Easy
+Topics
+premium lock icon
+Companies
+Given a positive integer n, find and return the longest distance between any two adjacent 1's in the binary representation of n. If there are no two adjacent 1's, return 0.
+
+Two 1's are adjacent if there are only 0's separating them (possibly no 0's). The distance between two 1's is the absolute difference between their bit positions. For example, the two 1's in "1001" have a distance of 3.
+
+ 
+
+Example 1:
+
+Input: n = 22
+Output: 2
+Explanation: 22 in binary is "10110".
+The first adjacent pair of 1's is "10110" with a distance of 2.
+The second adjacent pair of 1's is "10110" with a distance of 1.
+The answer is the largest of these two distances, which is 2.
+Note that "10110" is not a valid pair since there is a 1 separating the two 1's underlined.
+Example 2:
+
+Input: n = 8
+Output: 0
+Explanation: 8 in binary is "1000".
+There are not any adjacent pairs of 1's in the binary representation of 8, so we return 0.
+Example 3:
+
+Input: n = 5
+Output: 2
+Explanation: 5 in binary is "101".
+ 
+
+Constraints:
+
+1 <= n <= 109
+solution:
+class Solution:
+    def binaryGap(self, n: int) -> int:
+        parts = bin(n)[2:].split('1')
+        # parts[0] is before first 1, parts[-1] is after last 1 → ignore
+        if len(parts) < 3:      # fewer than 2 ones
+            return 0
+        return max(len(p) for p in parts[1:-1]) + 1
+
+3. 2506. Count Pairs Of Similar Strings
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed string array words.
+
+Two strings are similar if they consist of the same characters.
+
+For example, "abca" and "cba" are similar since both consist of characters 'a', 'b', and 'c'.
+However, "abacba" and "bcfd" are not similar since they do not consist of the same characters.
+Return the number of pairs (i, j) such that 0 <= i < j <= word.length - 1 and the two strings words[i] and words[j] are similar.
+
+ 
+
+Example 1:
+
+Input: words = ["aba","aabb","abcd","bac","aabc"]
+Output: 2
+Explanation: There are 2 pairs that satisfy the conditions:
+- i = 0 and j = 1 : both words[0] and words[1] only consist of characters 'a' and 'b'. 
+- i = 3 and j = 4 : both words[3] and words[4] only consist of characters 'a', 'b', and 'c'. 
+Example 2:
+
+Input: words = ["aabb","ab","ba"]
+Output: 3
+Explanation: There are 3 pairs that satisfy the conditions:
+- i = 0 and j = 1 : both words[0] and words[1] only consist of characters 'a' and 'b'. 
+- i = 0 and j = 2 : both words[0] and words[2] only consist of characters 'a' and 'b'.
+- i = 1 and j = 2 : both words[1] and words[2] only consist of characters 'a' and 'b'.
+Example 3:
+
+Input: words = ["nba","cba","dba"]
+Output: 0
+Explanation: Since there does not exist any pair that satisfies the conditions, we return 0.
+ 
+
+Constraints:
+
+1 <= words.length <= 100
+1 <= words[i].length <= 100
+words[i] consist of only lowercase English letters.
+solution:
+from collections import Counter
+
+class Solution:
+    def similarPairs(self, words: list[str]) -> int:
+        freq = Counter(frozenset(w) for w in words)
+        return sum(c * (c - 1) // 2 for c in freq.values())
+
+4. 2980. Check if Bitwise OR Has Trailing Zeros
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an array of positive integers nums.
+
+You have to check if it is possible to select two or more elements in the array such that the bitwise OR of the selected elements has at least one trailing zero in its binary representation.
+
+For example, the binary representation of 5, which is "101", does not have any trailing zeros, whereas the binary representation of 4, which is "100", has two trailing zeros.
+
+Return true if it is possible to select two or more elements whose bitwise OR has trailing zeros, return false otherwise.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,4,5]
+Output: true
+Explanation: If we select the elements 2 and 4, their bitwise OR is 6, which has the binary representation "110" with one trailing zero.
+Example 2:
+
+Input: nums = [2,4,8,16]
+Output: true
+Explanation: If we select the elements 2 and 4, their bitwise OR is 6, which has the binary representation "110" with one trailing zero.
+Other possible ways to select elements to have trailing zeroes in the binary representation of their bitwise OR are: (2, 8), (2, 16), (4, 8), (4, 16), (8, 16), (2, 4, 8), (2, 4, 16), (2, 8, 16), (4, 8, 16), and (2, 4, 8, 16).
+Example 3:
+
+Input: nums = [1,3,5,7,9]
+Output: false
+Explanation: There is no possible way to select two or more elements to have trailing zeros in the binary representation of their bitwise OR.
+ 
+
+Constraints:
+
+2 <= nums.length <= 100
+1 <= nums[i] <= 100
+solution:
+class Solution:
+    def hasTrailingZeros(self, nums: List[int]) -> bool:
+        return len([num for num in nums if num & 1==0 ]) >= 2
+
+5. 2917. Find the K-or of an Array
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array nums, and an integer k. Let's introduce K-or operation by extending the standard bitwise OR. In K-or, a bit position in the result is set to 1 if at least k numbers in nums have a 1 in that position.
+
+Return the K-or of nums.
+
+ 
+
+Example 1:
+
+Input: nums = [7,12,9,8,9,15], k = 4
+
+Output: 9
+
+Explanation:
+
+Represent numbers in binary:
+
+Number	Bit 3	Bit 2	Bit 1	Bit 0
+7	0	1	1	1
+12	1	1	0	0
+9	1	0	0	1
+8	1	0	0	0
+9	1	0	0	1
+15	1	1	1	1
+Result = 9	1	0	0	1
+Bit 0 is set in 7, 9, 9, and 15. Bit 3 is set in 12, 9, 8, 9, and 15.
+Only bits 0 and 3 qualify. The result is (1001)2 = 9.
+
+Example 2:
+
+Input: nums = [2,12,1,11,4,5], k = 6
+
+Output: 0
+
+Explanation: No bit appears as 1 in all six array numbers, as required for K-or with k = 6. Thus, the result is 0.
+
+Example 3:
+
+Input: nums = [10,8,5,9,11,6,8], k = 1
+
+Output: 15
+
+Explanation: Since k == 1, the 1-or of the array is equal to the bitwise OR of all its elements. Hence, the answer is 10 OR 8 OR 5 OR 9 OR 11 OR 6 OR 8 = 15.
+
+ 
+
+Constraints:
+
+1 <= nums.length <= 50
+0 <= nums[i] < 231
+1 <= k <= nums.length
+solution:
+class Solution:
+    def findKOr(self, nums: List[int], k: int) -> int:
+        result = 0
+        for b in range(32):
+            count = 0
+            for x in nums:
+                if x & (1 << b):
+                    count += 1
+            if count >= k:
+                result |= 1 << b
+        return result
+
+Codechef:
+1. Frequency of each element in the array
+You are given an integer 
+N
+N and an array containing 
+N
+N integers.
+For each element in the array you have to output it's frequency in the array.
+Frequency of an element in the array tells how many times it occurs in the array.
+
+Iterate over each element in the array and count the frequency of that element using another loop then print the frequency for each element in the array.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of multiple lines of input.
+The first line of each test case contains one integer 
+N
+N denoting the number of elements in the array.
+The next line contains 
+N
+N space separated integers, denoting the elements in the array.
+Output Format
+For each test case, output 
+N
+N space separated integers denoting the frequency of each element of the array.
+
+Constraints
+1
+≤
+T
+≤
+100
+1≤T≤100
+1
+≤
+N
+≤
+100
+1≤N≤100
+1
+≤
+A
+i
+≤
+10
+1≤A 
+i
+​
+ ≤10
+Sample 1:
+Input
+Output
+3
+10
+1 2 1 2 1 3 4 1 2 3
+5 
+1 1 1 1 1
+5
+1 2 1 2 1
+4 3 4 3 4 2 1 4 3 2
+5 5 5 5 5
+3 2 3 2 3
+Explanation:
+Test Case 1: In this array 
+1
+1 occurs 
+4
+4 times, 
+2
+2 occurs 
+3
+3 times, 
+3
+3 occurs 
+2
+2 times and 
+4
+4 occurs 
+1
+1 times.
+Test Case 2: In this array 
+1
+1 occurs 
+5
+5 times.
+Test Case 3: In this array 
+1
+1 occurs 
+3
+3 times and 
+2
+2 occurs 
+2
+2 times.
+solution:
+# cook your dish here
+from collections import Counter
+for _ in range(int(input())):
+    n = int(input())
+    nums =list(map(int, input().split()))
+    counters = Counter(nums)
+    for num in nums:
+        print(counters[num], end = " ")
+
+2. Frequency of elements using Hashing
+You are given an integer 
+N
+N and an array containing 
+N
+N integers.
+For each element in the array, you have to output its frequency in the array using Hashing.
+The frequency of an element in the array tells how many times it occurs in the array.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of multiple lines of input.
+The first line of each test case contains one integer 
+N
+N denoting the number of elements in the array.
+The next line contains 
+N
+N space separated integers, denoting the elements in the array.
+Output Format
+For each test case, output 
+N
+N space separated integers denoting the frequency of each element of the array.
+
+Constraints
+1
+≤
+N
+≤
+10
+5
+1≤N≤10 
+5
+ 
+1
+≤
+m
+a
+x
+(
+A
+)
+≤
+100
+1≤max(A)≤100
+Sample 1:
+Input
+Output
+3
+10
+1 2 1 2 1 3 4 1 2 3
+5 
+1 1 1 1 1
+5
+1 2 1 2 1
+4 3 4 3 4 2 1 4 3 2
+5 5 5 5 5
+3 2 3 2 3
+Explanation:
+Test Case 1: In this array 
+1
+1 occurs 
+4
+4 times, 
+2
+2 occurs 
+3
+3 times, 
+3
+3 occurs 
+2
+2 times and 
+4
+4 occurs 
+1
+1 times.
+Test Case 2: In this array 
+1
+1 occurs 
+5
+5 times.
+Test Case 3: In this array 
+1
+1 occurs 
+3
+3 times and 
+2
+2 occurs 
+2
+2 times.
+solution:
+def main():
+    #write your code here
+    for _ in range(int(input())):
+        n = int(input())
+        nums = list(map(int, input().split()))
+        maxi = max(nums)
+        hash_array = [0] * (maxi + 1)
+        for num in nums:
+            hash_array[num] += 1
+            
+        for num in nums:
+            print(hash_array[num], end = " ")
+        print()
+
+if __name__ == "__main__":
+    main()
+
+3. Count Beautiful Pairs
+You have an array 
+A
+A of 
+N
+N integers.
+A pair of indices 
+(
+i
+,
+j
+)
+(i,j) is called Beautiful if 
+A
+i
+=
+A
+j
+2
+A 
+i
+​
+ =A 
+j
+2
+​
+  and 
+1
+≤
+i
+<
+j
+≤
+N
+1≤i<j≤N.
+
+Count the number of Beautiful Pairs in the given array.
+
+Task
+Try to solve this problem in 
+N
+2
+N 
+2
+  time complexity.
+
+Input Format
+The first line of the input contains a single integer 
+N
+N, denoting the length of array 
+A
+A.
+The second line of the input contains 
+N
+N space-separated integers 
+A
+1
+,
+A
+2
+,
+…
+,
+A
+N
+A 
+1
+​
+ ,A 
+2
+​
+ ,…,A 
+N
+​
+  — denoting the array 
+A
+A.
+Output Format
+Output the number of Beautiful Pairs in the given array 
+A
+A.
+
+Constraints
+2
+≤
+N
+≤
+10
+3
+2≤N≤10 
+3
+ 
+1
+≤
+A
+i
+≤
+10
+4
+1≤A 
+i
+​
+ ≤10 
+4
+ 
+Sample 1:
+Input
+Output
+4
+4 4 2 2
+4
+Sample 2:
+Input
+Output
+3
+1 2 2 
+0
+solution:
+n = int(input())
+arr = list(map(int, input().split()))
+
+count = 0
+for i in range(n):
+    for j in range(i + 1, n):
+        # Check if A[i] = A[j]^2
+        if arr[i] == arr[j] * arr[j]:
+            count += 1  
+
+print(count)
+
+4.Hashing Function Example
+We can use multiple Hash Functions.
+One simple example of a Hash function is the modulo operator 
+%
+% (We had used this to explain how hashing works).
+
+We can define the Hash function as 
+f
+(
+x
+)
+=
+x
+f(x)=x 
+%
+% 
+M
+M. Here 
+M
+M is an arbitrary integer.
+The output range of this function will be 
+[
+0
+,
+M
+−
+1
+]
+[0,M−1].
+So we need to choose 
+M
+M such that we are able to index all the values from 
+0
+0 to 
+M
+−
+1
+M−1.
+
+We can safety make 
+M
+M as large as 
+10
+6
+10 
+6
+ .
+Also we will try to choose 
+M
+M as a prime number so that the output is distributed evenly.
+
+Let's fix 
+M
+M as 
+999983
+999983 for now - it's a prime number and is small enough to be indexed.
+
+Task
+Run the code in the IDE and check the output.
+
+Sample 1:
+Input
+Output
+13
+1000000000
+342561313
+1341234
+523151339
+x = 13, f(x) = 13
+x = 1000000000, f(x) = 17000
+x = 342561313, f(x) = 567127
+x = 1341234, f(x) = 341251
+x = 523151339, f(x) = 160230
+solution:
+def f(x):
+    return x % 999983
+
+for i in range(5):
+    x = int(input())
+    print(f"x = {x}, f(x) = {f(x)}")
+
+
+l  = 5, c = 4

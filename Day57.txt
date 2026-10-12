@@ -1,0 +1,443 @@
+Leetcode:
+1. 476. Number Complement
+Easy
+Topics
+premium lock icon
+Companies
+The complement of an integer is the integer you get when you flip all the 0's to 1's and all the 1's to 0's in its binary representation.
+
+For example, The integer 5 is "101" in binary and its complement is "010" which is the integer 2.
+Given an integer num, return its complement.
+
+ 
+
+Example 1:
+
+Input: num = 5
+Output: 2
+Explanation: The binary representation of 5 is 101 (no leading zero bits), and its complement is 010. So you need to output 2.
+Example 2:
+
+Input: num = 1
+Output: 0
+Explanation: The binary representation of 1 is 1 (no leading zero bits), and its complement is 0. So you need to output 0.
+ 
+
+Constraints:
+
+1 <= num < 231
+solution:
+class Solution:
+    def findComplement(self, num: int) -> int:
+        bin_num = bin(num)[2:]  # ← skip "0b"
+        new_num = ""
+        for c in bin_num:
+            new_num += '1' if c == '0' else '0'
+        return int(new_num, 2)
+
+2. 693. Binary Number with Alternating Bits
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Given a positive integer, check whether it has alternating bits: namely, if two adjacent bits will always have different values.
+
+ 
+
+Example 1:
+
+Input: n = 5
+Output: true
+Explanation: The binary representation of 5 is: 101
+Example 2:
+
+Input: n = 7
+Output: false
+Explanation: The binary representation of 7 is: 111.
+Example 3:
+
+Input: n = 11
+Output: false
+Explanation: The binary representation of 11 is: 1011.
+ 
+
+Constraints:
+
+1 <= n <= 231 - 1
+solution:
+class Solution:
+    def hasAlternatingBits(self, n: int) -> bool:
+        x = n ^ (n >> 1)
+        return (x & (x + 1)) == 0
+
+3. 190. Reverse Bits
+Easy
+Topics
+premium lock icon
+Companies
+Reverse bits of a given 32 bits signed integer.
+
+ 
+
+Example 1:
+
+Input: n = 43261596
+
+Output: 964176192
+
+Explanation:
+
+Integer	Binary
+43261596	00000010100101000001111010011100
+964176192	00111001011110000010100101000000
+Example 2:
+
+Input: n = 2147483644
+
+Output: 1073741822
+
+Explanation:
+
+Integer	Binary
+2147483644	01111111111111111111111111111100
+1073741822	00111111111111111111111111111110
+ 
+
+Constraints:
+
+0 <= n <= 231 - 2
+n is even.
+ 
+
+Follow up: If this function is called many times, how would you optimize it?
+solution:
+class Solution:
+    def reverseBits(self, n: int) -> int:
+        bin_num = bin(n)[2:].zfill(32)
+        rev = bin_num[::-1]
+        return int(rev, 2)
+
+4. 3827. Count Monobit Integers
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer n.
+
+An integer is called Monobit if all bits in its binary representation are the same.
+
+Return the count of Monobit integers in the range [0, n] (inclusive).
+
+ 
+
+Example 1:
+
+Input: n = 1
+
+Output: 2
+
+Explanation:
+
+The integers in the range [0, 1] have binary representations "0" and "1".
+Each representation consists of identical bits. Thus, the answer is 2.
+Example 2:
+
+Input: n = 4
+
+Output: 3
+
+Explanation:
+
+The integers in the range [0, 4] include binaries "0", "1", "10", "11", and "100".
+Only 0, 1 and 3 satisfy the Monobit condition. Thus, the answer is 3.
+ 
+
+Constraints:
+
+0 <= n <= 1000
+solution:
+class Solution:
+    def countMonobit(self, n: int) -> int:
+        return (n+1).bit_length()
+
+5. 3226. Number of Bit Changes to Make Two Integers Equal
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given two positive integers n and k.
+
+You can choose any bit in the binary representation of n that is equal to 1 and change it to 0.
+
+Return the number of changes needed to make n equal to k. If it is impossible, return -1.
+
+ 
+
+Example 1:
+
+Input: n = 13, k = 4
+
+Output: 2
+
+Explanation:
+Initially, the binary representations of n and k are n = (1101)2 and k = (0100)2.
+We can change the first and fourth bits of n. The resulting integer is n = (0100)2 = k.
+
+Example 2:
+
+Input: n = 21, k = 21
+
+Output: 0
+
+Explanation:
+n and k are already equal, so no changes are needed.
+
+Example 3:
+
+Input: n = 14, k = 13
+
+Output: -1
+
+Explanation:
+It is not possible to make n equal to k.
+
+ 
+
+Constraints:
+
+1 <= n, k <= 106
+solution:
+class Solution:
+    def minChanges(self, n: int, k: int) -> int:
+        if (n & k) != k:
+            return -1
+        return (n ^ k).bit_count()
+
+Codechef:
+1. Count Beautiful Pairs
+You have an array 
+A
+A of 
+N
+N integers.
+A pair of indices 
+(
+i
+,
+j
+)
+(i,j) is called Beautiful if 
+A
+i
+=
+A
+j
+2
+A 
+i
+​
+ =A 
+j
+2
+​
+  and 
+1
+≤
+i
+<
+j
+≤
+N
+1≤i<j≤N.
+
+Count the number of Beautiful Pairs in the given array.
+
+Task
+Try to solve this problem in 
+N
+N time complexity with Hash array.
+
+Input Format
+The first line of the input contains a single integer 
+N
+N, denoting the length of array 
+A
+A.
+The second line of the input contains 
+N
+N space-separated integers 
+A
+1
+,
+A
+2
+,
+…
+,
+A
+N
+A 
+1
+​
+ ,A 
+2
+​
+ ,…,A 
+N
+​
+  — denoting the array 
+A
+A.
+Output Format
+2
+≤
+N
+≤
+10
+5
+2≤N≤10 
+5
+ 
+1
+≤
+A
+i
+≤
+10
+4
+1≤A 
+i
+​
+ ≤10 
+4
+ 
+Sample 1:
+Input
+Output
+4
+4 4 2 2
+4
+solution:
+n = int(input())
+a = list(map(int, input().split()))
+
+MX = 10001
+Hash = [0] * MX
+
+ans = 0
+for x in a:
+    if x * x < MX:
+        ans += Hash[x * x]
+    Hash[x] += 1
+
+print(ans)
+
+2. Linear Search in array
+Write a program to search for a specific element in an array and print "Yes" if the element is present, otherwise print "No".
+
+Input Format
+The first line contains an integer 
+n
+n, the length of the array and 
+k
+k, the element to be search.
+The second line contains 
+n
+n space-separated integers representing the elements of the array.
+Output Format
+Print "Yes" if the element 
+k
+k is present in the array.
+Print "No" if the element 
+k
+k is not present in the array.
+Sample 1:
+Input
+Output
+8 1
+3 5 1 4 5 6 5 6
+Yes
+Sample 2:
+Input
+Output
+3 4
+1 2 3
+No
+solution:
+# cook your dish here
+n,k = map(int, input().split())
+nums = list(map(int, input().split()))
+print("Yes" if k in nums else "No")
+
+3. Linear Search in string
+Given a string and a character as input, print the first position of the character in the string if it is present. If the character does not exist in the string, print "-1".
+
+Input Format
+The first line contains a string.
+The second line contains a single character.
+Output Format
+Print the first position (0-based index) of the character in the string if it is present.
+Print "-1" if the character is not present in the string.
+Sample 1:
+Input
+Output
+HelloHowYouDoing
+w
+7
+solution:
+# cook your dish here
+s = input()
+k = input()
+print(s.index(k) if k in s else -1)
+
+5. Miscellaneous Linear Search
+Given n pairs of integers, write a program to check if there exists any pair that contains both integers a and b in any order.
+
+Input Format
+The first line contains an integer 
+n
+n, the number of pairs.
+The next 
+n
+n lines each contain two space-separated integers representing a pair.
+The last line contains two integers 
+a
+a and 
+b
+b.
+Output Format
+Print "Yes" if there exists any pair that contains both integers a and b in any order.
+Print "No" if no such pair exists.
+Sample 1:
+Input
+Output
+4
+2 3
+4 5
+3 5
+1 7
+5 3
+Yes
+Sample 2:
+Input
+Output
+4
+2 3
+4 5
+3 5
+1 7
+5 9
+No
+solution:
+# cook your dish here
+n = int(input())
+nums = [set(map(int, input().split())) for _ in range(n)]
+k = set(map(int, input().split()))
+print("Yes" if k in nums else "No")
+
+
+
+l = 5, c = 5

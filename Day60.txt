@@ -1,0 +1,1261 @@
+Leetcode:
+1. 3541. Find Most Frequent Vowel and Consonant
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s consisting of lowercase English letters ('a' to 'z').
+
+Your task is to:
+
+Find the vowel (one of 'a', 'e', 'i', 'o', or 'u') with the maximum frequency.
+Find the consonant (all other letters excluding vowels) with the maximum frequency.
+Return the sum of the two frequencies.
+
+Note: If multiple vowels or consonants have the same maximum frequency, you may choose any one of them. If there are no vowels or no consonants in the string, consider their frequency as 0.
+
+The frequency of a letter x is the number of times it occurs in the string.
+ 
+
+Example 1:
+
+Input: s = "successes"
+
+Output: 6
+
+Explanation:
+
+The vowels are: 'u' (frequency 1), 'e' (frequency 2). The maximum frequency is 2.
+The consonants are: 's' (frequency 4), 'c' (frequency 2). The maximum frequency is 4.
+The output is 2 + 4 = 6.
+Example 2:
+
+Input: s = "aeiaeia"
+
+Output: 3
+
+Explanation:
+
+The vowels are: 'a' (frequency 3), 'e' ( frequency 2), 'i' (frequency 2). The maximum frequency is 3.
+There are no consonants in s. Hence, maximum consonant frequency = 0.
+The output is 3 + 0 = 3.
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists of lowercase English letters only.
+solution:
+class Solution:
+    def maxFreqSum(self, s: str) -> int:
+        vowels = {}
+        consonants = {}
+        freq = 0
+        for word in s:
+            if word in set("aeiou"):
+                vowels[word] = vowels.get(word,0) + 1
+            else:
+                consonants[word] = consonants.get(word,0) + 1
+
+        for key,value in vowels.items():
+            if value == max(vowels.values()):
+                freq += value
+                break
+        for key,value in consonants.items():
+            if value == max(consonants.values()):
+                freq += value
+                break
+        return freq
+
+2. 1684. Count the Number of Consistent Strings
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string allowed consisting of distinct characters and an array of strings words. A string is consistent if all characters in the string appear in the string allowed.
+
+Return the number of consistent strings in the array words.
+
+ 
+
+Example 1:
+
+Input: allowed = "ab", words = ["ad","bd","aaab","baa","badab"]
+Output: 2
+Explanation: Strings "aaab" and "baa" are consistent since they only contain characters 'a' and 'b'.
+Example 2:
+
+Input: allowed = "abc", words = ["a","b","c","ab","ac","bc","abc"]
+Output: 7
+Explanation: All strings are consistent.
+Example 3:
+
+Input: allowed = "cad", words = ["cc","acd","b","ba","bac","bad","ac","d"]
+Output: 4
+Explanation: Strings "cc", "acd", "ac", and "d" are consistent.
+ 
+
+Constraints:
+
+1 <= words.length <= 104
+1 <= allowed.length <= 26
+1 <= words[i].length <= 10
+The characters in allowed are distinct.
+words[i] and allowed contain only lowercase English letters.
+solution:
+class Solution:
+    def countConsistentStrings(self, allowed: str, words: List[str]) -> int:
+        allowed_set = set(allowed)
+        return sum(1 for word in words if set(word).issubset(allowed_set))
+
+3. 1221. Split a String in Balanced Strings
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Balanced strings are those that have an equal quantity of 'L' and 'R' characters.
+
+Given a balanced string s, split it into some number of substrings such that:
+
+Each substring is balanced.
+Return the maximum number of balanced strings you can obtain.
+
+ 
+
+Example 1:
+
+Input: s = "RLRRLLRLRL"
+Output: 4
+Explanation: s can be split into "RL", "RRLL", "RL", "RL", each substring contains same number of 'L' and 'R'.
+Example 2:
+
+Input: s = "RLRRRLLRLL"
+Output: 2
+Explanation: s can be split into "RL", "RRRLLRLL", each substring contains same number of 'L' and 'R'.
+Note that s cannot be split into "RL", "RR", "RL", "LR", "LL", because the 2nd and 5th substrings are not balanced.
+Example 3:
+
+Input: s = "LLLLRRRR"
+Output: 1
+Explanation: s can be split into "LLLLRRRR".
+ 
+
+Constraints:
+
+2 <= s.length <= 1000
+s[i] is either 'L' or 'R'.
+s is a balanced string.
+solution:
+class Solution:
+    def balancedStringSplit(self, s: str) -> int:
+        balance = count = 0
+        for c in s:
+            balance += 1 if c == 'L' else -1
+            if balance == 0:
+                count += 1
+        return count
+
+4. 1941. Check if All Characters Have Equal Number of Occurrences
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a string s, return true if s is a good string, or false otherwise.
+
+A string s is good if all the characters that appear in s have the same number of occurrences (i.e., the same frequency).
+
+ 
+
+Example 1:
+
+Input: s = "abacbc"
+Output: true
+Explanation: The characters that appear in s are 'a', 'b', and 'c'. All characters occur 2 times in s.
+Example 2:
+
+Input: s = "aaabb"
+Output: false
+Explanation: The characters that appear in s are 'a' and 'b'.
+'a' occurs 3 times while 'b' occurs 2 times, which is not the same number of times.
+ 
+
+Constraints:
+
+1 <= s.length <= 1000
+s consists of lowercase English letters.
+solution:
+from collections import Counter
+class Solution:
+    def areOccurrencesEqual(self, s: str) -> bool:
+        counters = Counter(s)
+        return len(set(counters.values())) == 1
+
+5. 1704. Determine if String Halves Are Alike
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s of even length. Split this string into two halves of equal lengths, and let a be the first half and b be the second half.
+
+Two strings are alike if they have the same number of vowels ('a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'). Notice that s contains uppercase and lowercase letters.
+
+Return true if a and b are alike. Otherwise, return false.
+
+ 
+
+Example 1:
+
+Input: s = "book"
+Output: true
+Explanation: a = "bo" and b = "ok". a has 1 vowel and b has 1 vowel. Therefore, they are alike.
+Example 2:
+
+Input: s = "textbook"
+Output: false
+Explanation: a = "text" and b = "book". a has 1 vowel whereas b has 2. Therefore, they are not alike.
+Notice that the vowel o is counted twice.
+ 
+
+Constraints:
+
+2 <= s.length <= 1000
+s.length is even.
+s consists of uppercase and lowercase letters.
+solution:
+class Solution:
+    def halvesAreAlike(self, s: str) -> bool:
+        indexx = len(s) // 2
+        v = {'a','e','i','o','u'}
+        a = s[:indexx].lower()
+        b = s[indexx:].lower()
+        counta = sum(1 for ch in a if ch in v)
+        countb = sum(1 for ch in b if ch in v)
+        return counta == countb
+
+Codechef:
+1. Plusle and Minun on Array
+Chef has an array 
+A
+A of length 
+N
+N. He defines the alternating sum of the array as:
+
+S
+=
+∣
+A
+1
+∣
+−
+∣
+A
+2
+∣
++
+∣
+A
+3
+∣
+−
+∣
+A
+4
+∣
++
+…
+(
+−
+1
+)
+N
+−
+1
+⋅
+∣
+A
+N
+∣
+S=∣A 
+1
+​
+ ∣−∣A 
+2
+​
+ ∣+∣A 
+3
+​
+ ∣−∣A 
+4
+​
+ ∣+…(−1) 
+N−1
+ ⋅∣A 
+N
+​
+ ∣
+Chef is allowed to perform the following operation on the array at most once:
+
+Choose two indices 
+i
+i and 
+j
+j 
+(
+1
+≤
+i
+<
+j
+≤
+N
+)
+(1≤i<j≤N) and swap the elements 
+A
+i
+A 
+i
+​
+  and 
+A
+j
+A 
+j
+​
+ .
+Find the maximum alternating sum Chef can achieve by performing the operation at most once.
+
+Note: 
+∣
+X
+∣
+∣X∣ denotes the absolute value of 
+X
+X. For example, 
+∣
+−
+4
+∣
+=
+4
+∣−4∣=4 and 
+∣
+7
+∣
+=
+7
+∣7∣=7.
+
+Input Format
+The first line will contain 
+T
+T - the number of test cases. Then the test cases follow.
+First line of each test case contains a single integer 
+N
+N - size of the array 
+A
+A.
+Second line of each test case contains 
+N
+N space separated integers - denoting the elements of array 
+A
+A.
+Output Format
+For each testcase, output in a single line, the maximum alternating sum Chef can obtain by performing the operation at most once.
+
+Constraints
+1
+≤
+T
+≤
+10
+5
+1≤T≤10 
+5
+ 
+2
+≤
+N
+≤
+10
+5
+2≤N≤10 
+5
+ 
+−
+10
+9
+≤
+A
+i
+≤
+10
+9
+−10 
+9
+ ≤A 
+i
+​
+ ≤10 
+9
+ 
+Sum of 
+N
+N over all test cases does not exceed 
+2
+⋅
+10
+5
+2⋅10 
+5
+ .
+Sample 1:
+Input
+Output
+2
+2
+10 -10
+7
+-3 -2 -1 0 1 2 3
+0
+6
+Explanation:
+Test Case 
+1
+1: One optimal way is to perform no operations. Thus the alternating sum is 
+∣
+10
+∣
+−
+∣
+−
+10
+∣
+=
+10
+−
+10
+=
+0
+∣10∣−∣−10∣=10−10=0.
+
+Test Case 
+2
+2: One optimal way is to choose 
+i
+=
+2
+i=2 and 
+j
+=
+5
+j=5. After swapping, the array is 
+[
+−
+3
+,
+1
+,
+−
+1
+,
+0
+,
+−
+2
+,
+2
+,
+3
+]
+[−3,1,−1,0,−2,2,3]. The alternating sum in this case is 
+∣
+−
+3
+∣
+−
+∣
+1
+∣
++
+∣
+−
+1
+∣
+−
+∣
+0
+∣
++
+∣
+−
+2
+∣
+−
+∣
+2
+∣
++
+∣
+3
+∣
+=
+6
+∣−3∣−∣1∣+∣−1∣−∣0∣+∣−2∣−∣2∣+∣3∣=6.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n = int(input())
+    arr = list(map(int, input().split()))
+    
+    current_sum = 0
+    min_odd = float('inf')
+    max_even = float('-inf')
+    
+    for i in range(n):
+        abs_val = abs(arr[i])
+        if i % 2 == 0:  # 0-indexed, which corresponds to 1-indexed odd positions
+            current_sum += abs_val
+            if abs_val < min_odd:
+                min_odd = abs_val
+        else:           # 0-indexed, which corresponds to 1-indexed even positions
+            current_sum -= abs_val
+            if abs_val > max_even:
+                max_even = abs_val
+                
+    # Check whether swapping the best even and odd elements improves the sum
+    ans = max(current_sum, current_sum + 2 * (max_even - min_odd))
+    print(ans)
+
+2. String Game
+Zlatan and Ramos are playing a game on a binary string 
+S
+S of length 
+N
+N.
+Zlatan and Ramos make alternating moves with Zlatan going first.
+
+In one move, a player will:
+
+Select an index 
+i
+i 
+(
+1
+≤
+i
+<
+N
+)
+(1≤i<N) such that 
+S
+i
+≠
+S
+i
++
+1
+S 
+i
+​
+ =S 
+i+1
+​
+  and delete both 
+S
+i
+S 
+i
+​
+  and 
+S
+i
++
+1
+S 
+i+1
+​
+  from the string 
+S
+S. Note that 
+N
+N gets reduced by 
+2
+2 when both characters are deleted. If a player cannot select any such index 
+i
+i, he loses the game.
+Determine the winner of the game if both players play optimally.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of multiple lines of input.
+The first line of each test case contains an integer 
+N
+N — the length of the binary string.
+The next line contains a binary string 
+S
+S of length 
+N
+N.
+Output Format
+For each test case, if Zlatan will win the game, output Zlatan. Otherwise, output Ramos.
+
+You can output each letter of the string in uppercase or lowercase. For example, Ramos, ramos, RAMOS, and rAmOS are all considered same.
+
+Constraints
+1
+≤
+T
+≤
+10
+5
+1≤T≤10 
+5
+ 
+1
+≤
+N
+≤
+10
+5
+1≤N≤10 
+5
+ .
+S
+S consists of 
+0
+0 and 
+1
+1 only.
+The sum of 
+N
+N over all test cases won't exceed 
+3
+⋅
+10
+5
+3⋅10 
+5
+ .
+Sample 1:
+Input
+Output
+5
+1
+0
+2
+11
+2
+10
+3
+111
+3
+101
+Ramos
+Ramos
+Zlatan
+Ramos
+Zlatan
+Explanation:
+Test case 
+1
+1: Zlatan goes first and has no move to make. Thus, Ramos wins.
+
+Test case 
+2
+2: Zlatan goes first and has no move to make. Thus, Ramos wins.
+
+Test case 
+3
+3: Zlatan goes first and selects 
+i
+=
+1
+i=1 where 
+S
+1
+≠
+S
+2
+S 
+1
+​
+ =S 
+2
+​
+ . Thus, he removes 
+S
+1
+S 
+1
+​
+  and 
+S
+2
+S 
+2
+​
+ .
+Since the string is empty now, Ramos has no move to make and Zlatan wins.
+
+Test case 
+4
+4: Zlatan goes first and has no move to make. Thus, Ramos wins.
+
+Test case 
+5
+5: Zlatan goes first and selects 
+i
+=
+1
+i=1 where 
+S
+1
+≠
+S
+2
+S 
+1
+​
+ =S 
+2
+​
+ . Thus, he removes 
+S
+1
+S 
+1
+​
+  and 
+S
+2
+S 
+2
+​
+ .
+Since the string only has length 
+1
+1 now, Ramos has no move to make and Zlatan wins.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n = int(input())
+    s = input()
+    zeros = s.count("0")
+    ones = s.count("1")
+    mini = min(zeros,ones)
+    if mini & 1 == 1:
+        print("Zlatan")
+    else:
+        print("Ramos")
+
+3. Remove Element
+You are given an array 
+A
+=
+[
+A
+1
+,
+A
+2
+,
+…
+,
+A
+N
+]
+A=[A 
+1
+​
+ ,A 
+2
+​
+ ,…,A 
+N
+​
+ ] consisting of 
+N
+N positive integers.
+
+You are also given a constant 
+K
+K, using which you can perform the following operation on 
+A
+A:
+
+Choose two distinct indices 
+i
+i and 
+j
+j such that 
+A
+i
++
+A
+j
+≤
+K
+A 
+i
+​
+ +A 
+j
+​
+ ≤K, and remove either 
+A
+i
+A 
+i
+​
+  or 
+A
+j
+A 
+j
+​
+  from 
+A
+A.
+Is it possible to obtain an array consisting of only one element using several (possibly, zero) such operations?
+
+Input Format
+The first line of input contains a single integer 
+T
+T, denoting the number of test cases. The description of 
+T
+T test cases follows.
+The first line of each test case contains two space-separated integers 
+N
+N and 
+K
+K.
+The second line contains 
+N
+N space-separated integers 
+A
+1
+,
+A
+2
+,
+…
+,
+A
+N
+A 
+1
+​
+ ,A 
+2
+​
+ ,…,A 
+N
+​
+ .
+Output Format
+For each test case, print "YES" if it is possible to obtain an array consisting of only one element using the given operation, otherwise print "NO".
+
+You may print each character of the string in uppercase or lowercase (for example, the strings "yEs", "yes", "Yes" and "YES" will all be treated as identical).
+
+Constraints
+1
+≤
+T
+≤
+10
+3
+1≤T≤10 
+3
+ 
+1
+≤
+N
+≤
+10
+5
+1≤N≤10 
+5
+ 
+1
+≤
+A
+i
+,
+K
+≤
+10
+9
+1≤A 
+i
+​
+ ,K≤10 
+9
+ 
+Sum of 
+N
+N over all test cases does not exceed 
+2
+⋅
+10
+5
+2⋅10 
+5
+ 
+Sample 1:
+Input
+Output
+3
+1 3
+1
+3 3
+2 2 2
+4 7
+1 4 3 5
+YES
+NO
+YES
+Explanation:
+Test case 
+1
+1: The length of the array is already 
+1
+1.
+
+Test case 
+2
+2: There is no way to delete an element from the given array.
+
+Test case 
+3
+3: One possible sequence of operations is:
+
+Choose 
+i
+=
+1
+,
+j
+=
+4
+i=1,j=4 and remove 
+A
+j
+=
+5
+A 
+j
+​
+ =5. Hence the array becomes 
+[
+1
+,
+4
+,
+3
+]
+[1,4,3].
+Choose 
+i
+=
+2
+,
+j
+=
+3
+i=2,j=3 and remove 
+A
+i
+=
+4
+A 
+i
+​
+ =4. Hence the array becomes 
+[
+1
+,
+3
+]
+[1,3].
+Choose 
+i
+=
+1
+,
+j
+=
+2
+i=1,j=2 and remove 
+A
+i
+=
+1
+A 
+i
+​
+ =1. Hence the array becomes 
+[
+3
+]
+[3], which is of length 
+1
+1.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n, k = map(int, input().split())
+    nums = list(map(int, input().split()))
+    
+    if n == 1:
+        print("YES")
+        continue
+        
+    mini = min(nums)
+    maxi = max(nums)
+    
+    if mini + maxi <= k:
+        print("YES")
+    else:
+        print("NO")
+
+4. Maximize Colours
+For the human eye, primary colours are red, green, and blue.
+
+Combining 
+1
+1 drop each of any two primary colours produces a new type of secondary colour. For example, mixing red and green gives yellow, mixing green and blue gives cyan, and, mixing red and blue gives magenta.
+
+You have 
+X
+,
+Y
+,
+X,Y, and 
+Z
+Z drops of red, green, and blue colours respectively. Find the maximum total number of distinct colours (both primary and secondary) you can have at any particular moment.
+
+Note: You cannot mix a secondary colour with a primary or another secondary colour to get a new type of colour.
+
+Input Format
+The first line of input will contain a single integer 
+T
+T, denoting the number of test cases.
+Each test case consists of three space separated integers 
+X
+,
+Y
+,
+X,Y, and 
+Z
+Z, the number of drops of red, green, and blue colours respectively.
+Output Format
+For each test case, output on a new line the maximum total number of colours (both primary and secondary) you can have using the given primary colours.
+
+Constraints
+1
+≤
+T
+≤
+10
+5
+1≤T≤10 
+5
+ 
+0
+≤
+X
+,
+Y
+,
+Z
+≤
+100
+0≤X,Y,Z≤100
+Sample 1:
+Input
+Output
+4
+1 0 1
+3 3 0
+1 1 1
+0 0 0
+2
+3
+3
+0
+Explanation:
+Test case 
+1
+1: We have 
+1
+1 drop each of red and blue colour. If we mix these colours, we will have magenta but no red or blue. Thus, to maximize the total number of colours, it is better that we keep the red and blue colours as it is. The maximum number of colours we can have is 
+2
+2.
+
+Test case 
+2
+2: We have 
+3
+3 drops each of red and green colour. We can use 
+1
+1 drop each of red and green to have yellow. We still have 
+2
+2 drops each of red and green left. Thus, we have 
+3
+3 different types of colours now.
+
+Test case 
+3
+3: If we mix any two colours, we will loose two colours and get only one colour in return. Thus, it is best to keep all colours as it is and keep 
+3
+3 different varieties of colours.
+
+Test case 
+4
+4: There are no types of colours available.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    # Read the counts of red, green, and blue
+    a = list(map(int, input().split()))
+    
+    # Sort in descending order to prioritize the most available colors
+    a.sort(reverse=True)
+    
+    ans = 0
+    
+    # 1. Count remaining primary colors (at most 3)
+    for i in range(3):
+        if a[i] > 0:
+            ans += 1
+            a[i] -= 1
+            
+    # 2. Form secondary colors using pairs of available drops
+    for i in range(3):
+        for j in range(i + 1, 3):
+            if a[i] > 0 and a[j] > 0:
+                ans += 1
+                a[i] -= 1
+                a[j] -= 1
+                
+    print(ans)
+
+5. Fit to Play
+Rayne Wooney has been one of the top players for his football club for the last few years. But unfortunately, he got injured during a game a few months back and has been out of play ever since.
+
+He's got proper treatment and is eager to go out and play for his team again. Before doing that, he has to prove to his fitness to the coach and manager of the team. Rayne has been playing practice matches for the past few days. He's played N practice matches in all.
+
+He wants to convince the coach and the manager that he's improved over time and that his injury no longer affects his game. To increase his chances of getting back into the team, he's decided to show them stats of any 2 of his practice games. The coach and manager will look into the goals scored in both the games and see how much he's improved. If the number of goals scored in the 2nd game(the game which took place later) is greater than that in 1st, then he has a chance of getting in. Tell Rayne what is the maximum improvement in terms of goal difference that he can show to maximize his chances of getting into the team. If he hasn't improved over time, he's not fit to play. Scoring equal number of goals in 2 matches will not be considered an improvement. Also, he will be declared unfit if he doesn't have enough matches to show an improvement.
+
+Note: Large input data. Use faster I/O methods. Prefer scanf,printf over cin/cout.
+
+Input Format
+The first line of the input contains a single integer 
+T
+T, the number of test cases.
+Each test case begins with a single integer 
+N
+N, the number of practice matches Rayne has played.
+The next line contains 
+N
+N integers. The 
+i
+t
+h
+i 
+th
+  integer, 
+g
+i
+g 
+i
+​
+ , on this line represents the number of goals Rayne scored in his 
+i
+t
+h
+i 
+th
+  practice match. The matches are given in chronological order i.e. 
+j
+>
+i
+j>i means match number 
+j
+j took place after match number 
+i
+i.
+Output Format
+For each test case output a single line containing the maximum goal difference that Rayne can show to his coach and manager. If he's not fit yet, print "UNFIT".
+
+Constraints
+1
+≤
+T
+≤
+10
+1≤T≤10
+1
+≤
+N
+≤
+100000
+1≤N≤100000
+0
+≤
+g
+i
+≤
+1000000
+0≤g 
+i
+​
+ ≤1000000 (Well, Rayne's a legend! You can expect him to score so many goals!)
+Sample 1:
+Input
+Output
+3
+6
+3 7 1 4 2 4
+5
+5 4 3 2 1
+5
+4 3 2 2 3
+4
+UNFIT
+1
+Explanation:
+In the first test case, Rayne can choose the first and second game. Thus he gets a difference of 7-3=4 goals. Any other pair would give him a lower improvement. In the second test case, Rayne has not been improving in any match. Thus he's declared UNFIT.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n = int(input())
+    nums = map(int, input().split())
+    
+    min_val = float('inf')
+    max_diff = 0
+    
+    for cur in nums:
+        diff = cur - min_val
+        if diff > max_diff:
+            max_diff = diff
+        if cur < min_val:
+            min_val = cur
+            
+    if max_diff > 0:
+        print(max_diff)
+    else:
+        print("UNFIT")
+
+l = 5, c = 5

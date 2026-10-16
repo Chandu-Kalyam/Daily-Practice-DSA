@@ -1,0 +1,471 @@
+Leetcode:
+1. 4065. Rearrange Array by Removing Distinct Values
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array nums.
+
+You start with an empty array ans. Repeat the following operation until nums is empty:
+
+Identify all distinct values currently present in nums.
+Remove one occurrence of every distinct value currently in nums, and append those values to ans in ascending order.
+Return the array ans.
+
+ 
+
+Example 1:
+
+Input: nums = [3,1,3,2,1,3]
+
+Output: [1,2,3,1,3,3]
+
+Explanation:
+
+Operation	Appended to ans	nums after	ans after
+1	1, 2, 3	[3, 1, 3]	[1, 2, 3]
+2	1, 3	[3]	[1, 2, 3, 1, 3]
+3	3	[]	[1, 2, 3, 1, 3, 3]
+nums is now empty, so the answer is [1, 2, 3, 1, 3, 3].
+
+Example 2:
+
+Input: nums = [7,7,4,4,4]
+
+Output: [4,7,4,7,4]
+
+Explanation:
+
+Operation	Appended to ans	nums after	ans after
+1	4, 7	[7, 4, 4]	[4, 7]
+2	4, 7	[4]	[4, 7, 4, 7]
+3	4	[]	[4, 7, 4, 7, 4]
+nums is now empty, so the answer is [4, 7, 4, 7, 4].
+
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+1 <= nums[i] <= 100
+solution:
+from collections import Counter
+
+class Solution:
+    def rearrangeArray(self, nums: List[int]) -> List[int]:
+        freq = Counter(nums)
+        ans = []
+        for r in range(1, max(freq.values()) + 1):
+            for v in sorted(freq):
+                if freq[v] >= r:
+                    ans.append(v)
+        return ans
+
+2. 1399. Count Largest Group
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer n.
+
+We need to group the numbers from 1 to n according to the sum of its digits. For example, the numbers 14 and 5 belong to the same group, whereas 13 and 3 belong to different groups.
+
+Return the number of groups that have the largest size, i.e. the maximum number of elements.
+
+ 
+
+Example 1:
+
+Input: n = 13
+Output: 4
+Explanation: There are 9 groups in total, they are grouped according sum of its digits of numbers from 1 to 13:
+[1,10], [2,11], [3,12], [4,13], [5], [6], [7], [8], [9].
+There are 4 groups with largest size.
+Example 2:
+
+Input: n = 2
+Output: 2
+Explanation: There are 2 groups [1], [2] of size 1.
+ 
+
+Constraints:
+
+1 <= n <= 104
+solution:
+class Solution:
+    def countLargestGroup(self, n: int) -> int:
+        counts = [0] * 37
+        for i in range(1, n + 1):
+            s, x = 0, i
+            while x:
+                s += x % 10
+                x //= 10
+            counts[s] += 1
+        return counts.count(max(counts))
+
+3. 2529. Maximum Count of Positive Integer and Negative Integer
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an array nums sorted in non-decreasing order, return the maximum between the number of positive integers and the number of negative integers.
+
+In other words, if the number of positive integers in nums is pos and the number of negative integers is neg, then return the maximum of pos and neg.
+Note that 0 is neither positive nor negative.
+
+ 
+
+Example 1:
+
+Input: nums = [-2,-1,-1,1,2,3]
+Output: 3
+Explanation: There are 3 positive integers and 3 negative integers. The maximum count among them is 3.
+Example 2:
+
+Input: nums = [-3,-2,-1,0,0,1,2]
+Output: 3
+Explanation: There are 2 positive integers and 3 negative integers. The maximum count among them is 3.
+Example 3:
+
+Input: nums = [5,20,66,1314]
+Output: 4
+Explanation: There are 4 positive integers and 0 negative integers. The maximum count among them is 4.
+ 
+
+Constraints:
+
+1 <= nums.length <= 2000
+-2000 <= nums[i] <= 2000
+nums is sorted in a non-decreasing order.
+ 
+
+Follow up: Can you solve the problem in O(log(n)) time complexity?
+solution:
+class Solution:
+    def maximumCount(self, nums: list[int]) -> int:
+        count_pos = 0
+        count_neg = 0
+        for num in nums:
+            if num < 0:
+                count_neg += 1
+            elif num > 0:
+                count_pos += 1
+        return max(count_pos, count_neg)
+
+5. 2586. Count the Number of Vowel Strings in Range
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed array of string words and two integers left and right.
+
+A string is called a vowel string if it starts with a vowel character and ends with a vowel character where vowel characters are 'a', 'e', 'i', 'o', and 'u'.
+
+Return the number of vowel strings words[i] where i belongs to the inclusive range [left, right].
+
+ 
+
+Example 1:
+
+Input: words = ["are","amy","u"], left = 0, right = 2
+Output: 2
+Explanation: 
+- "are" is a vowel string because it starts with 'a' and ends with 'e'.
+- "amy" is not a vowel string because it does not end with a vowel.
+- "u" is a vowel string because it starts with 'u' and ends with 'u'.
+The number of vowel strings in the mentioned range is 2.
+Example 2:
+
+Input: words = ["hey","aeo","mu","ooo","artro"], left = 1, right = 4
+Output: 3
+Explanation: 
+- "aeo" is a vowel string because it starts with 'a' and ends with 'o'.
+- "mu" is not a vowel string because it does not start with a vowel.
+- "ooo" is a vowel string because it starts with 'o' and ends with 'o'.
+- "artro" is a vowel string because it starts with 'a' and ends with 'o'.
+The number of vowel strings in the mentioned range is 3.
+ 
+
+Constraints:
+
+1 <= words.length <= 1000
+1 <= words[i].length <= 10
+words[i] consists of only lowercase English letters.
+0 <= left <= right < words.length
+solution:
+class Solution:
+    def vowelStrings(self, words: list[str], left: int, right: int) -> int:
+        vowels = set("aeiou")
+        count = 0
+        for i in range(left, right + 1):
+            w = words[i]
+            if w[0] in vowels and w[-1] in vowels:
+                count += 1
+        return count
+
+Codechef:
+1. Equality
+An equation is an equality containing one or more variables. Solving the equation consists of determining which values of the variables make the equality true. In this situation, variables are also known as unknowns and the values which satisfy the equality are known as solutions. An equation differs from an identity in that an equation is not necessarily true for all possible values of the variable.
+
+There are many types of equations, and they are found in all areas of mathematics. For instance, a linear equation is an algebraic equation in which each term is either a constant or the product of a constant and (the first power of) a single variable.
+
+In this problem we'll consider quite a special kind of systems of linear equations. To be more specific, you are given a system of N linear equations of the following form:
+
+x2 + x3 + ... + xN - 1 + xN = a1
+x1 + x3 + ... + xN - 1 + xN = a2
+...
+x1 + x2 + ... + xN - 2 + xN = aN - 1
+x1 + x2 + ... + xN - 2 + xN - 1 = aN
+In other words, i'th equation of the system consists of the sum of all the variable x1, ..., xN except xi to the left of the equality sign and the constant ai to the right of the equality sign.
+
+One can easily prove, that a system of linear equations as described above always have exactly one solution in case N is greater than one. Your task is to find the solution of the system(such a sequence x1, x2, ..., xN, that turns each of the equations into equality). It's guaranteed, that the solution of the system is a sequence consisting only of integers from the range [1, 108].
+
+Input
+The first line of the input contains an integer T denoting the number of test cases. The description of T test cases follows.
+
+The first line of the test case description contains one integer N denoting the number of equations in the system.
+
+The second line contains N integers a1, a2, ..., aN denoting the constants defining a system of linear equations, that you are asked to solve.
+
+Output
+For each test case, output a single line containing N integers: a sequence x1, x2, ..., xN, which is the solution of the system.
+
+Constraints
+1 ≤ T ≤ 25000
+2 ≤ N ≤ 50000
+1 ≤ ai ≤ 5 × 1012
+1 ≤ xi ≤ 108
+The sum of all N in the input is not greater than 50000
+Sample 1:
+Input
+Output
+2
+3
+9 6 5
+4
+13 11 10 8
+1 4 5 
+1 3 4 6
+Explanation:
+In the first test case, we can simply replace the variables with the values from the correct output to make sure, that all the conditions are satisfied:
+
+x2 + x3 = 4 + 5 = 9 = a1
+x1 + x3 = 1 + 5 = 6 = a2
+x1 + x2 = 1 + 4 = 5 = a3
+In the second test case, we can repeat the same process to make sure, that all the conditions are satisfied:
+
+x2 + x3 + x4 = 3 + 4 + 6 = 13 = a1
+x1 + x3 + x4 = 1 + 4 + 6 = 11 = a2
+x1 + x2 + x4 = 1 + 3 + 6 = 10 = a3
+x1 + x2 + x3 = 1 + 3 + 4 = 8 = a4
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    n = int(input())
+    a = list(map(int, input().split()))
+    s = sum(a) // (n-1)
+    print(*[s - ai for ai in a])
+
+2. Decreasing Srrnmieeda
+You are given two integers 
+L
+L and 
+R
+R. Find the smallest non-negative integer 
+N
+N such that 
+N
+ 
+%
+ 
+L
+>
+N
+ 
+%
+ 
+(
+L
++
+1
+)
+>
+…
+>
+N
+ 
+%
+ 
+(
+R
+−
+1
+)
+>
+N
+ 
+%
+ 
+R
+ 
+.
+N%L>N%(L+1)>…>N%(R−1)>N%R.
+
+Here, 
+%
+% is the modulo operator, so 
+A
+ 
+%
+ 
+B
+A%B is the remainder of 
+A
+A after division by 
+B
+B. For example, 
+11
+ 
+%
+ 
+3
+=
+2
+11%3=2.
+
+Input
+The first line of the input contains a single integer 
+T
+T denoting the number of test cases. The description of 
+T
+T test cases follows.
+The first and only line of each test case contains two space-separated integers 
+L
+L and 
+R
+R.
+Output
+For each test case, print a single line containing one integer ― the smallest possible 
+N
+N, or 
+−
+1
+−1 if no solution exists.
+
+It is guaranteed that when a solution exists, the smallest solution does not exceed 
+10
+18
+10 
+18
+ .
+
+Constraints
+1
+≤
+T
+≤
+10
+5
+1≤T≤10 
+5
+ 
+1
+≤
+L
+<
+R
+≤
+10
+6
+1≤L<R≤10 
+6
+ 
+Sample 1:
+Input
+Output
+2
+4 6
+1 2
+6
+-1
+Explanation:
+Example case 1: 
+N
+=
+6
+N=6 satisfies the given condition, since 
+6
+ 
+%
+ 
+4
+ 
+(
+=
+2
+)
+>
+6
+ 
+%
+ 
+5
+ 
+(
+=
+1
+)
+>
+6
+ 
+%
+ 
+6
+ 
+(
+=
+0
+)
+6%4(=2)>6%5(=1)>6%6(=0). Notice that 
+N
+=
+7
+N=7 also satisfies the condition, but it is larger.
+
+Example case 2: It is impossible to find a valid solution because for any non-negative integer 
+N
+N, we have 
+N
+ 
+%
+ 
+1
+ 
+(
+=
+0
+)
+≤
+N
+ 
+%
+ 
+2
+N%1(=0)≤N%2.
+solution:
+# cook your dish here
+for _ in range(int(input())):
+    l, r = map(int, input().split())
+    if 2 * l > r:
+        print(r)
+    else:
+        print(-1)
+l = 5, c = 2
+
+l = 5,

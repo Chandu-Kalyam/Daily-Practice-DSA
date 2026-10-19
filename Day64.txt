@@ -1,0 +1,393 @@
+Leetcode:
+1. 169. Majority Element
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Given an array nums of size n, return the majority element.
+
+The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
+
+ 
+
+Example 1:
+
+Input: nums = [3,2,3]
+Output: 3
+Example 2:
+
+Input: nums = [2,2,1,1,1,2,2]
+Output: 2
+ 
+
+Constraints:
+
+n == nums.length
+1 <= n <= 5 * 104
+-109 <= nums[i] <= 109
+The input is generated such that a majority element will exist in the array.
+ 
+
+Follow-up: Could you solve the problem in linear time and in O(1) space?
+solution:
+from collections import Counter
+class Solution:
+    def majorityElement(self, nums: list[int]) -> int:
+        counters = Counter(nums)
+        for key, value in counters.items():
+            if value == max(counters.values()):
+                return key
+
+2. 387. First Unique Character in a String
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Given a string s, find the first non-repeating character in it and return its index. If it does not exist, return -1.
+
+ 
+
+Example 1:
+
+Input: s = "leetcode"
+
+Output: 0
+
+Explanation:
+
+The character 'l' at index 0 is the first character that does not occur at any other index.
+
+Example 2:
+
+Input: s = "loveleetcode"
+
+Output: 2
+
+Example 3:
+
+Input: s = "aabb"
+
+Output: -1
+
+ 
+
+Constraints:
+
+1 <= s.length <= 105
+s consists of only lowercase English letters.
+solution:
+from collections import Counter
+class Solution:
+    def firstUniqChar(self, s: str) -> int:
+        counters = Counter(s)
+        for index, key in enumerate(s):
+            if counters[key] == 1:
+                return index
+                break
+        return -1
+
+3. 3692. Majority Frequency Characters
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s consisting of lowercase English letters.
+
+The frequency group for a value k is the set of characters that appear exactly k times in s.
+
+The majority frequency group is the frequency group that contains the largest number of distinct characters.
+
+Return a string containing all characters in the majority frequency group, in any order. If two or more frequency groups tie for that largest size, pick the group whose frequency k is larger.
+
+ 
+
+Example 1:
+
+Input: s = "aaabbbccdddde"
+
+Output: "ab"
+
+Explanation:
+
+Frequency (k)	Distinct characters in group	Group size	Majority?
+4	{d}	1	No
+3	{a, b}	2	Yes
+2	{c}	1	No
+1	{e}	1	No
+Both characters 'a' and 'b' share the same frequency 3, they are in the majority frequency group. "ba" is also a valid answer.
+
+Example 2:
+
+Input: s = "abcd"
+
+Output: "abcd"
+
+Explanation:
+
+Frequency (k)	Distinct characters in group	Group size	Majority?
+1	{a, b, c, d}	4	Yes
+All characters share the same frequency 1, they are all in the majority frequency group.
+
+Example 3:
+
+Input: s = "pfpfgi"
+
+Output: "fp"
+
+Explanation:
+
+Frequency (k)	Distinct characters in group	Group size	Majority?
+2	{p, f}	2	Yes
+1	{g, i}	2	No (tied size, lower frequency)
+Both characters 'p' and 'f' share the same frequency 2, they are in the majority frequency group. There is a tie in group size with frequency 1, but we pick the higher frequency: 2.
+
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists only of lowercase English letters.
+solution:
+from collections import Counter, defaultdict
+
+class Solution:
+    def majorityFrequencyGroup(self, s: str) -> str:
+        char_count = Counter(s)
+        groups = defaultdict(list)
+        for c, f in char_count.items():
+            groups[f].append(c)
+        best_k = max(groups, key=lambda k: (len(groups[k]), k))
+        return ''.join(groups[best_k])
+
+4. 3866. First Unique Even Element
+Easy
+Topics
+premium lock icon
+Companies
+You are given an integer array nums.
+
+Return an integer denoting the first even integer (earliest by array index) that appears exactly once in nums. If no such integer exists, return -1.
+
+An integer x is considered even if it is divisible by 2.
+
+ 
+
+Example 1:
+
+Input: nums = [3,4,2,5,4,6]
+
+Output: 2
+
+Explanation:
+
+Both 2 and 6 are even and they appear exactly once. Since 2 occurs first in the array, the answer is 2.
+
+Example 2:
+
+Input: nums = [4,4]
+
+Output: -1
+
+Explanation:
+
+No even integer appears exactly once, so return -1.
+
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+1 <= nums[i] <= 100
+solution:
+from collections import Counter
+
+class Solution:
+    def firstUniqueEven(self, nums: list[int]) -> int:
+        counters = Counter(nums)
+        for key in nums:
+            if (key & 1) == 0 and counters[key] == 1:
+                return key
+        return -1
+
+5. 594. Longest Harmonious Subsequence
+Easy
+Topics
+premium lock icon
+Companies
+We define a harmonious array as an array where the difference between its maximum value and its minimum value is exactly 1.
+
+Given an integer array nums, return the length of its longest harmonious subsequence among all its possible subsequences.
+
+ 
+
+Example 1:
+
+Input: nums = [1,3,2,2,5,2,3,7]
+
+Output: 5
+
+Explanation:
+
+The longest harmonious subsequence is [3,2,2,2,3].
+
+Example 2:
+
+Input: nums = [1,2,3,4]
+
+Output: 2
+
+Explanation:
+
+The longest harmonious subsequences are [1,2], [2,3], and [3,4], all of which have a length of 2.
+
+Example 3:
+
+Input: nums = [1,1,1,1]
+
+Output: 0
+
+Explanation:
+
+No harmonic subsequence exists.
+
+ 
+
+Constraints:
+
+1 <= nums.length <= 2 * 104
+-109 <= nums[i] <= 109
+solution:
+from collections import Counter
+
+class Solution:
+    def findLHS(self, nums: list[int]) -> int:
+        freq = Counter(nums)
+        best = 0
+        for x in freq:
+            if x + 1 in freq:
+                best = max(best, freq[x] + freq[x + 1])
+        return best
+
+GeeksforGeeks:
+1. Design Car Class
+Difficulty: EasyAccuracy: 73.58%Submissions: 412+Points: 2
+You are tasked with designing a basic Vehicle Information System. As part of this system, you need to create a class named Car that represents a car with the following properties:
+
+- brand (string): the brand name of the car
+- model (string): the model name of the car
+- year (int): the manufacturing year of the car
+
+You need to implement the following :
+
+Constructor to initialize these properties when a new object is created. 
+A method named displayDetails() that prints all the details of the car in the following format:
+Car Details:
+Brand: <brand>
+Model: <model>
+Year: <year>
+Examples:
+
+Input: brand = "Ford", model = "Mustang", year = 1969
+Output:
+Car Details:
+Brand: Ford
+Model: Mustang
+Year: 1969
+Input: brand = "Toyota", model = "Camry", year = 2020
+Output:
+Car Details:
+Brand: Toyota
+Model: Camry
+Year: 2020
+solution:
+class Car:
+    def __init__(self, brand, model, year):
+        # Initialize brand, model, and year
+        self.brand = brand
+        self.model = model
+        self.year = year
+
+    def display_details(self):
+        # Print car details in the specified format
+        print("Car Details:")
+        print(f"Brand: {self.brand}")
+        print(f"Model: {self.model}")
+        print(f"Year: {self.year}")
+
+class Solution:
+    def fun(self, brand, model, year):
+        # Create Car class and call display_details() method
+        car = Car(brand, model, year)
+        car.display_details()
+
+2.Abstraction in Python
+Difficulty: EasyAccuracy: 64.46%Submissions: 9K+Points: 2
+Implement the following classes to understand abstraction in Python :
+Note: Driver code makes all the function calls and print statements
+
+Class Name: Shape (Abstract Class)
+Attributes: color (String)
+Constructor: Shape(c) -> assign value of c to color attribute
+Methods: get_color() -> returns value of color
+         get_area() -> abstract method with float return type
+Class Name: Square (extends Shape)
+Attributes: side (float)
+Constructor: Square(c, side) -> calls super(c) to initialize the color and assigns the value to side.
+Methods: get_area() -> returns the area of the square (side * side).
+Example:
+
+Input: color = "red", side = 5.0
+Output: 
+red 25.0
+solution:
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    def __init__(self, color):
+        self.color = color
+    
+    def get_color(self):
+        return self.color
+    
+    @abstractmethod
+    def get_area(self) -> float:
+        pass
+
+
+class Square(Shape):
+    def __init__(self, color, side):
+        super().__init__(color)
+        self.side = side
+    
+    def get_area(self) -> float:
+        return self.side * self.side
+
+3. Static Method In Python
+Solved
+Difficulty: EasyAccuracy: 73.15%Submissions: 8K+Points: 2
+Design a class as described below:
+
+Class Name: Addition
+Method:
+Function Name: add
+Parameters: a (int), b (int)
+Return Type: int
+Static: Yes (Use the @staticmethod decorator)
+Task: Returns the sum of the values given as parameters.
+Examples:
+
+Input: a = 3, b = 4
+Output: 7
+solution:
+# Implement Addition class here
+class Addition:
+    @staticmethod
+    def add(a, b):
+        return a + b
+        
+
+
+l = 5, g = 3

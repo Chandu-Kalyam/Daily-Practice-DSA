@@ -258,4 +258,5 @@ class Solution:
         return max_odd - min_even
 
 
+
 l = 5

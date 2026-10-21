@@ -1,0 +1,261 @@
+Leetcode:
+1. 2347. Best Poker Hand
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array ranks and a character array suits. You have 5 cards where the ith card has a rank of ranks[i] and a suit of suits[i].
+
+The following are the types of poker hands you can make from best to worst:
+
+"Flush": Five cards of the same suit.
+"Three of a Kind": Three cards of the same rank.
+"Pair": Two cards of the same rank.
+"High Card": Any single card.
+Return a string representing the best type of poker hand you can make with the given cards.
+
+Note that the return values are case-sensitive.
+
+ 
+
+Example 1:
+
+Input: ranks = [13,2,3,1,9], suits = ["a","a","a","a","a"]
+Output: "Flush"
+Explanation: The hand with all the cards consists of 5 cards with the same suit, so we have a "Flush".
+Example 2:
+
+Input: ranks = [4,4,2,4,4], suits = ["d","a","a","b","c"]
+Output: "Three of a Kind"
+Explanation: The hand with the first, second, and fourth card consists of 3 cards with the same rank, so we have a "Three of a Kind".
+Note that we could also make a "Pair" hand but "Three of a Kind" is a better hand.
+Also note that other cards could be used to make the "Three of a Kind" hand.
+Example 3:
+
+Input: ranks = [10,10,2,12,9], suits = ["a","b","c","a","d"]
+Output: "Pair"
+Explanation: The hand with the first and second card consists of 2 cards with the same rank, so we have a "Pair".
+Note that we cannot make a "Flush" or a "Three of a Kind".
+ 
+
+Constraints:
+
+ranks.length == suits.length == 5
+1 <= ranks[i] <= 13
+'a' <= suits[i] <= 'd'
+No two cards have the same rank and suit.
+solution:
+from collections import Counter
+
+class Solution:
+    def bestHand(self, ranks: list[int], suits: list[str]) -> str:
+        # 1. Flush: all same suit
+        if len(set(suits)) == 1:
+            return "Flush"
+        
+        # 2. Three of a Kind / Pair: check max rank frequency
+        max_freq = max(Counter(ranks).values())
+        if max_freq >= 3:
+            return "Three of a Kind"
+        if max_freq >= 2:
+            return "Pair"
+        
+        # 3. High Card
+        return "High Card"
+
+2. 3046. Split the Array
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array nums of even length. You have to split the array into two parts nums1 and nums2 such that:
+
+nums1.length == nums2.length == nums.length / 2.
+nums1 should contain distinct elements.
+nums2 should also contain distinct elements.
+Return true if it is possible to split the array, and false otherwise.
+
+ 
+
+Example 1:
+
+Input: nums = [1,1,2,2,3,4]
+Output: true
+Explanation: One of the possible ways to split nums is nums1 = [1,2,3] and nums2 = [1,2,4].
+Example 2:
+
+Input: nums = [1,1,1,1]
+Output: false
+Explanation: The only possible way to split nums is nums1 = [1,1] and nums2 = [1,1]. Both nums1 and nums2 do not contain distinct elements. Therefore, we return false.
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+nums.length % 2 == 0 
+1 <= nums[i] <= 100
+solution:
+from collections import Counter
+
+class Solution:
+    def isPossibleToSplit(self, nums: list[int]) -> bool:
+        return all(c <= 2 for c in Counter(nums).values())
+
+3. 3438. Find Valid Pair of Adjacent Digits in String
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s consisting only of digits. A valid pair is defined as two adjacent digits in s such that:
+
+The first digit is not equal to the second.
+Each digit in the pair appears in s exactly as many times as its numeric value.
+Return the first valid pair found in the string s when traversing from left to right. If no valid pair exists, return an empty string.
+
+ 
+
+Example 1:
+
+Input: s = "2523533"
+
+Output: "23"
+
+Explanation:
+
+Digit '2' appears 2 times and digit '3' appears 3 times. Each digit in the pair "23" appears in s exactly as many times as its numeric value. Hence, the output is "23".
+
+Example 2:
+
+Input: s = "221"
+
+Output: "21"
+
+Explanation:
+
+Digit '2' appears 2 times and digit '1' appears 1 time. Hence, the output is "21".
+
+Example 3:
+
+Input: s = "22"
+
+Output: ""
+
+Explanation:
+
+There are no valid adjacent pairs.
+
+ 
+
+Constraints:
+
+2 <= s.length <= 100
+s only consists of digits from '1' to '9'.
+solution:
+from collections import Counter
+
+class Solution:
+    def findValidPair(self, s: str) -> str:
+        cnt = Counter(s)
+        for i in range(len(s) - 1):
+            a, b = s[i], s[i + 1]
+            if a != b and cnt[a] == int(a) and cnt[b] == int(b):
+                return s[i:i+2]
+        return ""
+
+4. 1128. Number of Equivalent Domino Pairs
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a list of dominoes, dominoes[i] = [a, b] is equivalent to dominoes[j] = [c, d] if and only if either (a == c and b == d), or (a == d and b == c) - that is, one domino can be rotated to be equal to another domino.
+
+Return the number of pairs (i, j) for which 0 <= i < j < dominoes.length, and dominoes[i] is equivalent to dominoes[j].
+
+ 
+
+Example 1:
+
+Input: dominoes = [[1,2],[2,1],[3,4],[5,6]]
+Output: 1
+Example 2:
+
+Input: dominoes = [[1,2],[1,2],[1,1],[1,2],[2,2]]
+Output: 3
+ 
+
+Constraints:
+
+1 <= dominoes.length <= 4 * 104
+dominoes[i].length == 2
+1 <= dominoes[i][j] <= 9
+solution:
+from collections import Counter
+
+class Solution:
+    def numEquivDominoPairs(self, dominoes: list[list[int]]) -> int:
+        cnt = Counter()
+        for a, b in dominoes:
+            key = (min(a, b), max(a, b))
+            cnt[key] += 1
+        
+        return sum(c * (c - 1) // 2 for c in cnt.values())
+
+5. 3442. Maximum Difference Between Even and Odd Frequency I
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s consisting of lowercase English letters.
+
+Your task is to find the maximum difference diff = freq(a1) - freq(a2) between the frequency of characters a1 and a2 in the string such that:
+
+a1 has an odd frequency in the string.
+a2 has an even frequency in the string.
+Return this maximum difference.
+
+ 
+
+Example 1:
+
+Input: s = "aaaaabbc"
+
+Output: 3
+
+Explanation:
+
+The character 'a' has an odd frequency of 5, and 'b' has an even frequency of 2.
+The maximum difference is 5 - 2 = 3.
+Example 2:
+
+Input: s = "abcabcab"
+
+Output: 1
+
+Explanation:
+
+The character 'a' has an odd frequency of 3, and 'c' has an even frequency of 2.
+The maximum difference is 3 - 2 = 1.
+ 
+
+Constraints:
+
+3 <= s.length <= 100
+s consists only of lowercase English letters.
+s contains at least one character with an odd frequency and one with an even frequency.
+solution:
+from collections import Counter
+
+class Solution:
+    def maxDifference(self, s: str) -> int:
+        counts = Counter(s).values()
+        max_odd = max(c for c in counts if c % 2 == 1)
+        min_even = min(c for c in counts if c % 2 == 0)
+        return max_odd - min_even
+
+
+l = 5

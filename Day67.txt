@@ -1,0 +1,259 @@
+Leetcode:
+1. 3238. Find the Number of Winning Players
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer n representing the number of players in a game and a 2D array pick where pick[i] = [xi, yi] represents that the player xi picked a ball of color yi.
+
+Player i wins the game if they pick strictly more than i balls of the same color. In other words,
+
+Player 0 wins if they pick any ball.
+Player 1 wins if they pick at least two balls of the same color.
+...
+Player i wins if they pick at least i + 1 balls of the same color.
+Return the number of players who win the game.
+
+Note that multiple players can win the game.
+
+ 
+
+Example 1:
+
+Input: n = 4, pick = [[0,0],[1,0],[1,0],[2,1],[2,1],[2,0]]
+
+Output: 2
+
+Explanation:
+
+Player 0 and player 1 win the game, while players 2 and 3 do not win.
+
+Example 2:
+
+Input: n = 5, pick = [[1,1],[1,2],[1,3],[1,4]]
+
+Output: 0
+
+Explanation:
+
+No player wins the game.
+
+Example 3:
+
+Input: n = 5, pick = [[1,1],[2,4],[2,4],[2,4]]
+
+Output: 1
+
+Explanation:
+
+Player 2 wins the game by picking 3 balls with color 4.
+
+ 
+
+Constraints:
+
+2 <= n <= 10
+1 <= pick.length <= 100
+pick[i].length == 2
+0 <= xi <= n - 1 
+0 <= yi <= 10
+solution:
+from typing import List
+
+class Solution:
+    def winningPlayerCount(self, n: int, pick: List[List[int]]) -> int:
+        color_counts = [[0] * 11 for _ in range(n)]
+        for p, c in pick:
+            color_counts[p][c] += 1
+        return sum(1 for p in range(n) if max(color_counts[p]) > p)
+
+2. 2148. Count Elements With Strictly Smaller and Greater Elements 
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an integer array nums, return the number of elements that have both a strictly smaller and a strictly greater element appear in nums.
+
+ 
+
+Example 1:
+
+Input: nums = [11,7,2,15]
+Output: 2
+Explanation: The element 7 has the element 2 strictly smaller than it and the element 11 strictly greater than it.
+Element 11 has element 7 strictly smaller than it and element 15 strictly greater than it.
+In total there are 2 elements having both a strictly smaller and a strictly greater element appear in nums.
+Example 2:
+
+Input: nums = [-3,3,3,90]
+Output: 2
+Explanation: The element 3 has the element -3 strictly smaller than it and the element 90 strictly greater than it.
+Since there are two elements with the value 3, in total there are 2 elements having both a strictly smaller and a strictly greater element appear in nums.
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+-105 <= nums[i] <= 105
+solution:
+class Solution:
+    def countElements(self, nums: list[int]) -> int:
+        l = min(nums)
+        h = max(nums)
+        return sum(1 for num in nums if l < num < h)
+
+3. 2190. Most Frequent Number Following Key In an Array
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed integer array nums. You are also given an integer key, which is present in nums.
+
+For every unique integer target in nums, count the number of times target immediately follows an occurrence of key in nums. In other words, count the number of indices i such that:
+
+0 <= i <= nums.length - 2,
+nums[i] == key and,
+nums[i + 1] == target.
+Return the target with the maximum count. The test cases will be generated such that the target with maximum count is unique.
+
+ 
+
+Example 1:
+
+Input: nums = [1,100,200,1,100], key = 1
+Output: 100
+Explanation: For target = 100, there are 2 occurrences at indices 1 and 4 which follow an occurrence of key.
+No other integers follow an occurrence of key, so we return 100.
+Example 2:
+
+Input: nums = [2,2,2,2,3], key = 2
+Output: 2
+Explanation: For target = 2, there are 3 occurrences at indices 1, 2, and 3 which follow an occurrence of key.
+For target = 3, there is only one occurrence at index 4 which follows an occurrence of key.
+target = 2 has the maximum number of occurrences following an occurrence of key, so we return 2.
+ 
+
+Constraints:
+
+2 <= nums.length <= 1000
+1 <= nums[i] <= 1000
+The test cases will be generated such that the answer is unique.
+solution:
+from collections import Counter
+
+class Solution:
+    def mostFrequent(self, nums: list[int], key: int) -> int:
+        cnt = Counter()
+        for i in range(len(nums) - 1):
+            if nums[i] == key:
+                cnt[nums[i + 1]] += 1
+        return cnt.most_common(1)[0][0]
+
+4. 2404. Most Frequent Even Element
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an integer array nums, return the most frequent even element.
+
+If there is a tie, return the smallest one. If there is no such element, return -1.
+
+ 
+
+Example 1:
+
+Input: nums = [0,1,2,2,4,4,1]
+Output: 2
+Explanation:
+The even elements are 0, 2, and 4. Of these, 2 and 4 appear the most.
+We return the smallest one, which is 2.
+Example 2:
+
+Input: nums = [4,4,4,9,2,4]
+Output: 4
+Explanation: 4 is the even element appears the most.
+Example 3:
+
+Input: nums = [29,47,21,41,13,37,25,7]
+Output: -1
+Explanation: There is no even element.
+ 
+
+Constraints:
+
+1 <= nums.length <= 2000
+0 <= nums[i] <= 105
+solution:
+from collections import Counter
+class Solution:
+    def mostFrequentEven(self, nums: list[int]) -> int:
+        counters = Counter(nums)
+        evens = {k: v for k, v in counters.items() if (k & 1) == 0}
+        if not evens:
+            return -1
+        max_freq = max(evens.values())
+        for key in sorted(evens):
+            if evens[key] == max_freq:
+                return key
+        return -1
+
+5. 2748. Number of Beautiful Pairs
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed integer array nums. A pair of indices i, j where 0 <= i < j < nums.length is called beautiful if the first digit of nums[i] and the last digit of nums[j] are coprime.
+
+Return the total number of beautiful pairs in nums.
+
+Two integers x and y are coprime if there is no integer greater than 1 that divides both of them. In other words, x and y are coprime if gcd(x, y) == 1, where gcd(x, y) is the greatest common divisor of x and y.
+
+ 
+
+Example 1:
+
+Input: nums = [2,5,1,4]
+Output: 5
+Explanation: There are 5 beautiful pairs in nums:
+When i = 0 and j = 1: the first digit of nums[0] is 2, and the last digit of nums[1] is 5. We can confirm that 2 and 5 are coprime, since gcd(2,5) == 1.
+When i = 0 and j = 2: the first digit of nums[0] is 2, and the last digit of nums[2] is 1. Indeed, gcd(2,1) == 1.
+When i = 1 and j = 2: the first digit of nums[1] is 5, and the last digit of nums[2] is 1. Indeed, gcd(5,1) == 1.
+When i = 1 and j = 3: the first digit of nums[1] is 5, and the last digit of nums[3] is 4. Indeed, gcd(5,4) == 1.
+When i = 2 and j = 3: the first digit of nums[2] is 1, and the last digit of nums[3] is 4. Indeed, gcd(1,4) == 1.
+Thus, we return 5.
+Example 2:
+
+Input: nums = [11,21,12]
+Output: 2
+Explanation: There are 2 beautiful pairs:
+When i = 0 and j = 1: the first digit of nums[0] is 1, and the last digit of nums[1] is 1. Indeed, gcd(1,1) == 1.
+When i = 0 and j = 2: the first digit of nums[0] is 1, and the last digit of nums[2] is 2. Indeed, gcd(1,2) == 1.
+Thus, we return 2.
+ 
+
+Constraints:
+
+2 <= nums.length <= 100
+1 <= nums[i] <= 9999
+nums[i] % 10 != 0
+solution:
+from math import gcd
+from typing import List
+
+class Solution:
+    def countBeautifulPairs(self, nums: List[int]) -> int:
+        n = len(nums)
+        count = 0
+        for i in range(n):
+            first = int(str(nums[i])[0])
+            for j in range(i + 1, n):
+                if gcd(first, nums[j] % 10) == 1:
+                    count += 1
+        return count
+
+l = 5

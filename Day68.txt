@@ -1,0 +1,252 @@
+Leetcode:
+1. 1790. Check if One String Swap Can Make Strings Equal
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given two strings s1 and s2 of equal length. A string swap is an operation where you choose two indices in a string (not necessarily different) and swap the characters at these indices.
+
+Return true if it is possible to make both strings equal by performing at most one string swap on exactly one of the strings. Otherwise, return false.
+
+ 
+
+Example 1:
+
+Input: s1 = "bank", s2 = "kanb"
+Output: true
+Explanation: For example, swap the first character with the last character of s2 to make "bank".
+Example 2:
+
+Input: s1 = "attack", s2 = "defend"
+Output: false
+Explanation: It is impossible to make them equal with one string swap.
+Example 3:
+
+Input: s1 = "kelb", s2 = "kelb"
+Output: true
+Explanation: The two strings are already equal, so no string swap operation is required.
+ 
+
+Constraints:
+
+1 <= s1.length, s2.length <= 100
+s1.length == s2.length
+s1 and s2 consist of only lowercase English letters.
+solution:
+from collections import Counter
+
+class Solution:
+    def areAlmostEqual(self, s1: str, s2: str) -> bool:
+        if Counter(s1) != Counter(s2):
+            return False
+        
+        diff = [i for i in range(len(s1)) if s1[i] != s2[i]]
+        return len(diff) == 0 or len(diff) == 2
+
+2. 819. Most Common Word
+Easy
+Topics
+premium lock icon
+Companies
+Given a string paragraph and a string array of the banned words banned, return the most frequent word that is not banned. It is guaranteed there is at least one word that is not banned, and that the answer is unique.
+
+The words in paragraph are case-insensitive and the answer should be returned in lowercase.
+
+Note that words can not contain punctuation symbols.
+
+ 
+
+Example 1:
+
+Input: paragraph = "Bob hit a ball, the hit BALL flew far after it was hit.", banned = ["hit"]
+Output: "ball"
+Explanation: 
+"hit" occurs 3 times, but it is a banned word.
+"ball" occurs twice (and no other word does), so it is the most frequent non-banned word in the paragraph. 
+Note that words in the paragraph are not case sensitive,
+that punctuation is ignored (even if adjacent to words, such as "ball,"), 
+and that "hit" isn't the answer even though it occurs more because it is banned.
+Example 2:
+
+Input: paragraph = "a.", banned = []
+Output: "a"
+ 
+
+Constraints:
+
+1 <= paragraph.length <= 1000
+paragraph consists of English letters, space ' ', or one of the symbols: "!?',;.".
+0 <= banned.length <= 100
+1 <= banned[i].length <= 10
+banned[i] consists of only lowercase English letters.
+solution:
+import re
+from collections import Counter
+
+class Solution:
+    def mostCommonWord(self, paragraph: str, banned: list[str]) -> str:
+        # 1. Lowercase and replace punctuation with spaces
+        normalized = re.sub(r'[!?\',;.]', ' ', paragraph.lower())
+        
+        # 2. Split into words
+        words = normalized.split()
+        
+        # 3. Count and exclude banned
+        banned_set = set(banned)
+        freq = Counter(w for w in words if w not in banned_set)
+        
+        # 4. Return most common
+        return freq.most_common(1)[0][0]
+
+3. 4038. Count Integers Appearing in a Single Block
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array nums.
+
+An integer x is special if all occurrences of x in nums appear in a single contiguous block.
+
+Return the number of distinct special integers in nums.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,2,1]
+
+Output: 1
+
+Explanation:
+
+1 appears at indices 0 and 3, forming two separate blocks, so it is not special.
+2 appears in a single contiguous block at indices [1, 2], so it is special.
+Therefore, there is one special integer.
+
+Example 2:
+
+Input: nums = [3,3,1,2,2,1]
+
+Output: 2
+
+Explanation:
+
+3 appears in a single contiguous block at indices [0, 1], so it is special.
+1 appears at indices 2 and 5, forming two separate blocks, so it is not special.
+2 appears in a single contiguous block at indices [3, 4], so it is special.
+Therefore, there are two special integers.
+
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+1 <= nums[i] <= 100
+solution:
+from collections import Counter
+
+class Solution:
+    def countSpecialIntegers(self, nums: list[int]) -> int:
+        freq = Counter(nums)
+        first, last = {}, {}
+        for i, x in enumerate(nums):
+            first.setdefault(x, i)
+            last[x] = i
+        return sum(1 for x in freq if last[x] - first[x] + 1 == freq[x])
+
+4.  914. X of a Kind in a Deck of Cards
+Easy
+Topics
+premium lock icon
+Companies
+You are given an integer array deck where deck[i] represents the number written on the ith card.
+
+Partition the cards into one or more groups such that:
+
+Each group has exactly x cards where x > 1, and
+All the cards in one group have the same integer written on them.
+Return true if such partition is possible, or false otherwise.
+
+ 
+
+Example 1:
+
+Input: deck = [1,2,3,4,4,3,2,1]
+Output: true
+Explanation: Possible partition [1,1],[2,2],[3,3],[4,4].
+Example 2:
+
+Input: deck = [1,1,1,2,2,2,3,3]
+Output: false
+Explanation: No possible partition.
+ 
+
+Constraints:
+
+1 <= deck.length <= 104
+0 <= deck[i] < 104
+solution:
+from collections import Counter
+from math import gcd
+from functools import reduce
+
+class Solution:
+    def hasGroupsSizeX(self, deck: list[int]) -> bool:
+        freq = Counter(deck)
+        return reduce(gcd, freq.values()) > 1
+
+5. 2423. Remove Letter To Equalize Frequency
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed string word, consisting of lowercase English letters. You need to select one index and remove the letter at that index from word so that the frequency of every letter present in word is equal.
+
+Return true if it is possible to remove one letter so that the frequency of all letters in word are equal, and false otherwise.
+
+Note:
+
+The frequency of a letter x is the number of times it occurs in the string.
+You must remove exactly one letter and cannot choose to do nothing.
+ 
+
+Example 1:
+
+Input: word = "abcc"
+Output: true
+Explanation: Select index 3 and delete it: word becomes "abc" and each character has a frequency of 1.
+Example 2:
+
+Input: word = "aazz"
+Output: false
+Explanation: We must delete a character, so either the frequency of "a" is 1 and the frequency of "z" is 2, or vice versa. It is impossible to make all present letters have equal frequency.
+ 
+
+Constraints:
+
+2 <= word.length <= 100
+word consists of lowercase English letters only.
+solution:
+from collections import Counter
+
+class Solution:
+    def equalFrequency(self, word: str) -> bool:
+        freq = Counter(word)
+        
+        for c in list(freq.keys()):
+            freq[c] -= 1
+            if freq[c] == 0:
+                del freq[c]
+            
+            if len(set(freq.values())) == 1:
+                return True
+            
+            # restore
+            freq[c] += 1
+        
+        return False
+
+l = 5

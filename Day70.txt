@@ -1,0 +1,251 @@
+Leetcode:
+1. 2578. Split With Minimum Sum
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a positive integer num, split it into two non-negative integers num1 and num2 such that:
+
+The concatenation of num1 and num2 is a permutation of num.
+In other words, the sum of the number of occurrences of each digit in num1 and num2 is equal to the number of occurrences of that digit in num.
+num1 and num2 can contain leading zeros.
+Return the minimum possible sum of num1 and num2.
+
+Notes:
+
+It is guaranteed that num does not contain any leading zeros.
+The order of occurrence of the digits in num1 and num2 may differ from the order of occurrence of num.
+ 
+
+Example 1:
+
+Input: num = 4325
+Output: 59
+Explanation: We can split 4325 so that num1 is 24 and num2 is 35, giving a sum of 59. We can prove that 59 is indeed the minimal possible sum.
+Example 2:
+
+Input: num = 687
+Output: 75
+Explanation: We can split 687 so that num1 is 68 and num2 is 7, which would give an optimal sum of 75.
+ 
+
+Constraints:
+
+10 <= num <= 109
+solution:
+class Solution:
+    def splitNum(self, num: int) -> int:
+        digits = sorted(str(num))
+        num1 = int(''.join(digits[0::2]))
+        num2 = int(''.join(digits[1::2]))
+        return num1 + num2
+
+2. 3982. Sum of Integers with Maximum Digit Range
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array nums.
+
+The digit range of an integer is defined as the difference between its largest digit and smallest digit.
+
+For example, the digit range of 5724 is 7 - 2 = 5.
+
+Return the sum of all integers in nums whose digit range is equal to the maximum digit range among all integers in the array.
+
+ 
+
+Example 1:
+
+Input: nums = [5724,111,350]
+
+Output: 6074
+
+Explanation:
+
+i	nums[i]	Largest	Smallest	Digit Range
+0	5724	7	2	5
+1	111	1	1	0
+2	350	5	0	5
+The maximum digit range is 5. The integers with this digit range are 5724 and 350, so the answer is 5724 + 350 = 6074.
+
+Example 2:
+
+Input: nums = [90,900]
+
+Output: 990
+
+Explanation:
+
+i	nums[i]	Largest	Smallest	Digit Range
+0	90	9	0	9
+1	900	9	0	9
+The maximum digit range is 9. Both integers have this digit range, so the answer is 90 + 900 = 990.
+
+ 
+
+Constraints:
+
+1 <= nums.length <= 100
+10 <= nums[i] <= 105
+solution:
+class Solution:
+    def maxDigitRange(self, nums: list[int]) -> int:
+        ranges = [max(map(int, str(x))) - min(map(int, str(x))) for x in nums]
+        m = max(ranges)
+        return sum(x for x, r in zip(nums, ranges) if r == m)
+
+3. 268. Missing Number
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.
+
+ 
+
+Example 1:
+
+Input: nums = [3,0,1]
+
+Output: 2
+
+Explanation:
+
+n = 3 since there are 3 numbers, so all numbers are in the range [0,3]. 2 is the missing number in the range since it does not appear in nums.
+
+Example 2:
+
+Input: nums = [0,1]
+
+Output: 2
+
+Explanation:
+
+n = 2 since there are 2 numbers, so all numbers are in the range [0,2]. 2 is the missing number in the range since it does not appear in nums.
+
+Example 3:
+
+Input: nums = [9,6,4,2,3,5,7,0,1]
+
+Output: 8
+
+Explanation:
+
+n = 9 since there are 9 numbers, so all numbers are in the range [0,9]. 8 is the missing number in the range since it does not appear in nums.
+
+ 
+ 
+
+ 
+
+ 
+
+Constraints:
+
+n == nums.length
+1 <= n <= 104
+0 <= nums[i] <= n
+All the numbers of nums are unique.
+ 
+
+Follow up: Could you implement a solution using only O(1) extra space complexity and O(n) runtime complexity?
+solution:
+class Solution:
+    def missingNumber(self, nums: list[int]) -> int:
+        n = len(nums)
+        return n * (n + 1) // 2 - sum(nums)
+
+4. 1025. Divisor Game
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Alice and Bob take turns playing a game, with Alice starting first.
+
+Initially, there is a number n on the chalkboard. On each player's turn, that player makes a move consisting of:
+
+Choosing any integer x with 0 < x < n and n % x == 0.
+Replacing the number n on the chalkboard with n - x.
+Also, if a player cannot make a move, they lose the game.
+
+Return true if and only if Alice wins the game, assuming both players play optimally.
+
+ 
+
+Example 1:
+
+Input: n = 2
+Output: true
+Explanation: Alice chooses 1, and Bob has no more moves.
+Example 2:
+
+Input: n = 3
+Output: false
+Explanation: Alice chooses 1, Bob chooses 1, and Alice has no more moves.
+ 
+
+Constraints:
+
+1 <= n <= 1000
+solution:
+class Solution:
+    def divisorGame(self, n: int) -> bool:
+        return n & 1 == 0
+
+5. 3345. Smallest Divisible Digit Product I
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given two integers n and t. Return the smallest number greater than or equal to n such that the product of its digits is divisible by t.
+
+ 
+
+Example 1:
+
+Input: n = 10, t = 2
+
+Output: 10
+
+Explanation:
+
+The digit product of 10 is 0, which is divisible by 2, making it the smallest number greater than or equal to 10 that satisfies the condition.
+
+Example 2:
+
+Input: n = 15, t = 3
+
+Output: 16
+
+Explanation:
+
+The digit product of 16 is 6, which is divisible by 3, making it the smallest number greater than or equal to 15 that satisfies the condition.
+
+ 
+
+Constraints:
+
+1 <= n <= 100
+1 <= t <= 10
+solution:
+class Solution:
+    def smallestNumber(self, n: int, t: int) -> int:
+        for i in range(n, n + 10):
+            pro = 1
+            for num in str(i):
+                pro *= int(num)
+            if pro % t ==0:
+                return i
+                
+
+
+l = 5

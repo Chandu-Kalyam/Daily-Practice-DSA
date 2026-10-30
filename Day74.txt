@@ -1,0 +1,240 @@
+Leetcode:
+1. 1175. Prime Arrangements
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Return the number of permutations of 1 to n so that prime numbers are at prime indices (1-indexed.)
+
+(Recall that an integer is prime if and only if it is greater than 1, and cannot be written as a product of two positive integers both smaller than it.)
+
+Since the answer may be large, return the answer modulo 10^9 + 7.
+
+ 
+
+Example 1:
+
+Input: n = 5
+Output: 12
+Explanation: For example [1,2,5,4,3] is a valid permutation, but [5,2,3,4,1] is not because the prime number 5 is at index 1.
+Example 2:
+
+Input: n = 100
+Output: 682289015
+ 
+
+Constraints:
+
+1 <= n <= 100
+solution:
+class Solution:
+    def numPrimeArrangements(self, n: int) -> int:
+        MOD = 10**9 + 7
+        
+        is_prime = [True] * (n + 1)
+        is_prime[0] = is_prime[1] = False
+        for i in range(2, int(n ** 0.5) + 1):
+            if is_prime[i]:
+                for j in range(i * i, n + 1, i):
+                    is_prime[j] = False
+        
+        p = sum(is_prime)
+        q = n - p
+        
+        result = 1
+        for i in range(1, p + 1):
+            result = result * i % MOD
+        for i in range(1, q + 1):
+            result = result * i % MOD
+        return result
+2. 1137. N-th Tribonacci Number
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+The Tribonacci sequence Tn is defined as follows: 
+
+T0 = 0, T1 = 1, T2 = 1, and Tn+3 = Tn + Tn+1 + Tn+2 for n >= 0.
+
+Given n, return the value of Tn.
+
+ 
+
+Example 1:
+
+Input: n = 4
+Output: 4
+Explanation:
+T_3 = 0 + 1 + 1 = 2
+T_4 = 1 + 1 + 2 = 4
+Example 2:
+
+Input: n = 25
+Output: 1389537
+ 
+
+Constraints:
+
+0 <= n <= 37
+The answer is guaranteed to fit within a 32-bit integer, ie. answer <= 2^31 - 1.
+solution:
+class Solution:
+    def tribonacci(self, n: int) -> int:
+        if n == 0:
+            return 0
+        if n == 1 or n == 2:
+            return 1
+        
+        a, b, c = 0, 1, 1   # T0, T1, T2
+        for _ in range(n - 2):
+            a, b, c = b, c, a + b + c
+        return c
+
+3. 976. Largest Perimeter Triangle
+Easy
+Topics
+premium lock icon
+Companies
+Given an integer array nums, return the largest perimeter of a triangle with a non-zero area, formed from three of these lengths. If it is impossible to form any triangle of a non-zero area, return 0.
+
+ 
+
+Example 1:
+
+Input: nums = [2,1,2]
+Output: 5
+Explanation: You can form a triangle with three side lengths: 1, 2, and 2.
+Example 2:
+
+Input: nums = [1,2,1,10]
+Output: 0
+Explanation: 
+You cannot use the side lengths 1, 1, and 2 to form a triangle.
+You cannot use the side lengths 1, 1, and 10 to form a triangle.
+You cannot use the side lengths 1, 2, and 10 to form a triangle.
+As we cannot use any three side lengths to form a triangle of non-zero area, we return 0.
+ 
+
+Constraints:
+
+3 <= nums.length <= 104
+1 <= nums[i] <= 106
+solution:
+class Solution:
+    def largestPerimeter(self, nums: list[int]) -> int:
+        nums.sort()
+        for i in range(len(nums) - 1, 1, -1):
+            if nums[i-2] + nums[i-1] > nums[i]:
+                return nums[i-2] + nums[i-1] + nums[i]
+        return 0
+
+4. 2549. Count Distinct Numbers on Board
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a positive integer n, that is initially placed on a board. Every day, for 109 days, you perform the following procedure:
+
+For each number x present on the board, find all numbers 1 <= i <= n such that x % i == 1.
+Then, place those numbers on the board.
+Return the number of distinct integers present on the board after 109 days have elapsed.
+
+Note:
+
+Once a number is placed on the board, it will remain on it until the end.
+% stands for the modulo operation. For example, 14 % 3 is 2.
+ 
+
+Example 1:
+
+Input: n = 5
+Output: 4
+Explanation: Initially, 5 is present on the board. 
+The next day, 2 and 4 will be added since 5 % 2 == 1 and 5 % 4 == 1. 
+After that day, 3 will be added to the board because 4 % 3 == 1. 
+At the end of a billion days, the distinct numbers on the board will be 2, 3, 4, and 5. 
+Example 2:
+
+Input: n = 3
+Output: 2
+Explanation: 
+Since 3 % 2 == 1, 2 will be added to the board. 
+After a billion days, the only two distinct numbers on the board are 2 and 3. 
+ 
+
+Constraints:
+
+1 <= n <= 100
+solution:
+class Solution:
+    def distinctIntegers(self, n: int) -> int:
+        return max(1, n - 1)
+
+5. 4000. Largest Integer With Given Digit Sum
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given two non-negative integers n and s.
+
+Return the largest integer that has at most n digits and whose sum of digits is s. If no such integer exists, return -1.
+
+ 
+
+Example 1:
+
+Input: n = 2, s = 9
+
+Output: 90
+
+Explanation:
+
+The largest integer with at most 2 digits that has a sum of digits of 9 is 90.
+
+Example 2:
+
+Input: n = 2, s = 19
+
+Output: -1
+
+Explanation:
+
+There is no integer with at most 2 digits that has a sum of digits of 19, so the answer is -1.
+
+Example 3:
+
+Input: n = 5, s = 0
+
+Output: 0
+
+Explanation:
+
+The only non-negative integer whose digits sum to 0 is 0.
+
+ 
+
+Constraints:
+
+1 <= n <= 5
+0 <= s <= 100
+solution:
+class Solution:
+    def largestInteger(self, n: int, s: int) -> int:
+        if s == 0:
+            return 0
+        if s > 9 * n:
+            return -1
+        
+        result = []
+        remaining = s
+        for _ in range(n):
+            d = min(9, remaining)
+            result.append(str(d))
+            remaining -= d
+        
+        return int(''.join(result))
+l = 5

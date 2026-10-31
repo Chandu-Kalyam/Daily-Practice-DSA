@@ -1,0 +1,217 @@
+Leetcode:
+1. 292. Nim Game
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are playing the following Nim Game with your friend:
+
+Initially, there is a heap of stones on the table.
+You and your friend will alternate taking turns, and you go first.
+On each turn, the person whose turn it is will remove 1 to 3 stones from the heap.
+The one who removes the last stone is the winner.
+Given n, the number of stones in the heap, return true if you can win the game assuming both you and your friend play optimally, otherwise return false.
+
+ 
+
+Example 1:
+
+Input: n = 4
+Output: false
+Explanation: These are the possible outcomes:
+1. You remove 1 stone. Your friend removes 3 stones, including the last stone. Your friend wins.
+2. You remove 2 stones. Your friend removes 2 stones, including the last stone. Your friend wins.
+3. You remove 3 stones. Your friend removes the last stone. Your friend wins.
+In all outcomes, your friend wins.
+Example 2:
+
+Input: n = 1
+Output: true
+Example 3:
+
+Input: n = 2
+Output: true
+ 
+
+Constraints:
+
+1 <= n <= 231 - 1
+solution:
+class Solution:
+    def canWinNim(self, n: int) -> bool:
+        return n % 4 != 0
+
+2. 202. Happy Number
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Write an algorithm to determine if a number n is happy.
+
+A happy number is a number defined by the following process:
+
+Starting with any positive integer, replace the number by the sum of the squares of its digits.
+Repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1.
+Those numbers for which this process ends in 1 are happy.
+Return true if n is a happy number, and false if not.
+
+ 
+
+Example 1:
+
+Input: n = 19
+Output: true
+Explanation:
+12 + 92 = 82
+82 + 22 = 68
+62 + 82 = 100
+12 + 02 + 02 = 1
+Example 2:
+
+Input: n = 2
+Output: false
+
+Constraints:
+
+1 <= n <= 231 - 1
+solution:
+class Solution:
+    def isHappy(self, n: int) -> bool:
+        seen = set()
+        while n != 1 and n not in seen:
+            seen.add(n)
+            n = sum(int(d) ** 2 for d in str(n))
+        return n == 1
+
+3. 2600. K Items With the Maximum Sum
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+There is a bag that consists of items, each item has a number 1, 0, or -1 written on it.
+
+You are given four non-negative integers numOnes, numZeros, numNegOnes, and k.
+
+The bag initially contains:
+
+numOnes items with 1s written on them.
+numZeroes items with 0s written on them.
+numNegOnes items with -1s written on them.
+We want to pick exactly k items among the available items. Return the maximum possible sum of numbers written on the items.
+
+ 
+
+Example 1:
+
+Input: numOnes = 3, numZeros = 2, numNegOnes = 0, k = 2
+Output: 2
+Explanation: We have a bag of items with numbers written on them {1, 1, 1, 0, 0}. We take 2 items with 1 written on them and get a sum in a total of 2.
+It can be proven that 2 is the maximum possible sum.
+Example 2:
+
+Input: numOnes = 3, numZeros = 2, numNegOnes = 0, k = 4
+Output: 3
+Explanation: We have a bag of items with numbers written on them {1, 1, 1, 0, 0}. We take 3 items with 1 written on them, and 1 item with 0 written on it, and get a sum in a total of 3.
+It can be proven that 3 is the maximum possible sum.
+ 
+
+Constraints:
+
+0 <= numOnes, numZeros, numNegOnes <= 50
+0 <= k <= numOnes + numZeros + numNegOnes
+solution:
+class Solution:
+    def kItemsWithMaximumSum(self, numOnes: int, numZeros: int, numNegOnes: int, k: int) -> int:
+        take_ones = min(k, numOnes)
+        k -= take_ones
+        take_zeros = min(k, numZeros)
+        k -= take_zeros
+        return  take_ones - k
+
+4. 1185. Day of the Week
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a date, return the corresponding day of the week for that date.
+
+The input is given as three integers representing the day, month and year respectively.
+
+Return the answer as one of the following values {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}.
+
+Note: January 1, 1971 was a Friday.
+
+ 
+
+Example 1:
+
+Input: day = 31, month = 8, year = 2019
+Output: "Saturday"
+Example 2:
+
+Input: day = 18, month = 7, year = 1999
+Output: "Sunday"
+Example 3:
+
+Input: day = 15, month = 8, year = 1993
+Output: "Sunday"
+ 
+
+Constraints:
+
+The given dates are valid dates between the years 1971 and 2100.
+solution:
+import datetime
+
+class Solution:
+    def dayOfTheWeek(self, day: int, month: int, year: int) -> str:
+        return datetime.date(year, month, day).strftime("%A")
+
+5. 1317. Convert Integer to the Sum of Two No-Zero Integers
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+No-Zero integer is a positive integer that does not contain any 0 in its decimal representation.
+
+Given an integer n, return a list of two integers [a, b] where:
+
+a and b are No-Zero integers.
+a + b = n
+The test cases are generated so that there is at least one valid solution. If there are many valid solutions, you can return any of them.
+
+ 
+
+Example 1:
+
+Input: n = 2
+Output: [1,1]
+Explanation: Let a = 1 and b = 1.
+Both a and b are no-zero integers, and a + b = 2 = n.
+Example 2:
+
+Input: n = 11
+Output: [2,9]
+Explanation: Let a = 2 and b = 9.
+Both a and b are no-zero integers, and a + b = 11 = n.
+Note that there are other valid answers as [8, 3] that can be accepted.
+ 
+
+Constraints:
+
+2 <= n <= 104
+solution:
+class Solution:
+    def getNoZeroIntegers(self, n: int) -> list[int]:
+        for a in range(1, n):
+            b = n - a
+            if '0' not in str(a) and '0' not in str(b):
+                return [a, b]
+
+l = 5

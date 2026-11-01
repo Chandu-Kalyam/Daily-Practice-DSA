@@ -1,0 +1,224 @@
+Leetcode:
+1. 2806. Account Balance After Rounded Purchase
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Initially, you have a bank account balance of 100 dollars.
+
+You are given an integer purchaseAmount representing the amount you will spend on a purchase in dollars, in other words, its price.
+
+When making the purchase, first the purchaseAmount is rounded to the nearest multiple of 10. Let us call this value roundedAmount. Then, roundedAmount dollars are removed from your bank account.
+
+Return an integer denoting your final bank account balance after this purchase.
+
+Notes:
+
+0 is considered to be a multiple of 10 in this problem.
+When rounding, 5 is rounded upward (5 is rounded to 10, 15 is rounded to 20, 25 to 30, and so on).
+ 
+
+Example 1:
+
+Input: purchaseAmount = 9
+
+Output: 90
+
+Explanation:
+
+The nearest multiple of 10 to 9 is 10. So your account balance becomes 100 - 10 = 90.
+
+Example 2:
+
+Input: purchaseAmount = 15
+
+Output: 80
+
+Explanation:
+
+The nearest multiple of 10 to 15 is 20. So your account balance becomes 100 - 20 = 80.
+
+Example 3:
+
+Input: purchaseAmount = 10
+
+Output: 90
+
+Explanation:
+
+10 is a multiple of 10 itself. So your account balance becomes 100 - 10 = 90.
+
+ 
+
+Constraints:
+
+0 <= purchaseAmount <= 100
+solution:
+class Solution:
+    def accountBalanceAfterPurchase(self, purchaseAmount: int) -> int:
+        return 100 - ((purchaseAmount + 5) // 10) * 10
+
+2. 2481. Minimum Cuts to Divide a Circle
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A valid cut in a circle can be:
+
+A cut that is represented by a straight line that touches two points on the edge of the circle and passes through its center, or
+A cut that is represented by a straight line that touches one point on the edge of the circle and its center.
+Some valid and invalid cuts are shown in the figures below.
+
+
+Given the integer n, return the minimum number of cuts needed to divide a circle into n equal slices.
+
+ 
+
+Example 1:
+
+
+Input: n = 4
+Output: 2
+Explanation: 
+The above figure shows how cutting the circle twice through the middle divides it into 4 equal slices.
+Example 2:
+
+
+Input: n = 3
+Output: 3
+Explanation:
+At least 3 cuts are needed to divide the circle into 3 equal slices. 
+It can be shown that less than 3 cuts cannot result in 3 slices of equal size and shape.
+Also note that the first cut will not divide the circle into distinct parts.
+ 
+
+Constraints:
+
+1 <= n <= 100
+solution:
+class Solution:
+    def numberOfCuts(self, n: int) -> int:
+        if n == 1:
+            return 0
+        elif n & 1 == 0:
+            return n // 2
+        elif n & 1 == 1:
+            return n
+
+3. 2582. Pass the Pillow
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+There are n people standing in a line labeled from 1 to n. The first person in the line is holding a pillow initially. Every second, the person holding the pillow passes it to the next person standing in the line. Once the pillow reaches the end of the line, the direction changes, and people continue passing the pillow in the opposite direction.
+
+For example, once the pillow reaches the nth person they pass it to the n - 1th person, then to the n - 2th person and so on.
+Given the two positive integers n and time, return the index of the person holding the pillow after time seconds.
+
+ 
+
+Example 1:
+
+Input: n = 4, time = 5
+Output: 2
+Explanation: People pass the pillow in the following way: 1 -> 2 -> 3 -> 4 -> 3 -> 2.
+After five seconds, the 2nd person is holding the pillow.
+Example 2:
+
+Input: n = 3, time = 2
+Output: 3
+Explanation: People pass the pillow in the following way: 1 -> 2 -> 3.
+After two seconds, the 3rd person is holding the pillow.
+ 
+
+Constraints:
+
+2 <= n <= 1000
+1 <= time <= 1000
+ 
+
+Note: This question is the same as 3178: Find the Child Who Has the Ball After K Seconds.
+solution:
+class Solution:
+    def passThePillow(self, n: int, time: int) -> int:
+        cycle = 2 * (n - 1)
+        t = time % cycle
+        return t + 1 if t < n else 2 * n - 1 - t
+
+4. 504. Base 7
+Easy
+Topics
+premium lock icon
+Companies
+Given an integer num, return a string of its base 7 representation.
+
+ 
+
+Example 1:
+
+Input: num = 100
+Output: "202"
+Example 2:
+
+Input: num = -7
+Output: "-10"
+ 
+
+Constraints:
+
+-107 <= num <= 107
+solution:
+class Solution:
+    def convertToBase7(self, num: int) -> str:
+        if num < 0:
+            return '-' + self.convertToBase7(-num)
+        if num < 7:
+            return str(num)
+        return self.convertToBase7(num // 7) + str(num % 7)
+
+5. 405. Convert a Number to Hexadecimal
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Given a 32-bit integer num, return a string representing its hexadecimal representation. For negative integers, two’s complement method is used.
+
+All the letters in the answer string should be lowercase characters, and there should not be any leading zeros in the answer except for the zero itself.
+
+Note: You are not allowed to use any built-in library method to directly solve this problem.
+
+ 
+
+Example 1:
+
+Input: num = 26
+Output: "1a"
+Example 2:
+
+Input: num = -1
+Output: "ffffffff"
+ 
+
+Constraints:
+
+-231 <= num <= 231 - 1
+solution:
+class Solution:
+    def toHex(self, num: int) -> str:
+        if num == 0:
+            return "0"
+        num &= 0xFFFFFFFF
+        hex_chars = "0123456789abcdef"
+        result = []
+        while num:
+            result.append(hex_chars[num & 0xF])
+            num >>= 4
+        return ''.join(reversed(result))
+
+l = 5

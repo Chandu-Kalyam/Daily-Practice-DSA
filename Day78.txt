@@ -1,0 +1,203 @@
+Leetcode:
+1. 2729. Check if The Number is Fascinating
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer n that consists of exactly 3 digits.
+
+We call the number n fascinating if, after the following modification, the resulting number contains all the digits from 1 to 9 exactly once and does not contain any 0's:
+
+Concatenate n with the numbers 2 * n and 3 * n.
+Return true if n is fascinating, or false otherwise.
+
+Concatenating two numbers means joining them together. For example, the concatenation of 121 and 371 is 121371.
+
+ 
+
+Example 1:
+
+Input: n = 192
+Output: true
+Explanation: We concatenate the numbers n = 192 and 2 * n = 384 and 3 * n = 576. The resulting number is 192384576. This number contains all the digits from 1 to 9 exactly once.
+Example 2:
+
+Input: n = 100
+Output: false
+Explanation: We concatenate the numbers n = 100 and 2 * n = 200 and 3 * n = 300. The resulting number is 100200300. This number does not satisfy any of the conditions.
+ 
+
+Constraints:
+
+100 <= n <= 999
+solution:
+class Solution:
+    def isFascinating(self, n: int) -> bool:
+        allstr = str(n) + str(n * 2) + str(n * 3)
+        if "0" in allstr:
+            return False
+        return len(allstr) == len(set(allstr))
+
+2. 342. Power of Four
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Given an integer n, return true if it is a power of four. Otherwise, return false.
+
+An integer n is a power of four, if there exists an integer x such that n == 4x.
+
+ 
+
+Example 1:
+
+Input: n = 16
+Output: true
+Example 2:
+
+Input: n = 5
+Output: false
+Example 3:
+
+Input: n = 1
+Output: true
+ 
+
+Constraints:
+
+-231 <= n <= 231 - 1
+ 
+
+Follow up: Could you solve it without loops/recursion?
+solution:
+class Solution:
+    def isPowerOfFour(self, n: int) -> bool:
+        return n>0 and (n & (n - 1)) == 0 and n % 3 == 1
+
+3. 415. Add Strings
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Given two non-negative integers, num1 and num2 represented as string, return the sum of num1 and num2 as a string.
+
+You must solve the problem without using any built-in library for handling large integers (such as BigInteger). You must also not convert the inputs to integers directly.
+
+ 
+
+Example 1:
+
+Input: num1 = "11", num2 = "123"
+Output: "134"
+Example 2:
+
+Input: num1 = "456", num2 = "77"
+Output: "533"
+Example 3:
+
+Input: num1 = "0", num2 = "0"
+Output: "0"
+ 
+
+Constraints:
+
+1 <= num1.length, num2.length <= 104
+num1 and num2 consist of only digits.
+num1 and num2 don't have any leading zeros except for the zero itself.
+solution:
+class Solution:
+    def addStrings(self, num1: str, num2: str) -> str:
+        a, b = num1.encode(), num2.encode()
+        i, j = len(a) - 1, len(b) - 1
+        carry = 0
+        res = bytearray()
+        
+        while i >= 0 or j >= 0 or carry:
+            da = a[i] - 48 if i >= 0 else 0
+            db = b[j] - 48 if j >= 0 else 0
+            s = da + db + carry
+            carry = s // 10
+            res.append(s % 10 + 48)
+            i -= 1
+            j -= 1
+        
+        res.reverse()
+        return res.decode()
+
+4. 326. Power of Three
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Given an integer n, return true if it is a power of three. Otherwise, return false.
+
+An integer n is a power of three, if there exists an integer x such that n == 3x.
+
+ 
+
+Example 1:
+
+Input: n = 27
+Output: true
+Explanation: 27 = 33
+Example 2:
+
+Input: n = 0
+Output: false
+Explanation: There is no x where 3x = 0.
+Example 3:
+
+Input: n = -1
+Output: false
+Explanation: There is no x where 3x = (-1).
+ 
+
+Constraints:
+
+-231 <= n <= 231 - 1
+ 
+
+Follow up: Could you solve it without loops/recursion?
+solution:
+class Solution:
+    def isPowerOfThree(self, n: int) -> bool:
+        return n>0 and 3 ** 19 % n == 0
+
+5. 507. Perfect Number
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+A perfect number is a positive integer that is equal to the sum of its positive divisors, excluding the number itself. A divisor of an integer x is an integer that can divide x evenly.
+
+Given an integer n, return true if n is a perfect number, otherwise return false.
+
+ 
+
+Example 1:
+
+Input: num = 28
+Output: true
+Explanation: 28 = 1 + 2 + 4 + 7 + 14
+1, 2, 4, 7, and 14 are all divisors of 28.
+Example 2:
+
+Input: num = 7
+Output: false
+ 
+
+Constraints:
+
+1 <= num <= 108
+solution:
+class Solution:
+    def checkPerfectNumber(self, num: int) -> bool:
+        return num in {6, 28, 496, 8128, 33550336}
+
+l = 5

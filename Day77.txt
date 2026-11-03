@@ -1,0 +1,207 @@
+Leetcode:
+1. 1523. Count Odd Numbers in an Interval Range
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given two non-negative integers low and high. Return the count of odd numbers between low and high (inclusive).
+
+ 
+
+Example 1:
+
+Input: low = 3, high = 7
+Output: 3
+Explanation: The odd numbers between 3 and 7 are [3,5,7].
+Example 2:
+
+Input: low = 8, high = 10
+Output: 1
+Explanation: The odd numbers between 8 and 10 are [9].
+ 
+
+Constraints:
+
+0 <= low <= high <= 10^9
+solution:
+class Solution:
+    def countOdds(self, low: int, high: int) -> int:
+        return (high + 1) // 2 - low // 2
+
+2. 1071. Greatest Common Divisor of Strings
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+For two strings s and t, we say "t divides s" if and only if s = t + t + t + ... + t + t (i.e., t is concatenated with itself one or more times).
+
+Given two strings str1 and str2, return the largest string x such that x divides both str1 and str2.
+
+ 
+
+Example 1:
+
+Input: str1 = "ABCABC", str2 = "ABC"
+
+Output: "ABC"
+
+Example 2:
+
+Input: str1 = "ABABAB", str2 = "ABAB"
+
+Output: "AB"
+
+Example 3:
+
+Input: str1 = "LEET", str2 = "CODE"
+
+Output: ""
+
+Example 4:
+
+Input: str1 = "AAAAAB", str2 = "AAA"
+
+Output: ""​​​​​​​
+
+ 
+
+Constraints:
+
+1 <= str1.length, str2.length <= 1000
+str1 and str2 consist of English uppercase letters.
+solution:
+from math import gcd
+class Solution:
+    def gcdOfStrings(self, str1: str, str2: str) -> str:
+        if str1 + str2 !=  str2 + str1:
+            return ""
+        return str1[:gcd(len(str1), len(str2))]
+
+3. 70. Climbing Stairs
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are climbing a staircase. It takes n steps to reach the top.
+
+Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+ 
+
+Example 1:
+
+Input: n = 2
+Output: 2
+Explanation: There are two ways to climb to the top.
+1. 1 step + 1 step
+2. 2 steps
+Example 2:
+
+Input: n = 3
+Output: 3
+Explanation: There are three ways to climb to the top.
+1. 1 step + 1 step + 1 step
+2. 1 step + 2 steps
+3. 2 steps + 1 step
+ 
+
+Constraints:
+
+1 <= n <= 45
+solution:
+class Solution:
+    def climbStairs(self, n: int) -> int:
+        if n <= 2:
+            return n
+        
+        a,b = 1,2
+        for _ in range(n - 2):
+            a,b = b, a+b
+        return b
+4. 3222. Find the Winning Player in Coin Game
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given two positive integers x and y, denoting the number of coins with values 75 and 10 respectively.
+
+Alice and Bob are playing a game. Each turn, starting with Alice, the player must pick up coins with a total value 115. If the player is unable to do so, they lose the game.
+
+Return the name of the player who wins the game if both players play optimally.
+
+ 
+
+Example 1:
+
+Input: x = 2, y = 7
+
+Output: "Alice"
+
+Explanation:
+
+The game ends in a single turn:
+
+Alice picks 1 coin with a value of 75 and 4 coins with a value of 10.
+Example 2:
+
+Input: x = 4, y = 11
+
+Output: "Bob"
+
+Explanation:
+
+The game ends in 2 turns:
+
+Alice picks 1 coin with a value of 75 and 4 coins with a value of 10.
+Bob picks 1 coin with a value of 75 and 4 coins with a value of 10.
+ 
+
+Constraints:
+
+1 <= x, y <= 100
+solution:
+class Solution:
+    def winningPlayer(self, x: int, y: int) -> str:
+        moves = min(x, y // 4)
+        return  "Alice" if moves & 1 == 1 else "Bob"
+
+5. 1360. Number of Days Between Two Dates
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Write a program to count the number of days between two dates.
+
+The two dates are given as strings, their format is YYYY-MM-DD as shown in the examples.
+
+ 
+
+Example 1:
+
+Input: date1 = "2019-06-29", date2 = "2019-06-30"
+Output: 1
+Example 2:
+
+Input: date1 = "2020-01-15", date2 = "2019-12-31"
+Output: 15
+ 
+
+Constraints:
+
+The given dates are valid dates between the years 1971 and 2100.
+solution:
+from datetime import date
+class Solution:
+    def daysBetweenDates(self, date1: str, date2: str) -> int:
+        d1 = date.fromisoformat(date1)
+        d2 = date.fromisoformat(date2)
+        return abs((d2 - d1).days)
+
+l = 5

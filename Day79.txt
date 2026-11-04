@@ -1,0 +1,268 @@
+Leetcode:
+1. 1154. Day of the Year
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a string date representing a Gregorian calendar date formatted as YYYY-MM-DD, return the day number of the year.
+
+ 
+
+Example 1:
+
+Input: date = "2019-01-09"
+Output: 9
+Explanation: Given date is the 9th day of the year in 2019.
+Example 2:
+
+Input: date = "2019-02-10"
+Output: 41
+ 
+
+Constraints:
+
+date.length == 10
+date[4] == date[7] == '-', and all other date[i]'s are digits
+date represents a calendar date between Jan 1st, 1900 and Dec 31st, 2019.
+solution:
+from datetime import date as dt
+
+class Solution:
+    def dayOfYear(self, date: str) -> int:
+        return dt.fromisoformat(date).timetuple().tm_yday
+
+2. 441. Arranging Coins
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+You have n coins and you want to build a staircase with these coins. The staircase consists of k rows where the ith row has exactly i coins. The last row of the staircase may be incomplete.
+
+Given the integer n, return the number of complete rows of the staircase you will build.
+
+ 
+
+Example 1:
+
+
+Input: n = 5
+Output: 2
+Explanation: Because the 3rd row is incomplete, we return 2.
+Example 2:
+
+
+Input: n = 8
+Output: 3
+Explanation: Because the 4th row is incomplete, we return 3.
+ 
+
+Constraints:
+
+1 <= n <= 231 - 1
+solution:
+import math
+
+class Solution:
+    def arrangeCoins(self, n: int) -> int:
+        return (math.isqrt(8 * n + 1) - 1) // 2
+
+3. 4010. Maximize Pair Strength Using GCD
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array nums.
+
+Choose exactly one pair of distinct indices i and j. The strength of the pair is defined as (nums[i] * nums[j]) / gcd(nums[i], nums[j])2.
+
+Return the maximum strength over all possible pairs.
+
+ 
+
+Example 1:
+
+Input: nums = [2,3,5]
+
+Output: 15
+
+Explanation:
+
+Choosing i = 1 and j = 2 gives strength (3 * 5) / gcd(3, 5)2 = 15 / 1 = 15, which is the maximum over all pairs.
+
+Example 2:
+
+Input: nums = [4,6,8]
+
+Output: 12
+
+Explanation:
+
+Choosing i = 1 and j = 2 gives strength (6 * 8) / gcd(6, 8)2 = 48 / 4 = 12, which is the maximum over all pairs.
+
+Example 3:
+
+Input: nums = [3,3]
+
+Output: 1
+
+Explanation:
+
+Choosing i = 0 and j = 1 gives strength (3 * 3) / gcd(3, 3)2 = 9 / 9 = 1, the maximum over all pairs.
+
+ 
+
+Constraints:
+
+2 <= nums.length <= 2000
+1 <= nums[i] <= 105
+solution:
+from math import gcd
+
+class Solution:
+    def maxPairStrength(self, nums: list[int]) -> int:
+        nums.sort(reverse=True)
+        best = 0
+        n = len(nums)
+        for i in range(n - 1):
+            a = nums[i]
+            if a * nums[i + 1] <= best:
+                break
+            for j in range(i + 1, n):
+                b = nums[j]
+                if a * b <= best:
+                    break
+                g = gcd(a, b)
+                s = (a // g) * (b // g)
+                if s > best:
+                    best = s
+        return best
+
+4. 628. Maximum Product of Three Numbers
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+You are given an integer array nums.
+
+Find three numbers whose product is maximum and return the maximum product.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,-3]
+
+Output: -6
+
+Explanation:
+
+The only three numbers are 1, 2, and -3, so the maximum product is 1 * 2 * -3 = -6.
+
+Example 2:
+
+Input: nums = [1,2,3,4]
+
+Output: 24
+
+Explanation:
+
+The largest product comes from the three greatest numbers: 2 * 3 * 4 = 24.
+
+Example 3:
+
+Input: nums = [-1,-2,-3]
+
+Output: -6
+
+Explanation:
+
+The only three numbers are -1, -2, and -3, so the maximum product is (-1) * (-2) * (-3) = -6.
+
+ 
+
+Constraints:
+
+3 <= nums.length <= 104
+-1000 <= nums[i] <= 1000
+solution:
+class Solution:
+    def maximumProduct(self, nums: list[int]) -> int:
+        nums.sort()
+        return max(nums[-1] * nums[-2] * nums[-3],
+                   nums[0] * nums[1] * nums[-1])
+
+5. 3411. Maximum Subarray With Equal Products
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an array of positive integers nums.
+
+An array arr is called product equivalent if prod(arr) == lcm(arr) * gcd(arr), where:
+
+prod(arr) is the product of all elements of arr.
+gcd(arr) is the GCD of all elements of arr.
+lcm(arr) is the LCM of all elements of arr.
+Return the length of the longest product equivalent subarray of nums.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,1,2,1,1,1]
+
+Output: 5
+
+Explanation: 
+
+The longest product equivalent subarray is [1, 2, 1, 1, 1], where prod([1, 2, 1, 1, 1]) = 2, gcd([1, 2, 1, 1, 1]) = 1, and lcm([1, 2, 1, 1, 1]) = 2.
+
+Example 2:
+
+Input: nums = [2,3,4,5,6]
+
+Output: 3
+
+Explanation: 
+
+The longest product equivalent subarray is [3, 4, 5].
+
+Example 3:
+
+Input: nums = [1,2,3,1,4,5,1]
+
+Output: 5
+
+ 
+
+Constraints:
+
+2 <= nums.length <= 100
+1 <= nums[i] <= 10
+solution:
+from typing import List
+from math import gcd
+
+class Solution:
+    def maxLength(self, nums: List[int]) -> int:
+        def lcm(a, b):
+            return a * b // gcd(a, b)
+        
+        n = len(nums)
+        best = 0
+        for i in range(n):
+            p, g, l = 1, 0, 1
+            for j in range(i, n):
+                p *= nums[j]
+                g = gcd(g, nums[j])
+                l = lcm(l, nums[j])
+                if p == g * l:
+                    best = max(best, j - i + 1)
+        return best
+
+l = 5

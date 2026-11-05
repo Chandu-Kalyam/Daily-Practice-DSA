@@ -1,0 +1,224 @@
+Leetcode:
+1. 989. Add to Array-Form of Integer
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+The array-form of an integer num is an array representing its digits in left to right order.
+
+For example, for num = 1321, the array form is [1,3,2,1].
+Given num, the array-form of an integer, and an integer k, return the array-form of the integer num + k.
+
+ 
+
+Example 1:
+
+Input: num = [1,2,0,0], k = 34
+Output: [1,2,3,4]
+Explanation: 1200 + 34 = 1234
+Example 2:
+
+Input: num = [2,7,4], k = 181
+Output: [4,5,5]
+Explanation: 274 + 181 = 455
+Example 3:
+
+Input: num = [2,1,5], k = 806
+Output: [1,0,2,1]
+Explanation: 215 + 806 = 1021
+ 
+
+Constraints:
+
+1 <= num.length <= 104
+0 <= num[i] <= 9
+num does not contain any leading zeros except for the zero itself.
+1 <= k <= 104
+solution:
+class Solution:
+    def addToArrayForm(self, num: list[int], k: int) -> list[int]:
+        res = []
+        for d in reversed(num):
+            k += d
+            res.insert(0, k % 10)
+            k //= 10
+        while k:
+            res.insert(0, k % 10)
+            k //= 10
+        return res
+
+2. 367. Valid Perfect Square
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Given a positive integer num, return true if num is a perfect square or false otherwise.
+
+A perfect square is an integer that is the square of an integer. In other words, it is the product of some integer with itself.
+
+You must not use any built-in library function, such as sqrt.
+
+ 
+
+Example 1:
+
+Input: num = 16
+Output: true
+Explanation: We return true because 4 * 4 = 16 and 4 is an integer.
+Example 2:
+
+Input: num = 14
+Output: false
+Explanation: We return false because 3.742 * 3.742 = 14 and 3.742 is not an integer.
+ 
+
+Constraints:
+
+1 <= num <= 231 - 1
+solution:
+class Solution:
+    def isPerfectSquare(self, num: int) -> bool:
+        x = num
+        while x * x > num:
+            x = (x + num // x) // 2
+        return x * x == num
+
+3. 263. Ugly Number
+Easy
+Topics
+premium lock icon
+Companies
+An ugly number is a positive integer which does not have a prime factor other than 2, 3, and 5.
+
+Given an integer n, return true if n is an ugly number.
+
+ 
+
+Example 1:
+
+Input: n = 6
+Output: true
+Explanation: 6 = 2 × 3
+Example 2:
+
+Input: n = 1
+Output: true
+Explanation: 1 has no prime factors.
+Example 3:
+
+Input: n = 14
+Output: false
+Explanation: 14 is not ugly since it includes the prime factor 7.
+ 
+
+Constraints:
+
+-231 <= n <= 231 - 1
+solution:
+class Solution:
+    def isUgly(self, n: int) -> bool:
+        if n <= 0:  return False
+        while n % 2 == 0: n //= 2
+        while n % 3 == 0: n //= 3
+        while n % 5 == 0: n //= 5
+        return n == 1
+
+4. 3024. Type of Triangle
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed integer array nums of size 3 which can form the sides of a triangle.
+
+A triangle is called equilateral if it has all sides of equal length.
+A triangle is called isosceles if it has exactly two sides of equal length.
+A triangle is called scalene if all its sides are of different lengths.
+Return a string representing the type of triangle that can be formed or "none" if it cannot form a triangle.
+
+ 
+
+Example 1:
+
+Input: nums = [3,3,3]
+Output: "equilateral"
+Explanation: Since all the sides are of equal length, therefore, it will form an equilateral triangle.
+Example 2:
+
+Input: nums = [3,4,5]
+Output: "scalene"
+Explanation: 
+nums[0] + nums[1] = 3 + 4 = 7, which is greater than nums[2] = 5.
+nums[0] + nums[2] = 3 + 5 = 8, which is greater than nums[1] = 4.
+nums[1] + nums[2] = 4 + 5 = 9, which is greater than nums[0] = 3. 
+Since the sum of the two sides is greater than the third side for all three cases, therefore, it can form a triangle.
+As all the sides are of different lengths, it will form a scalene triangle.
+ 
+
+Constraints:
+
+nums.length == 3
+1 <= nums[i] <= 100
+solution:
+
+class Solution:
+    def triangleType(self, nums: List[int]) -> str:
+        nums.sort()
+        if nums[0] + nums[1] <= nums[2]:
+            return "none"
+        n = len(set(nums))
+        return ["none", "equilateral", "isosceles", "scalene"][n]
+
+5. 3360. Stone Removal Game
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Alice and Bob are playing a game where they take turns removing stones from a pile, with Alice going first.
+
+Alice starts by removing exactly 10 stones on her first turn.
+For each subsequent turn, each player removes exactly 1 fewer stone than the previous opponent.
+The player who cannot make a move loses the game.
+
+Given a positive integer n, return true if Alice wins the game and false otherwise.
+
+ 
+
+Example 1:
+
+Input: n = 12
+
+Output: true
+
+Explanation:
+
+Alice removes 10 stones on her first turn, leaving 2 stones for Bob.
+Bob cannot remove 9 stones, so Alice wins.
+Example 2:
+
+Input: n = 1
+
+Output: false
+
+Explanation:
+
+Alice cannot remove 10 stones, so Alice loses.
+ 
+
+Constraints:
+
+1 <= n <= 50
+solution:
+class Solution:
+    def canAliceWin(self, n: int) -> bool:
+        for move in range(10, 0, -1):
+            if n < move:
+                return move % 2 == 1
+            n -= move
+        return True
+l = 5

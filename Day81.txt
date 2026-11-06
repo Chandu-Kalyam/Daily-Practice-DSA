@@ -1,0 +1,229 @@
+Leetcode:
+1. 3560. Find Minimum Log Transportation Cost
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given integers n, m, and k.
+
+There are two logs of lengths n and m units, which need to be transported in three trucks where each truck can carry one log with length at most k units.
+
+You may cut the logs into smaller pieces, where the cost of cutting a log of length x into logs of length len1 and len2 is cost = len1 * len2 such that len1 + len2 = x.
+
+Return the minimum total cost to distribute the logs onto the trucks. If the logs don't need to be cut, the total cost is 0.
+
+ 
+
+Example 1:
+
+Input: n = 6, m = 5, k = 5
+
+Output: 5
+
+Explanation:
+
+Cut the log with length 6 into logs with length 1 and 5, at a cost equal to 1 * 5 == 5. Now the three logs of length 1, 5, and 5 can fit in one truck each.
+
+Example 2:
+
+Input: n = 4, m = 4, k = 6
+
+Output: 0
+
+Explanation:
+
+The two logs can fit in the trucks already, hence we don't need to cut the logs.
+
+ 
+
+Constraints:
+
+2 <= k <= 105
+1 <= n, m <= 2 * k
+The input is generated such that it is always possible to transport the logs.
+solution:
+class Solution:
+    def minCuttingCost(self, n: int, m: int, k: int) -> int:
+        return max(0, (n - k) * k, (m - k) * k)
+
+2. 69. Sqrt(x)
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a non-negative integer x, return the square root of x rounded down to the nearest integer. The returned integer should be non-negative as well.
+
+You must not use any built-in exponent function or operator.
+
+For example, do not use pow(x, 0.5) in c++ or x ** 0.5 in python.
+ 
+
+Example 1:
+
+Input: x = 4
+Output: 2
+Explanation: The square root of 4 is 2, so we return 2.
+Example 2:
+
+Input: x = 8
+Output: 2
+Explanation: The square root of 8 is 2.82842..., and since we round it down to the nearest integer, 2 is returned.
+ 
+
+Constraints:
+
+0 <= x <= 231 - 1
+solution:
+class Solution:
+    def mySqrt(self, x: int) -> int:
+        if x < 2:
+            return x
+        r = 1 << ((x.bit_length() + 1) // 2)
+        while r * r > x:
+            r = (r + x // r) // 2
+        return r
+
+3. 2525. Categorize Box According to Criteria
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given four integers length, width, height, and mass, representing the dimensions and mass of a box, respectively, return a string representing the category of the box.
+
+The box is "Bulky" if:
+Any of the dimensions of the box is greater or equal to 104.
+Or, the volume of the box is greater or equal to 109.
+If the mass of the box is greater or equal to 100, it is "Heavy".
+If the box is both "Bulky" and "Heavy", then its category is "Both".
+If the box is neither "Bulky" nor "Heavy", then its category is "Neither".
+If the box is "Bulky" but not "Heavy", then its category is "Bulky".
+If the box is "Heavy" but not "Bulky", then its category is "Heavy".
+Note that the volume of the box is the product of its length, width and height.
+
+ 
+
+Example 1:
+
+Input: length = 1000, width = 35, height = 700, mass = 300
+Output: "Heavy"
+Explanation: 
+None of the dimensions of the box is greater or equal to 104. 
+Its volume = 24500000 <= 109. So it cannot be categorized as "Bulky".
+However mass >= 100, so the box is "Heavy".
+Since the box is not "Bulky" but "Heavy", we return "Heavy".
+Example 2:
+
+Input: length = 200, width = 50, height = 800, mass = 50
+Output: "Neither"
+Explanation: 
+None of the dimensions of the box is greater or equal to 104.
+Its volume = 8 * 106 <= 109. So it cannot be categorized as "Bulky".
+Its mass is also less than 100, so it cannot be categorized as "Heavy" either. 
+Since its neither of the two above categories, we return "Neither".
+ 
+
+Constraints:
+
+1 <= length, width, height <= 105
+1 <= mass <= 103
+solution:
+class Solution:
+    def categorizeBox(self, length: int, width: int, height: int, mass: int) -> str:
+        bulky = (length >= 10000 or width >= 10000 or height >= 10000 
+                 or length * width * height >= 10**9)
+        heavy = mass >= 100
+        
+        if bulky and heavy:
+            return "Both"
+        if bulky:
+            return "Bulky"
+        if heavy:
+            return "Heavy"
+        return "Neither"
+
+4. 1037. Valid Boomerang
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an array points where points[i] = [xi, yi] represents a point on the X-Y plane, return true if these points are a boomerang.
+
+A boomerang is a set of three points that are all distinct and not in a straight line.
+
+ 
+
+Example 1:
+
+Input: points = [[1,1],[2,3],[3,2]]
+Output: true
+Example 2:
+
+Input: points = [[1,1],[2,2],[3,3]]
+Output: false
+ 
+
+Constraints:
+
+points.length == 3
+points[i].length == 2
+0 <= xi, yi <= 100
+solution:
+class Solution:
+    def isBoomerang(self, points: list[list[int]]) -> bool:
+        (x1,y1),(x2,y2),(x3,y3) = points
+        return (x2 - x1) * (y3 - y1) != (y2 - y1) * (x3 - x1)
+
+5. 
+Code
+Testcase
+Testcase
+Test Result
+2739. Total Distance Traveled
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A truck has two fuel tanks. You are given two integers, mainTank representing the fuel present in the main tank in liters and additionalTank representing the fuel present in the additional tank in liters.
+
+The truck has a mileage of 10 km per liter. Whenever 5 liters of fuel get used up in the main tank, if the additional tank has at least 1 liters of fuel, 1 liters of fuel will be transferred from the additional tank to the main tank.
+
+Return the maximum distance which can be traveled.
+
+Note: Injection from the additional tank is not continuous. It happens suddenly and immediately for every 5 liters consumed.
+
+ 
+
+Example 1:
+
+Input: mainTank = 5, additionalTank = 10
+Output: 60
+Explanation: 
+After spending 5 litre of fuel, fuel remaining is (5 - 5 + 1) = 1 litre and distance traveled is 50km.
+After spending another 1 litre of fuel, no fuel gets injected in the main tank and the main tank becomes empty.
+Total distance traveled is 60km.
+Example 2:
+
+Input: mainTank = 1, additionalTank = 2
+Output: 10
+Explanation: 
+After spending 1 litre of fuel, the main tank becomes empty.
+Total distance traveled is 10km.
+
+ 
+
+Constraints:
+
+1 <= mainTank, additionalTank <= 100
+solution:
+class Solution:
+    def distanceTraveled(self, mainTank: int, additionalTank: int) -> int:
+        return (mainTank + min(additionalTank, (mainTank - 1) // 4)) * 10
+
+l = 5

@@ -1,0 +1,246 @@
+Leetcode:
+1. 3794. Reverse String Prefix
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s and an integer k.
+
+Reverse the first k characters of s and return the resulting string.
+
+ 
+
+Example 1:
+
+Input: s = "abcd", k = 2
+
+Output: "bacd"
+
+Explanation:​​​​​​​
+
+The first k = 2 characters "ab" are reversed to "ba". The final resulting string is "bacd".
+
+Example 2:
+
+Input: s = "xyz", k = 3
+
+Output: "zyx"
+
+Explanation:
+
+The first k = 3 characters "xyz" are reversed to "zyx". The final resulting string is "zyx".
+
+Example 3:
+
+Input: s = "hey", k = 1
+
+Output: "hey"
+
+Explanation:
+
+The first k = 1 character "h" remains unchanged on reversal. The final resulting string is "hey".
+
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists of lowercase English letters.
+1 <= k <= s.length
+solution:
+class Solution:
+    def reversePrefix(self, s: str, k: int) -> str:
+        return s[:k][::-1] + s[k:]
+
+2. 1684. Count the Number of Consistent Strings
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string allowed consisting of distinct characters and an array of strings words. A string is consistent if all characters in the string appear in the string allowed.
+
+Return the number of consistent strings in the array words.
+
+ 
+
+Example 1:
+
+Input: allowed = "ab", words = ["ad","bd","aaab","baa","badab"]
+Output: 2
+Explanation: Strings "aaab" and "baa" are consistent since they only contain characters 'a' and 'b'.
+Example 2:
+
+Input: allowed = "abc", words = ["a","b","c","ab","ac","bc","abc"]
+Output: 7
+Explanation: All strings are consistent.
+Example 3:
+
+Input: allowed = "cad", words = ["cc","acd","b","ba","bac","bad","ac","d"]
+Output: 4
+Explanation: Strings "cc", "acd", "ac", and "d" are consistent.
+ 
+
+Constraints:
+
+1 <= words.length <= 104
+1 <= allowed.length <= 26
+1 <= words[i].length <= 10
+The characters in allowed are distinct.
+words[i] and allowed contain only lowercase English letters.
+solution:
+class Solution:
+    def countConsistentStrings(self, allowed: str, words: List[str]) -> int:
+        allowed_set = set(allowed)
+        return sum(1 for word in words if set(word).issubset(allowed_set))
+
+3. 1221. Split a String in Balanced Strings
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Balanced strings are those that have an equal quantity of 'L' and 'R' characters.
+
+Given a balanced string s, split it into some number of substrings such that:
+
+Each substring is balanced.
+Return the maximum number of balanced strings you can obtain.
+
+ 
+
+Example 1:
+
+Input: s = "RLRRLLRLRL"
+Output: 4
+Explanation: s can be split into "RL", "RRLL", "RL", "RL", each substring contains same number of 'L' and 'R'.
+Example 2:
+
+Input: s = "RLRRRLLRLL"
+Output: 2
+Explanation: s can be split into "RL", "RRRLLRLL", each substring contains same number of 'L' and 'R'.
+Note that s cannot be split into "RL", "RR", "RL", "LR", "LL", because the 2nd and 5th substrings are not balanced.
+Example 3:
+
+Input: s = "LLLLRRRR"
+Output: 1
+Explanation: s can be split into "LLLLRRRR".
+ 
+
+Constraints:
+
+2 <= s.length <= 1000
+s[i] is either 'L' or 'R'.
+s is a balanced string.
+solution:
+class Solution:
+    def balancedStringSplit(self, s: str) -> int:
+        balance = count = 0
+        for c in s:
+            balance += 1 if c == 'L' else -1
+            if balance == 0:
+                count += 1
+        return count
+
+4. 3146. Permutation Difference between Two Strings
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given two strings s and t such that every character occurs at most once in s and t is a permutation of s.
+
+The permutation difference between s and t is defined as the sum of the absolute difference between the index of the occurrence of each character in s and the index of the occurrence of the same character in t.
+
+Return the permutation difference between s and t.
+
+ 
+
+Example 1:
+
+Input: s = "abc", t = "bac"
+
+Output: 2
+
+Explanation:
+
+For s = "abc" and t = "bac", the permutation difference of s and t is equal to the sum of:
+
+The absolute difference between the index of the occurrence of "a" in s and the index of the occurrence of "a" in t.
+The absolute difference between the index of the occurrence of "b" in s and the index of the occurrence of "b" in t.
+The absolute difference between the index of the occurrence of "c" in s and the index of the occurrence of "c" in t.
+That is, the permutation difference between s and t is equal to |0 - 1| + |1 - 0| + |2 - 2| = 2.
+
+Example 2:
+
+Input: s = "abcde", t = "edbac"
+
+Output: 12
+
+Explanation: The permutation difference between s and t is equal to |0 - 3| + |1 - 2| + |2 - 4| + |3 - 1| + |4 - 0| = 12.
+
+ 
+
+Constraints:
+
+1 <= s.length <= 26
+Each character occurs at most once in s.
+t is a permutation of s.
+s consists only of lowercase English letters.
+solution:
+class Solution:
+    def findPermutationDifference(self, s: str, t: str) -> int:
+        countt = 0
+        for char in s:
+            diff = abs(s.index(char) - t.index(char))
+            countt += diff
+
+        return countt
+
+5. 1816. Truncate Sentence
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A sentence is a list of words that are separated by a single space with no leading or trailing spaces. Each of the words consists of only uppercase and lowercase English letters (no punctuation).
+
+For example, "Hello World", "HELLO", and "hello world hello world" are all sentences.
+You are given a sentence s​​​​​​ and an integer k​​​​​​. You want to truncate s​​​​​​ such that it contains only the first k​​​​​​ words. Return s​​​​​​ after truncating it.
+
+ 
+
+Example 1:
+
+Input: s = "Hello how are you Contestant", k = 4
+Output: "Hello how are you"
+Explanation:
+The words in s are ["Hello", "how", "are", "you", "Contestant"].
+The first 4 words are ["Hello", "how", "are", "you"].
+Hence, you should return "Hello how are you".
+Example 2:
+
+Input: s = "What is the solution to this problem", k = 4
+Output: "What is the solution"
+Explanation:
+The words in s are ["What", "is", "the", "solution", "to", "this", "problem"].
+The first 4 words are ["What", "is", "the", "solution"].
+Hence, you should return "What is the solution".
+Example 3:
+
+Input: s = "chopper is not a tanuki", k = 5
+Output: "chopper is not a tanuki"
+solution:
+class Solution:
+    def truncateSentence(self, s: str, k: int) -> str:
+        arr = s.split()
+        return " ".join(arr[:k])
+
+
+l = 5

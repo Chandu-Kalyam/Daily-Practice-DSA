@@ -1,0 +1,241 @@
+Leetcode:
+1. 2114. Maximum Number of Words Found in Sentences
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A sentence is a list of words that are separated by a single space with no leading or trailing spaces.
+
+You are given an array of strings sentences, where each sentences[i] represents a single sentence.
+
+Return the maximum number of words that appear in a single sentence.
+
+ 
+
+Example 1:
+
+Input: sentences = ["alice and bob love leetcode", "i think so too", "this is great thanks very much"]
+Output: 6
+Explanation: 
+- The first sentence, "alice and bob love leetcode", has 5 words in total.
+- The second sentence, "i think so too", has 4 words in total.
+- The third sentence, "this is great thanks very much", has 6 words in total.
+Thus, the maximum number of words in a single sentence comes from the third sentence, which has 6 words.
+Example 2:
+
+Input: sentences = ["please wait", "continue to fight", "continue to win"]
+Output: 3
+Explanation: It is possible that multiple sentences contain the same number of words. 
+In this example, the second and third sentences (underlined) have the same number of words.
+ 
+
+Constraints:
+
+1 <= sentences.length <= 100
+1 <= sentences[i].length <= 100
+sentences[i] consists only of lowercase English letters and ' ' only.
+sentences[i] does not have leading or trailing spaces.
+All the words in sentences[i] are separated by a single space.
+solution:
+class Solution:
+    def mostWordsFound(self, sentences: List[str]) -> int:
+        maxi = []
+        for s in sentences:
+            length = len(s.split(" "))
+            maxi.append(length)
+        return max(maxi)
+
+2. 1002. Find Common Characters
+Easy
+Topics
+premium lock icon
+Companies
+Given a string array words, return an array of all characters that show up in all strings within the words (including duplicates). You may return the answer in any order.
+
+ 
+
+Example 1:
+
+Input: words = ["bella","label","roller"]
+Output: ["e","l","l"]
+Example 2:
+
+Input: words = ["cool","lock","cook"]
+Output: ["c","o"]
+ 
+
+Constraints:
+
+1 <= words.length <= 100
+1 <= words[i].length <= 100
+words[i] consists of lowercase English letters.
+solution:
+from collections import Counter
+from functools import reduce
+
+class Solution:
+    def commonChars(self, words: list[str]) -> list[str]:
+        return list(reduce(lambda a, b: a & b, map(Counter, words)).elements())
+
+3. 1945. Sum of Digits of String After Convert
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s consisting of lowercase English letters, and an integer k. Your task is to convert the string into an integer by a special process, and then transform it by summing its digits repeatedly k times. More specifically, perform the following steps:
+
+Convert s into an integer by replacing each letter with its position in the alphabet (i.e. replace 'a' with 1, 'b' with 2, ..., 'z' with 26).
+Transform the integer by replacing it with the sum of its digits.
+Repeat the transform operation (step 2) k times in total.
+For example, if s = "zbax" and k = 2, then the resulting integer would be 8 by the following operations:
+
+Convert: "zbax" ➝ "(26)(2)(1)(24)" ➝ "262124" ➝ 262124
+Transform #1: 262124 ➝ 2 + 6 + 2 + 1 + 2 + 4 ➝ 17
+Transform #2: 17 ➝ 1 + 7 ➝ 8
+Return the resulting integer after performing the operations described above.
+
+ 
+
+Example 1:
+
+Input: s = "iiii", k = 1
+
+Output: 36
+
+Explanation:
+
+The operations are as follows:
+- Convert: "iiii" ➝ "(9)(9)(9)(9)" ➝ "9999" ➝ 9999
+- Transform #1: 9999 ➝ 9 + 9 + 9 + 9 ➝ 36
+Thus the resulting integer is 36.
+
+Example 2:
+
+Input: s = "leetcode", k = 2
+
+Output: 6
+
+Explanation:
+
+The operations are as follows:
+- Convert: "leetcode" ➝ "(12)(5)(5)(20)(3)(15)(4)(5)" ➝ "12552031545" ➝ 12552031545
+- Transform #1: 12552031545 ➝ 1 + 2 + 5 + 5 + 2 + 0 + 3 + 1 + 5 + 4 + 5 ➝ 33
+- Transform #2: 33 ➝ 3 + 3 ➝ 6
+Thus the resulting integer is 6.
+
+Example 3:
+
+Input: s = "zbax", k = 2
+
+Output: 8
+
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+1 <= k <= 10
+s consists of lowercase English letters.
+solution:
+class Solution:
+    def getLucky(self, s: str, k: int) -> int:
+        num_str = "".join(str(ord(ch) - ord("a") + 1) for ch in s)
+        total = sum(int(d) for d in num_str)
+        for _ in range(k - 1):
+            total = sum(int(d) for d in str(total))
+        return total
+4. 2496. Maximum Value of a String in an Array
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+The value of an alphanumeric string can be defined as:
+
+The numeric representation of the string in base 10, if it comprises of digits only.
+The length of the string, otherwise.
+Given an array strs of alphanumeric strings, return the maximum value of any string in strs.
+
+ 
+
+Example 1:
+
+Input: strs = ["alic3","bob","3","4","00000"]
+Output: 5
+Explanation: 
+- "alic3" consists of both letters and digits, so its value is its length, i.e. 5.
+- "bob" consists only of letters, so its value is also its length, i.e. 3.
+- "3" consists only of digits, so its value is its numeric equivalent, i.e. 3.
+- "4" also consists only of digits, so its value is 4.
+- "00000" consists only of digits, so its value is 0.
+Hence, the maximum value is 5, of "alic3".
+Example 2:
+
+Input: strs = ["1","01","001","0001"]
+Output: 1
+Explanation: 
+Each string in the array has value 1. Hence, we return 1.
+ 
+
+Constraints:
+
+1 <= strs.length <= 100
+1 <= strs[i].length <= 9
+strs[i] consists of only lowercase English letters and digits.
+solution:
+class Solution:
+    def maximumValue(self, strs: list[str]) -> int:
+        res = []
+        for word in strs:
+            if word.isdigit():
+                res.append(int(word))
+            elif word.isalnum():
+                res.append(len(word))
+        return max(res)
+
+5. 2255. Count Prefixes of a Given String
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string array words and a string s, where words[i] and s comprise only of lowercase English letters.
+
+Return the number of strings in words that are a prefix of s.
+
+A prefix of a string is a substring that occurs at the beginning of the string. A substring is a contiguous sequence of characters within a string.
+
+ 
+
+Example 1:
+
+Input: words = ["a","b","c","ab","bc","abc"], s = "abc"
+Output: 3
+Explanation:
+The strings in words which are a prefix of s = "abc" are:
+"a", "ab", and "abc".
+Thus the number of strings in words which are a prefix of s is 3.
+Example 2:
+
+Input: words = ["a","a"], s = "aa"
+Output: 2
+Explanation:
+Both of the strings are a prefix of s. 
+Note that the same string can occur multiple times in words, and it should be counted each time.
+ 
+
+Constraints:
+
+1 <= words.length <= 1000
+1 <= words[i].length, s.length <= 10
+words[i] and s consist of lowercase English letters only.
+solution:
+class Solution:
+    def countPrefixes(self, words: list[str], s: str) -> int:
+        return sum(1 for word in words if s.startswith(word))
+
+l = 5

@@ -1,0 +1,264 @@
+Leetcode:
+1. 1047. Remove All Adjacent Duplicates In String
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s consisting of lowercase English letters. A duplicate removal consists of choosing two adjacent and equal letters and removing them.
+
+We repeatedly make duplicate removals on s until we no longer can.
+
+Return the final string after all such duplicate removals have been made. It can be proven that the answer is unique.
+
+ 
+
+Example 1:
+
+Input:
+s = "abbaca"
+
+Output: "ca"
+Explanation: 
+For example, in "abbaca" we could remove "bb" since the letters are adjacent and equal, and this is the only possible move.  The result of this move is that the string is "aaca", of which only "aa" is possible, so the final string is "ca".
+Example 2:
+
+Input:
+s = "azxxzy"
+
+Output: "ay"
+ 
+
+Constraints:
+
+1 <= s.length <= 105
+s consists of lowercase English letters.
+solution:
+class Solution:
+    def removeDuplicates(self, s: str) -> str:
+        stack = []
+        for c in s:
+            if stack and stack[-1] == c:
+                stack.pop()
+            else:
+                stack.append(c)
+        return ''.join(stack)
+
+2. 2586. Count the Number of Vowel Strings in Range
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed array of string words and two integers left and right.
+
+A string is called a vowel string if it starts with a vowel character and ends with a vowel character where vowel characters are 'a', 'e', 'i', 'o', and 'u'.
+
+Return the number of vowel strings words[i] where i belongs to the inclusive range [left, right].
+
+ 
+
+Example 1:
+
+Input:
+words = ["are", "amy", "u"]
+left = 0
+right = 2
+
+Output: 2
+Explanation: 
+- "are" is a vowel string because it starts with 'a' and ends with 'e'.
+- "amy" is not a vowel string because it does not end with a vowel.
+- "u" is a vowel string because it starts with 'u' and ends with 'u'.
+The number of vowel strings in the mentioned range is 2.
+Example 2:
+
+Input:
+words = ["hey", "aeo", "mu", "ooo", "artro"]
+left = 1
+right = 4
+
+Output: 3
+Explanation: 
+- "aeo" is a vowel string because it starts with 'a' and ends with 'o'.
+- "mu" is not a vowel string because it does not start with a vowel.
+- "ooo" is a vowel string because it starts with 'o' and ends with 'o'.
+- "artro" is a vowel string because it starts with 'a' and ends with 'o'.
+The number of vowel strings in the mentioned range is 3.
+ 
+
+Constraints:
+
+1 <= words.length <= 1000
+1 <= words[i].length <= 10
+words[i] consists of only lowercase English letters.
+0 <= left <= right < words.length
+solution:
+class Solution:
+    def vowelStrings(self, words: list[str], left: int, right: int) -> int:
+        vowels = set("aeiou")
+        count = 0
+        for i in range(left, right + 1):
+            w = words[i]
+            if w[0] in vowels and w[-1] in vowels:
+                count += 1
+        return count
+
+3. 2506. Count Pairs Of Similar Strings
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed string array words.
+
+Two strings are similar if they consist of the same characters.
+
+For example, "abca" and "cba" are similar since both consist of characters 'a', 'b', and 'c'.
+However, "abacba" and "bcfd" are not similar since they do not consist of the same characters.
+Return the number of pairs (i, j) such that 0 <= i < j <= word.length - 1 and the two strings words[i] and words[j] are similar.
+
+ 
+
+Example 1:
+
+Input:
+words = ["aba", "aabb", "abcd", "bac", "aabc"]
+
+Output: 2
+Explanation: There are 2 pairs that satisfy the conditions:
+- i = 0 and j = 1 : both words[0] and words[1] only consist of characters 'a' and 'b'. 
+- i = 3 and j = 4 : both words[3] and words[4] only consist of characters 'a', 'b', and 'c'. 
+Example 2:
+
+Input:
+words = ["aabb", "ab", "ba"]
+
+Output: 3
+Explanation: There are 3 pairs that satisfy the conditions:
+- i = 0 and j = 1 : both words[0] and words[1] only consist of characters 'a' and 'b'. 
+- i = 0 and j = 2 : both words[0] and words[2] only consist of characters 'a' and 'b'.
+- i = 1 and j = 2 : both words[1] and words[2] only consist of characters 'a' and 'b'.
+Example 3:
+
+Input:
+words = ["nba", "cba", "dba"]
+
+Output: 0
+Explanation: Since there does not exist any pair that satisfies the conditions, we return 0.
+ 
+
+Constraints:
+
+1 <= words.length <= 100
+1 <= words[i].length <= 100
+words[i] consist of only lowercase English letters.
+solution:
+from collections import Counter
+
+class Solution:
+    def similarPairs(self, words: list[str]) -> int:
+        freq = Counter(frozenset(w) for w in words)
+        return sum(c * (c - 1) // 2 for c in freq.values())
+
+4. 1957. Delete Characters to Make Fancy String
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A fancy string is a string where no three consecutive characters are equal.
+
+Given a string s, delete the minimum possible number of characters from s to make it fancy.
+
+Return the final string after the deletion. It can be shown that the answer will always be unique.
+
+ 
+
+Example 1:
+
+Input: s = "leeetcode"
+Output: "leetcode"
+Explanation:
+Remove an 'e' from the first group of 'e's to create "leetcode".
+No three consecutive characters are equal, so return "leetcode".
+Example 2:
+
+Input: s = "aaabaaaa"
+Output: "aabaa"
+Explanation:
+Remove an 'a' from the first group of 'a's to create "aabaaaa".
+Remove two 'a's from the second group of 'a's to create "aabaa".
+No three consecutive characters are equal, so return "aabaa".
+Example 3:
+
+Input: s = "aab"
+Output: "aab"
+Explanation: No three consecutive characters are equal, so return "aab".
+ 
+
+Constraints:
+
+1 <= s.length <= 105
+s consists only of lowercase English letters.
+solution:
+class Solution:
+    def makeFancyString(self, s: str) -> str:
+        res = []
+        for c in s:
+            # Only skip if the last two kept characters are also c
+            if len(res) >= 2 and res[-1] == c and res[-2] == c:
+                continue
+            res.append(c)
+        return ''.join(res)
+
+5. 2085. Count Common Words With One Occurrence
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given two string arrays words1 and words2, return the number of strings that appear exactly once in each of the two arrays.
+
+ 
+
+Example 1:
+
+Input: words1 = ["leetcode","is","amazing","as","is"], words2 = ["amazing","leetcode","is"]
+Output: 2
+Explanation:
+- "leetcode" appears exactly once in each of the two arrays. We count this string.
+- "amazing" appears exactly once in each of the two arrays. We count this string.
+- "is" appears in each of the two arrays, but there are 2 occurrences of it in words1. We do not count this string.
+- "as" appears once in words1, but does not appear in words2. We do not count this string.
+Thus, there are 2 strings that appear exactly once in each of the two arrays.
+Example 2:
+
+Input: words1 = ["b","bb","bbb"], words2 = ["a","aa","aaa"]
+Output: 0
+Explanation: There are no strings that appear in each of the two arrays.
+Example 3:
+
+Input: words1 = ["a","ab"], words2 = ["a","a","a","ab"]
+Output: 1
+Explanation: The only string that appears exactly once in each of the two arrays is "ab".
+ 
+
+Constraints:
+
+1 <= words1.length, words2.length <= 1000
+1 <= words1[i].length, words2[j].length <= 30
+words1[i] and words2[j] consists only of lowercase English letters.
+solutkon:
+from collections import Counter
+
+class Solution:
+    def countWords(self, words1: list[str], words2: list[str]) -> int:
+        f1, f2 = Counter(words1), Counter(words2)
+        return sum(1 for w in f1 if f1[w] == 1 and f2.get(w) == 1)
+
+l = 5

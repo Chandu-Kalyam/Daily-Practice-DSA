@@ -1,0 +1,271 @@
+Leetcode:
+1. 
+Code
+Testcase
+Testcase
+Test Result
+2042. Check if Numbers Are Ascending in a Sentence
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A sentence is a list of tokens separated by a single space with no leading or trailing spaces. Every token is either a positive number consisting of digits 0-9 with no leading zeros, or a word consisting of lowercase English letters.
+
+For example, "a puppy has 2 eyes 4 legs" is a sentence with seven tokens: "2" and "4" are numbers and the other tokens such as "puppy" are words.
+Given a string s representing a sentence, you need to check if all the numbers in s are strictly increasing from left to right (i.e., other than the last number, each number is strictly smaller than the number on its right in s).
+
+Return true if so, or false otherwise.
+
+ 
+
+Example 1:
+
+example-1
+Input: s = "1 box has 3 blue 4 red 6 green and 12 yellow marbles"
+Output: true
+Explanation: The numbers in s are: 1, 3, 4, 6, 12.
+They are strictly increasing from left to right: 1 < 3 < 4 < 6 < 12.
+Example 2:
+
+Input: s = "hello world 5 x 5"
+Output: false
+Explanation: The numbers in s are: 5, 5. They are not strictly increasing.
+Example 3:
+
+example-3
+Input: s = "sunset is at 7 51 pm overnight lows will be in the low 50 and 60 s"
+Output: false
+Explanation: The numbers in s are: 7, 51, 50, 60. They are not strictly increasing.
+ 
+
+Constraints:
+
+3 <= s.length <= 200
+s consists of lowercase English letters, spaces, and digits from 0 to 9, inclusive.
+The number of tokens in s is between 2 and 100, inclusive.
+The tokens in s are separated by a single space.
+There are at least two numbers in s.
+Each number in s is a positive number less than 100, with no leading zeros.
+s contains no leading or trailing spaces.
+solution:
+class Solution:
+    def areNumbersAscending(self, s: str) -> bool:
+        nums = [int(t) for t in s.split() if t.isdigit()]
+        for i in range(1, len(nums)):
+            if nums[i] <= nums[i - 1]:
+                return False
+        return True
+
+2. 2062. Count Vowel Substrings of a String
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A substring is a contiguous (non-empty) sequence of characters within a string.
+
+A vowel substring is a substring that only consists of vowels ('a', 'e', 'i', 'o', and 'u') and has all five vowels present in it.
+
+Given a string word, return the number of vowel substrings in word.
+
+ 
+
+Example 1:
+
+Input: word = "aeiouu"
+Output: 2
+Explanation: The vowel substrings of word are as follows (underlined):
+- "aeiouu"
+- "aeiouu"
+Example 2:
+
+Input: word = "unicornarihan"
+Output: 0
+Explanation: Not all 5 vowels are present, so there are no vowel substrings.
+Example 3:
+
+Input: word = "cuaieuouac"
+Output: 7
+Explanation: The vowel substrings of word are as follows (underlined):
+- "cuaieuouac"
+- "cuaieuouac"
+- "cuaieuouac"
+- "cuaieuouac"
+- "cuaieuouac"
+- "cuaieuouac"
+- "cuaieuouac"
+ 
+
+Constraints:
+
+1 <= word.length <= 100
+word consists of lowercase English letters only.
+solution:
+class Solution:
+    def countVowelSubstrings(self, word: str) -> int:
+        vowels = set("aeiou")
+        last = {v: -1 for v in vowels}
+        block_start = 0
+        ans = 0
+
+        for i, c in enumerate(word):
+            if c not in vowels:
+                # reset for new vowel block
+                last = {v: -1 for v in vowels}
+                block_start = i + 1
+            else:
+                last[c] = i
+                # earliest left endpoint must be after the smallest last position
+                min_last = min(last.values())
+                if min_last >= block_start:
+                    ans += min_last - block_start + 1
+
+        return ans
+
+3. 806. Number of Lines To Write String
+Easy
+Topics
+premium lock icon
+Companies
+You are given a string s of lowercase English letters and an array widths denoting how many pixels wide each lowercase English letter is. Specifically, widths[0] is the width of 'a', widths[1] is the width of 'b', and so on.
+
+You are trying to write s across several lines, where each line is no longer than 100 pixels. Starting at the beginning of s, write as many letters on the first line such that the total width does not exceed 100 pixels. Then, from where you stopped in s, continue writing as many letters as you can on the second line. Continue this process until you have written all of s.
+
+Return an array result of length 2 where:
+
+result[0] is the total number of lines.
+result[1] is the width of the last line in pixels.
+ 
+
+Example 1:
+
+Input: widths = [10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10], s = "abcdefghijklmnopqrstuvwxyz"
+Output: [3,60]
+Explanation: You can write s as follows:
+abcdefghij  // 100 pixels wide
+klmnopqrst  // 100 pixels wide
+uvwxyz      // 60 pixels wide
+There are a total of 3 lines, and the last line is 60 pixels wide.
+Example 2:
+
+Input: widths = [4,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10], s = "bbbcccdddaaa"
+Output: [2,4]
+Explanation: You can write s as follows:
+bbbcccdddaa  // 98 pixels wide
+a            // 4 pixels wide
+There are a total of 2 lines, and the last line is 4 pixels wide.
+ 
+
+Constraints:
+
+widths.length == 26
+2 <= widths[i] <= 10
+1 <= s.length <= 1000
+s contains only lowercase English letters.
+solution:
+class Solution:
+    def numberOfLines(self, widths: list[int], s: str) -> list[int]:
+        lines = 1
+        cur = 0
+
+        for ch in s:
+            w = widths[ord(ch) - ord('a')]
+            if cur + w > 100:
+                lines += 1
+                cur = w
+            else:
+                cur += w
+
+        return [lines, cur]
+
+4. 2283. Check if Number Has Equal Digit Count and Digit Value
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a 0-indexed string num of length n consisting of digits.
+
+Return true if for every index i in the range 0 <= i < n, the digit i occurs num[i] times in num, otherwise return false.
+
+ 
+
+Example 1:
+
+Input: num = "1210"
+Output: true
+Explanation:
+num[0] = '1'. The digit 0 occurs once in num.
+num[1] = '2'. The digit 1 occurs twice in num.
+num[2] = '1'. The digit 2 occurs once in num.
+num[3] = '0'. The digit 3 occurs zero times in num.
+The condition holds true for every index in "1210", so return true.
+Example 2:
+
+Input: num = "030"
+Output: false
+Explanation:
+num[0] = '0'. The digit 0 should occur zero times, but actually occurs twice in num.
+num[1] = '3'. The digit 1 should occur three times, but actually occurs zero times in num.
+num[2] = '0'. The digit 2 occurs zero times in num.
+The indices 0 and 1 both violate the condition, so return false.
+ 
+
+Constraints:
+
+n == num.length
+1 <= n <= 10
+num consists of digits.
+solution:
+class Solution:
+    def digitCount(self, num: str) -> bool:
+        for i in range(len(num)):
+            if num.count(str(i)) != int(num[i]):
+                return False
+        return True
+
+5. 2124. Check if All A's Appears Before All B's
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a string s consisting of only the characters 'a' and 'b', return true if every 'a' appears before every 'b' in the string. Otherwise, return false.
+
+ 
+
+Example 1:
+
+Input: s = "aaabbb"
+Output: true
+Explanation:
+The 'a's are at indices 0, 1, and 2, while the 'b's are at indices 3, 4, and 5.
+Hence, every 'a' appears before every 'b' and we return true.
+Example 2:
+
+Input: s = "abab"
+Output: false
+Explanation:
+There is an 'a' at index 2 and a 'b' at index 1.
+Hence, not every 'a' appears before every 'b' and we return false.
+Example 3:
+
+Input: s = "bbb"
+Output: true
+Explanation:
+There are no 'a's, hence, every 'a' appears before every 'b' and we return true.
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s[i] is either 'a' or 'b'.
+solution:
+class Solution:
+    def checkString(self, s: str) -> bool:
+        return "ba" not in s
+
+l = 5

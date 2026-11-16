@@ -1,0 +1,253 @@
+Leetcode:
+1. 1455. Check If a Word Occurs As a Prefix of Any Word in a Sentence
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a sentence that consists of some words separated by a single space, and a searchWord, check if searchWord is a prefix of any word in sentence.
+
+Return the index of the word in sentence (1-indexed) where searchWord is a prefix of this word. If searchWord is a prefix of more than one word, return the index of the first word (minimum index). If there is no such word return -1.
+
+A prefix of a string s is any leading contiguous substring of s.
+
+ 
+
+Example 1:
+
+Input: sentence = "i love eating burger", searchWord = "burg"
+Output: 4
+Explanation: "burg" is prefix of "burger" which is the 4th word in the sentence.
+Example 2:
+
+Input: sentence = "this problem is an easy problem", searchWord = "pro"
+Output: 2
+Explanation: "pro" is prefix of "problem" which is the 2nd and the 6th word in the sentence, but we return 2 as it's the minimal index.
+Example 3:
+
+Input: sentence = "i am tired", searchWord = "you"
+Output: -1
+Explanation: "you" is not a prefix of any word in the sentence.
+ 
+
+Constraints:
+
+1 <= sentence.length <= 100
+1 <= searchWord.length <= 10
+sentence consists of lowercase English letters and spaces.
+searchWord consists of lowercase English letters.
+solution:
+class Solution:
+    def isPrefixOfWord(self, sentence: str, searchWord: str) -> int:
+        for index, word in enumerate(sentence.split(), 1):
+            if word.startswith(searchWord):
+                return index
+        return -1
+
+2. 2129. Capitalize the Title
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string title consisting of one or more words separated by a single space, where each word consists of English letters. Capitalize the string by changing the capitalization of each word such that:
+
+If the length of the word is 1 or 2 letters, change all letters to lowercase.
+Otherwise, change the first letter to uppercase and the remaining letters to lowercase.
+Return the capitalized title.
+
+ 
+
+Example 1:
+
+Input: title = "capiTalIze tHe titLe"
+Output: "Capitalize The Title"
+Explanation:
+Since all the words have a length of at least 3, the first letter of each word is uppercase, and the remaining letters are lowercase.
+Example 2:
+
+Input: title = "First leTTeR of EACH Word"
+Output: "First Letter of Each Word"
+Explanation:
+The word "of" has length 2, so it is all lowercase.
+The remaining words have a length of at least 3, so the first letter of each remaining word is uppercase, and the remaining letters are lowercase.
+Example 3:
+
+Input: title = "i lOve leetcode"
+Output: "i Love Leetcode"
+Explanation:
+The word "i" has length 1, so it is lowercase.
+The remaining words have a length of at least 3, so the first letter of each remaining word is uppercase, and the remaining letters are lowercase.
+ 
+
+Constraints:
+
+1 <= title.length <= 100
+title consists of words separated by a single space without any leading or trailing spaces.
+Each word consists of uppercase and lowercase English letters and is non-empty.
+solution:
+class Solution:
+    def capitalizeTitle(self, title: str) -> str:
+        res = []
+        for word in title.split():
+            if len(word) <= 2:
+                res.append(word.lower())
+            else:
+                res.append(word.capitalize())
+        return " ".join(res)
+
+3. 1544. Make The String Great
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a string s of lower and upper case English letters.
+
+A good string is a string which doesn't have two adjacent characters s[i] and s[i + 1] where:
+
+0 <= i <= s.length - 2
+s[i] is a lower-case letter and s[i + 1] is the same letter but in upper-case or vice-versa.
+To make the string good, you can choose two adjacent characters that make the string bad and remove them. You can keep doing this until the string becomes good.
+
+Return the string after making it good. The answer is guaranteed to be unique under the given constraints.
+
+Notice that an empty string is also good.
+
+ 
+
+Example 1:
+
+Input: s = "leEeetcode"
+Output: "leetcode"
+Explanation: In the first step, either you choose i = 1 or i = 2, both will result "leEeetcode" to be reduced to "leetcode".
+Example 2:
+
+Input: s = "abBAcC"
+Output: ""
+Explanation: We have many possible scenarios, and all lead to the same answer. For example:
+"abBAcC" --> "aAcC" --> "cC" --> ""
+"abBAcC" --> "abBA" --> "aA" --> ""
+Example 3:
+
+Input: s = "s"
+Output: "s"
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s contains only lower and upper case English letters.
+solution:
+class Solution:
+    def makeGood(self, s: str) -> str:
+        stack = []
+
+        for ch in s:
+            if stack and stack[-1].lower() == ch.lower() and stack[-1] != ch:
+                stack.pop()      # remove the bad adjacent pair
+            else:
+                stack.append(ch) # keep current char
+
+        return "".join(stack)
+
+4. 
+Code
+Testcase
+Testcase
+Test Result
+242. Valid Anagram
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Given two strings s and t, return true if t is an anagram of s, and false otherwise.
+
+ 
+
+Example 1:
+
+Input: s = "anagram", t = "nagaram"
+
+Output: true
+
+Example 2:
+
+Input: s = "rat", t = "car"
+
+Output: false
+
+ 
+
+Constraints:
+
+1 <= s.length, t.length <= 5 * 104
+s and t consist of lowercase English letters.
+ 
+
+Follow up: What if the inputs contain Unicode characters? How would you adapt your solution to such a case?
+solution:
+from collections import Counter
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        return Counter(s) == Counter(t)
+
+5. 3798. Largest Even Number
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s consisting only of the characters '1' and '2'.
+
+You may delete any number of characters from s without changing the order of the remaining characters.
+
+Return the largest possible resultant string that represents an even integer. If there is no such string, return the empty string "".
+
+ 
+
+Example 1:
+
+Input: s = "1112"
+
+Output: "1112"
+
+Explanation:
+
+The string already represents the largest possible even number, so no deletions are needed.
+
+Example 2:
+
+Input: s = "221"
+
+Output: "22"
+
+Explanation:
+
+Deleting '1' results in the largest possible even number which is equal to 22.
+
+Example 3:
+
+Input: s = "1"
+
+Output: ""
+
+Explanation:
+
+There is no way to get an even number.
+
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists only of the characters '1' and '2'.
+solution:
+class Solution:
+    def largestEven(self, s: str) -> str:
+        return s[:s.rfind('2') + 1]
+
+l = 5

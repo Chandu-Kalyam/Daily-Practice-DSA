@@ -1,0 +1,264 @@
+Leetcode:
+1. 1624. Largest Substring Between Two Equal Characters
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a string s, return the length of the longest substring between two equal characters, excluding the two characters. If there is no such substring return -1.
+
+A substring is a contiguous sequence of characters within a string.
+
+ 
+
+Example 1:
+
+Input:
+s = "aa"
+
+Output: 0
+Explanation: The optimal substring here is an empty substring between the two 'a's.
+Example 2:
+
+Input:
+s = "abca"
+
+Output: 2
+Explanation: The optimal substring here is "bc".
+Example 3:
+
+Input:
+s = "cbzxy"
+
+Output: -1
+Explanation: There are no characters that appear twice in s.
+ 
+
+Constraints:
+
+1 <= s.length <= 300
+s contains only lowercase English letters.
+solution:
+class Solution:
+    def maxLengthBetweenEqualCharacters(self, s: str) -> int:
+        first = {}
+        ans = -1
+
+        for i, ch in enumerate(s):
+            if ch in first:
+                ans = max(ans, i - first[ch] - 1)
+            else:
+                first[ch] = i
+
+        return ans
+
+2. 1903. Largest Odd Number in String
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string num, representing a large integer. Return the largest-valued odd integer (as a string) that is a non-empty substring of num, or an empty string "" if no odd integer exists.
+
+A substring is a contiguous sequence of characters within a string.
+
+ 
+
+Example 1:
+
+Input: num = "52"
+Output: "5"
+Explanation: The only non-empty substrings are "5", "2", and "52". "5" is the only odd number.
+Example 2:
+
+Input: num = "4206"
+Output: ""
+Explanation: There are no odd numbers in "4206".
+Example 3:
+
+Input: num = "35427"
+Output: "35427"
+Explanation: "35427" is already an odd number.
+ 
+
+Constraints:
+
+1 <= num.length <= 105
+num only consists of digits and does not contain any leading zeros.
+solution:
+class Solution:
+    def largestOddNumber(self, num: str) -> str:
+        return num.rstrip("02468")
+
+3. 3210. Find the Encrypted String
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s and an integer k. Encrypt the string using the following algorithm:
+
+For each character c in s, replace c with the kth character after c in the string (in a cyclic manner).
+Return the encrypted string.
+
+ 
+
+Example 1:
+
+Input: s = "dart", k = 3
+
+Output: "tdar"
+
+Explanation:
+
+For i = 0, the 3rd character after 'd' is 't'.
+For i = 1, the 3rd character after 'a' is 'd'.
+For i = 2, the 3rd character after 'r' is 'a'.
+For i = 3, the 3rd character after 't' is 'r'.
+Example 2:
+
+Input: s = "aaa", k = 1
+
+Output: "aaa"
+
+Explanation:
+
+As all the characters are the same, the encrypted string will also be the same.
+
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+1 <= k <= 104
+s consists only of lowercase English letters.
+solution:
+class Solution:
+    def getEncryptedString(self, s: str, k: int) -> str:
+        k %= len(s)
+        return s[k:] + s[:k]
+
+4. 1694. Reformat Phone Number
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a phone number as a string number. number consists of digits, spaces ' ', and/or dashes '-'.
+
+You would like to reformat the phone number in a certain manner. Firstly, remove all spaces and dashes. Then, group the digits from left to right into blocks of length 3 until there are 4 or fewer digits. The final digits are then grouped as follows:
+
+2 digits: A single block of length 2.
+3 digits: A single block of length 3.
+4 digits: Two blocks of length 2 each.
+The blocks are then joined by dashes. Notice that the reformatting process should never produce any blocks of length 1 and produce at most two blocks of length 2.
+
+Return the phone number after formatting.
+
+ 
+
+Example 1:
+
+Input: number = "1-23-45 6"
+Output: "123-456"
+Explanation: The digits are "123456".
+Step 1: There are more than 4 digits, so group the next 3 digits. The 1st block is "123".
+Step 2: There are 3 digits remaining, so put them in a single block of length 3. The 2nd block is "456".
+Joining the blocks gives "123-456".
+Example 2:
+
+Input: number = "123 4-567"
+Output: "123-45-67"
+Explanation: The digits are "1234567".
+Step 1: There are more than 4 digits, so group the next 3 digits. The 1st block is "123".
+Step 2: There are 4 digits left, so split them into two blocks of length 2. The blocks are "45" and "67".
+Joining the blocks gives "123-45-67".
+Example 3:
+
+Input: number = "123 4-5678"
+Output: "123-456-78"
+Explanation: The digits are "12345678".
+Step 1: The 1st block is "123".
+Step 2: The 2nd block is "456".
+Step 3: There are 2 digits left, so put them in a single block of length 2. The 3rd block is "78".
+Joining the blocks gives "123-456-78".
+ 
+
+Constraints:
+
+2 <= number.length <= 100
+number consists of digits and the characters '-' and ' '.
+There are at least two digits in number.
+solution:
+class Solution:
+    def reformatNumber(self, number: str) -> str:
+        digits = [c for c in number if c.isdigit()]
+        blocks = []
+        i = 0
+
+        while len(digits) - i > 4:
+            blocks.append(''.join(digits[i:i + 3]))
+            i += 3
+
+        remaining = len(digits) - i
+        if remaining == 4:
+            blocks.append(''.join(digits[i:i + 2]))
+            blocks.append(''.join(digits[i + 2:i + 4]))
+        else:
+            blocks.append(''.join(digits[i:]))
+
+        return '-'.join(blocks)
+
+5. 929. Unique Email Addresses
+Easy
+Topics
+premium lock icon
+Companies
+Every valid email consists of a local name and a domain name, separated by the '@' sign. Besides lowercase letters, the email may contain one or more '.' or '+'.
+
+For example, in "alice@leetcode.com", "alice" is the local name, and "leetcode.com" is the domain name.
+If you add periods '.' between some characters in the local name part of an email address, mail sent there will be forwarded to the same address without dots in the local name. Note that this rule does not apply to domain names.
+
+For example, "alice.z@leetcode.com" and "alicez@leetcode.com" forward to the same email address.
+If you add a plus '+' in the local name, everything after the first plus sign will be ignored. This allows certain emails to be filtered. Note that this rule does not apply to domain names.
+
+For example, "m.y+name@email.com" will be forwarded to "my@email.com".
+It is possible to use both of these rules at the same time.
+
+Given an array of strings emails where we send one email to each emails[i], return the number of different addresses that actually receive mails.
+
+ 
+
+Example 1:
+
+Input: emails = ["test.email+alex@leetcode.com","test.e.mail+bob.cathy@leetcode.com","testemail+david@lee.tcode.com"]
+Output: 2
+Explanation: "testemail@leetcode.com" and "testemail@lee.tcode.com" actually receive mails.
+Example 2:
+
+Input: emails = ["a@leetcode.com","b@leetcode.com","c@leetcode.com"]
+Output: 3
+ 
+
+Constraints:
+
+1 <= emails.length <= 100
+1 <= emails[i].length <= 100
+emails[i] consist of lowercase English letters, '+', '.' and '@'.
+Each emails[i] contains exactly one '@' character.
+All local and domain names are non-empty.
+Local names do not start with a '+' character.
+Domain names end with the ".com" suffix.
+Domain names must contain at least one character before ".com" suffix.
+solution:
+class Solution:
+    def numUniqueEmails(self, emails: list[str]) -> int:
+        unique = set()
+        for email in emails:
+            local, domain = email.split("@")
+            local = local.split("+")[0].replace(".", "")
+            unique.add(local + "@" + domain)
+        return len(unique)
+
+l = 5

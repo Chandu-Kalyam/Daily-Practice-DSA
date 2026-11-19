@@ -1,0 +1,274 @@
+Leetcode:
+1. 383. Ransom Note
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Given two strings ransomNote and magazine, return true if ransomNote can be constructed by using the letters from magazine and false otherwise.
+
+Each letter in magazine can only be used once in ransomNote.
+
+ 
+
+Example 1:
+
+Input: ransomNote = "a", magazine = "b"
+Output: false
+Example 2:
+
+Input: ransomNote = "aa", magazine = "ab"
+Output: false
+Example 3:
+
+Input: ransomNote = "aa", magazine = "aab"
+Output: true
+ 
+
+Constraints:
+
+1 <= ransomNote.length, magazine.length <= 105
+ransomNote and magazine consist of lowercase English letters.
+solution:
+from collections import Counter
+class Solution:
+    def canConstruct(self, ransomNote: str, magazine: str) -> bool:
+        return not(Counter(ransomNote) - Counter(magazine))
+
+2. 796. Rotate String
+Easy
+Topics
+premium lock icon
+Companies
+Given two strings s and goal, return true if and only if s can become goal after some number of shifts on s.
+
+A shift on s consists of moving the leftmost character of s to the rightmost position.
+
+For example, if s = "abcde", then it will be "bcdea" after one shift.
+ 
+
+Example 1:
+
+Input: s = "abcde", goal = "cdeab"
+
+Output: true
+
+Explanation:
+
+Rotating s to the left by 2 positions moves "ab" to the end, resulting in "cdeab", which is equal to goal.
+
+Example 2:
+
+Input: s = "abcde", goal = "abced"
+
+Output: false
+
+Explanation:
+
+No sequence of rotations of s can produce "abced". The characters appear in a different relative order, so goal is not a rotation of s.
+
+ 
+
+Constraints:
+
+1 <= s.length, goal.length <= 100
+s and goal consist of lowercase English letters.
+solution:
+class Solution:
+    def rotateString(self, s: str, goal: str) -> bool:
+        return len(s) == len(goal) and goal in s + s
+
+3. 3083. Existence of a Substring in a String and Its Reverse
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a string s, find any substring of length 2 which is also present in the reverse of s.
+
+Return true if such a substring exists, and false otherwise.
+
+ 
+
+Example 1:
+
+Input: s = "leetcode"
+
+Output: true
+
+Explanation: Substring "ee" is of length 2 which is also present in reverse(s) == "edocteel".
+
+Example 2:
+
+Input: s = "abcba"
+
+Output: true
+
+Explanation: All of the substrings of length 2 "ab", "bc", "cb", "ba" are also present in reverse(s) == "abcba".
+
+Example 3:
+
+Input: s = "abcd"
+
+Output: false
+
+Explanation: There is no substring of length 2 in s, which is also present in the reverse of s.
+
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists only of lowercase English letters.
+solution:
+class Solution:
+    def isSubstringPresent(self, s: str) -> bool:
+        rev = s[::-1]
+        for i in range(len(s) - 1):
+            if s[i:i + 2] in rev:
+                return True
+        return False
+
+4.3692. Majority Frequency Characters
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s consisting of lowercase English letters.
+
+The frequency group for a value k is the set of characters that appear exactly k times in s.
+
+The majority frequency group is the frequency group that contains the largest number of distinct characters.
+
+Return a string containing all characters in the majority frequency group, in any order. If two or more frequency groups tie for that largest size, pick the group whose frequency k is larger.
+
+ 
+
+Example 1:
+
+Input: s = "aaabbbccdddde"
+
+Output: "ab"
+
+Explanation:
+
+Frequency (k)	Distinct characters in group	Group size	Majority?
+4	{d}	1	No
+3	{a, b}	2	Yes
+2	{c}	1	No
+1	{e}	1	No
+Both characters 'a' and 'b' share the same frequency 3, they are in the majority frequency group. "ba" is also a valid answer.
+
+Example 2:
+
+Input: s = "abcd"
+
+Output: "abcd"
+
+Explanation:
+
+Frequency (k)	Distinct characters in group	Group size	Majority?
+1	{a, b, c, d}	4	Yes
+All characters share the same frequency 1, they are all in the majority frequency group.
+
+Example 3:
+
+Input: s = "pfpfgi"
+
+Output: "fp"
+
+Explanation:
+
+Frequency (k)	Distinct characters in group	Group size	Majority?
+2	{p, f}	2	Yes
+1	{g, i}	2	No (tied size, lower frequency)
+Both characters 'p' and 'f' share the same frequency 2, they are in the majority frequency group. There is a tie in group size with frequency 1, but we pick the higher frequency: 2.
+
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists only of lowercase English letters.
+solution:
+from collections import Counter, defaultdict
+
+class Solution:
+    def majorityFrequencyGroup(self, s: str) -> str:
+        freq = Counter(s)
+        groups = defaultdict(list)
+
+        for ch, count in freq.items():
+            groups[count].append(ch)
+
+        best_k = max(groups, key=lambda k: (len(groups[k]), k))
+        return ''.join(groups[best_k])
+
+5. 3803. Count Residue Prefixes
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s consisting only of lowercase English letters.
+
+A prefix of s is called a residue if the number of distinct characters in the prefix is equal to len(prefix) % 3.
+
+Return the count of residue prefixes in s.
+
+A prefix of a string is a non-empty substring that starts from the beginning of the string and extends to any point within it.
+ 
+
+Example 1:
+
+Input: s = "abc"
+
+Output: 2
+
+Explanation:​​​​​​​
+
+Prefix "a" has 1 distinct character and length modulo 3 is 1, so it is a residue.
+Prefix "ab" has 2 distinct characters and length modulo 3 is 2, so it is a residue.
+Prefix "abc" does not satisfy the condition. Thus, the answer is 2.
+Example 2:
+
+Input: s = "dd"
+
+Output: 1
+
+Explanation:
+
+Prefix "d" has 1 distinct character and length modulo 3 is 1, so it is a residue.
+Prefix "dd" has 1 distinct character but length modulo 3 is 2, so it is not a residue. Thus, the answer is 1.
+Example 3:
+
+Input: s = "bob"
+
+Output: 2
+
+Explanation:
+
+Prefix "b" has 1 distinct character and length modulo 3 is 1, so it is a residue.
+Prefix "bo" has 2 distinct characters and length mod 3 is 2, so it is a residue. Thus, the answer is 2.
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s contains only lowercase English letters.
+solution:
+class Solution:
+    def countResiduePrefixes(self, s: str) -> int:
+        seen = set()
+        ans = 0
+
+        for i, ch in enumerate(s, 1):   # i = prefix length (1-based)
+            seen.add(ch)
+            if len(seen) == i % 3:
+                ans += 1
+
+        return ans
+
+l = 5

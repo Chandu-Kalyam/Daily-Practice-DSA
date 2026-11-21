@@ -1,0 +1,267 @@
+Leetcode:
+1. 
+Code
+Testcase
+Testcase
+Test Result
+1189. Maximum Number of Balloons
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a string text, you want to use the characters of text to form as many instances of the word "balloon" as possible.
+
+You can use each character in text at most once. Return the maximum number of instances that can be formed.
+
+ 
+
+Example 1:
+
+
+
+Input: text = "nlaebolko"
+Output: 1
+Example 2:
+
+
+
+Input: text = "loonbalxballpoon"
+Output: 2
+Example 3:
+
+Input: text = "leetcode"
+Output: 0
+ 
+
+Constraints:
+
+1 <= text.length <= 104
+text consists of lower case English letters only.
+ 
+
+Note: This question is the same as 2287: Rearrange Characters to Make Target String.
+solution:
+from collections import Counter
+
+class Solution:
+    def maxNumberOfBalloons(self, text: str) -> int:
+        c = Counter(text)
+        return min(c['b'], c['a'], c['l'] // 2, c['o'] // 2, c['n'])
+
+2. 748. Shortest Completing Word
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a string licensePlate and an array of strings words, find the shortest completing word in words.
+
+A completing word is a word that contains all the letters in licensePlate. Ignore numbers and spaces in licensePlate, and treat letters as case insensitive. If a letter appears more than once in licensePlate, then it must appear in the word the same number of times or more.
+
+For example, if licensePlate = "aBc 12c", then it contains letters 'a', 'b' (ignoring case), and 'c' twice. Possible completing words are "abccdef", "caaacab", and "cbca".
+
+Return the shortest completing word in words. It is guaranteed an answer exists. If there are multiple shortest completing words, return the first one that occurs in words.
+
+ 
+
+Example 1:
+
+Input: licensePlate = "1s3 PSt", words = ["step","steps","stripe","stepple"]
+Output: "steps"
+Explanation: licensePlate contains letters 's', 'p', 's' (ignoring case), and 't'.
+"step" contains 't' and 'p', but only contains 1 's'.
+"steps" contains 't', 'p', and both 's' characters.
+"stripe" is missing an 's'.
+"stepple" is missing an 's'.
+Since "steps" is the only word containing all the letters, that is the answer.
+Example 2:
+
+Input: licensePlate = "1s3 456", words = ["looks","pest","stew","show"]
+Output: "pest"
+Explanation: licensePlate only contains the letter 's'. All the words contain 's', but among these "pest", "stew", and "show" are shortest. The answer is "pest" because it is the word that appears earliest of the 3.
+ 
+
+Constraints:
+
+1 <= licensePlate.length <= 7
+licensePlate contains digits, letters (uppercase or lowercase), or space ' '.
+1 <= words.length <= 1000
+1 <= words[i].length <= 15
+words[i] consists of lower case English letters.
+solution:
+from typing import List
+
+class Solution:
+    def shortestCompletingWord(self, licensePlate: str, words: List[str]) -> str:
+        need = [0] * 26
+        for ch in licensePlate:
+            if ch.isalpha():
+                need[ord(ch.lower()) - 97] += 1
+
+        best = None
+        for w in words:
+            cnt = [0] * 26
+            for ch in w:
+                cnt[ord(ch) - 97] += 1
+            if all(cnt[i] >= need[i] for i in range(26)):
+                if best is None or len(w) < len(best):
+                    best = w
+        return best
+
+3. 2269. Find the K-Beauty of a Number
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+The k-beauty of an integer num is defined as the number of substrings of num when it is read as a string that meet the following conditions:
+
+It has a length of k.
+It is a divisor of num.
+Given integers num and k, return the k-beauty of num.
+
+Note:
+
+Leading zeros are allowed.
+0 is not a divisor of any value.
+A substring is a contiguous sequence of characters in a string.
+
+ 
+
+Example 1:
+
+Input: num = 240, k = 2
+Output: 2
+Explanation: The following are the substrings of num of length k:
+- "24" from "240": 24 is a divisor of 240.
+- "40" from "240": 40 is a divisor of 240.
+Therefore, the k-beauty is 2.
+Example 2:
+
+Input: num = 430043, k = 2
+Output: 2
+Explanation: The following are the substrings of num of length k:
+- "43" from "430043": 43 is a divisor of 430043.
+- "30" from "430043": 30 is not a divisor of 430043.
+- "00" from "430043": 0 is not a divisor of 430043.
+- "04" from "430043": 4 is not a divisor of 430043.
+- "43" from "430043": 43 is a divisor of 430043.
+Therefore, the k-beauty is 2.
+ 
+
+Constraints:
+
+1 <= num <= 109
+1 <= k <= num.length (taking num as a string)
+solution:
+class Solution:
+    def divisorSubstrings(self, num: int, k: int) -> int:
+        str_num = str(num)
+        count = 0
+        for i in range(len(str_num) - k + 1):
+            new = int(str_num[i:i + k])
+            if new > 0:
+                if num % new == 0:
+                    count += 1
+
+        return count
+
+4. 2287. Rearrange Characters to Make Target String
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given two 0-indexed strings s and target. You can take some letters from s and rearrange them to form new strings.
+
+Return the maximum number of copies of target that can be formed by taking letters from s and rearranging them.
+
+ 
+
+Example 1:
+
+Input: s = "ilovecodingonleetcode", target = "code"
+Output: 2
+Explanation:
+For the first copy of "code", take the letters at indices 4, 5, 6, and 7.
+For the second copy of "code", take the letters at indices 17, 18, 19, and 20.
+The strings that are formed are "ecod" and "code" which can both be rearranged into "code".
+We can make at most two copies of "code", so we return 2.
+Example 2:
+
+Input: s = "abcba", target = "abc"
+Output: 1
+Explanation:
+We can make one copy of "abc" by taking the letters at indices 0, 1, and 2.
+We can make at most one copy of "abc", so we return 1.
+Note that while there is an extra 'a' and 'b' at indices 3 and 4, we cannot reuse the letter 'c' at index 2, so we cannot make a second copy of "abc".
+Example 3:
+
+Input: s = "abbaccaddaeea", target = "aaaaa"
+Output: 1
+Explanation:
+We can make one copy of "aaaaa" by taking the letters at indices 0, 3, 6, 9, and 12.
+We can make at most one copy of "aaaaa", so we return 1.
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+1 <= target.length <= 10
+s and target consist of lowercase English letters.
+ 
+
+Note: This question is the same as 1189: Maximum Number of Balloons.
+solution:
+from collections import Counter
+
+class Solution:
+    def rearrangeCharacters(self, s: str, target: str) -> int:
+        s_count = Counter(s)
+        t_count = Counter(target)
+        return min(s_count[ch] // cnt for ch, cnt in t_count.items())
+
+5. 521. Longest Uncommon Subsequence I
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given two strings a and b, return the length of the longest uncommon subsequence between a and b. If no such uncommon subsequence exists, return -1.
+
+An uncommon subsequence between two strings is a string that is a subsequence of exactly one of them.
+
+ 
+
+Example 1:
+
+Input: a = "aba", b = "cdc"
+Output: 3
+Explanation: One longest uncommon subsequence is "aba" because "aba" is a subsequence of "aba" but not "cdc".
+Note that "cdc" is also a longest uncommon subsequence.
+Example 2:
+
+Input: a = "aaa", b = "bbb"
+Output: 3
+Explanation: The longest uncommon subsequences are "aaa" and "bbb".
+Example 3:
+
+Input: a = "aaa", b = "aaa"
+Output: -1
+Explanation: Every subsequence of string a is also a subsequence of string b. Similarly, every subsequence of string b is also a subsequence of string a. So the answer would be -1.
+ 
+
+Constraints:
+
+1 <= a.length, b.length <= 100
+a and b consist of lower-case English letters.
+solution:
+class Solution:
+    def findLUSlength(self, a: str, b: str) -> int:
+        return -1 if a==b else max(len(a), len(b))
+
+l = 5

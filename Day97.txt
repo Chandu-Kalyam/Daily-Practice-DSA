@@ -1,0 +1,242 @@
+Leetcode:
+1. 1869. Longer Contiguous Segments of Ones than Zeros
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a binary string s, return true if the longest contiguous segment of 1's is strictly longer than the longest contiguous segment of 0's in s, or return false otherwise.
+
+For example, in s = "110100010" the longest continuous segment of 1s has length 2, and the longest continuous segment of 0s has length 3.
+Note that if there are no 0's, then the longest continuous segment of 0's is considered to have a length 0. The same applies if there is no 1's.
+
+ 
+
+Example 1:
+
+Input: s = "1101"
+Output: true
+Explanation:
+The longest contiguous segment of 1s has length 2: "1101"
+The longest contiguous segment of 0s has length 1: "1101"
+The segment of 1s is longer, so return true.
+Example 2:
+
+Input: s = "111000"
+Output: false
+Explanation:
+The longest contiguous segment of 1s has length 3: "111000"
+The longest contiguous segment of 0s has length 3: "111000"
+The segment of 1s is not longer, so return false.
+Example 3:
+
+Input: s = "110100010"
+Output: false
+Explanation:
+The longest contiguous segment of 1s has length 2: "110100010"
+The longest contiguous segment of 0s has length 3: "110100010"
+The segment of 1s is not longer, so return false.
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s[i] is either '0' or '1'.
+solution:
+class Solution:
+    def checkZeroOnes(self, s: str) -> bool:
+        return max(map(len, s.split('0'))) > max(map(len, s.split('1')))
+
+2. 1496. Path Crossing
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a string path, where path[i] = 'N', 'S', 'E' or 'W', each representing moving one unit north, south, east, or west, respectively. You start at the origin (0, 0) on a 2D plane and walk on the path specified by path.
+
+Return true if the path crosses itself at any point, that is, if at any time you are on a location you have previously visited. Return false otherwise.
+
+ 
+
+Example 1:
+
+
+Input: path = "NES"
+Output: false 
+Explanation: Notice that the path doesn't cross any point more than once.
+Example 2:
+
+
+Input: path = "NESWW"
+Output: true
+Explanation: Notice that the path visits the origin twice.
+ 
+
+Constraints:
+
+1 <= path.length <= 104
+path[i] is either 'N', 'S', 'E', or 'W'.
+solution:
+class Solution:
+    def isPathCrossing(self, path: str) -> bool:
+        x = y = 0
+        seen = {(0, 0)}
+
+        for c in path:
+            if c == 'N':
+                y += 1
+            elif c == 'S':
+                y -= 1
+            elif c == 'E':
+                x += 1
+            else:
+                x -= 1
+
+            if (x, y) in seen:
+                return True
+            seen.add((x, y))
+
+        return False
+
+3. 345. Reverse Vowels of a String
+Easy
+Topics
+premium lock icon
+Companies
+Given a string s, reverse only all the vowels in the string and return it.
+
+The vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.
+
+ 
+
+Example 1:
+
+Input: s = "IceCreAm"
+
+Output: "AceCreIm"
+
+Explanation:
+
+The vowels in s are ['I', 'e', 'e', 'A']. On reversing the vowels, s becomes "AceCreIm".
+
+Example 2:
+
+Input: s = "leetcode"
+
+Output: "leotcede"
+
+ 
+
+Constraints:
+
+1 <= s.length <= 3 * 105
+s consist of printable ASCII characters.
+solution:
+class Solution:
+    def reverseVowels(self, s: str) -> str:
+        vowels = set("aeiouAEIOU")
+        rev = iter([c for c in s if c in vowels][::-1])
+        return "".join(next(rev) if c in vowels else c for c in s)
+
+4. 2451. Odd String Difference
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an array of equal-length strings words. Assume that the length of each string is n.
+
+Each string words[i] can be converted into a difference integer array difference[i] of length n - 1 where difference[i][j] = words[i][j+1] - words[i][j] where 0 <= j <= n - 2. Note that the difference between two letters is the difference between their positions in the alphabet i.e. the position of 'a' is 0, 'b' is 1, and 'z' is 25.
+
+For example, for the string "acb", the difference integer array is [2 - 0, 1 - 2] = [2, -1].
+All the strings in words have the same difference integer array, except one. You should find that string.
+
+Return the string in words that has different difference integer array.
+
+ 
+
+Example 1:
+
+Input: words = ["adc","wzy","abc"]
+Output: "abc"
+Explanation: 
+- The difference integer array of "adc" is [3 - 0, 2 - 3] = [3, -1].
+- The difference integer array of "wzy" is [25 - 22, 24 - 25]= [3, -1].
+- The difference integer array of "abc" is [1 - 0, 2 - 1] = [1, 1]. 
+The odd array out is [1, 1], so we return the corresponding string, "abc".
+Example 2:
+
+Input: words = ["aaa","bob","ccc","ddd"]
+Output: "bob"
+Explanation: All the integer arrays are [0, 0] except for "bob", which corresponds to [13, -13].
+ 
+
+Constraints:
+
+3 <= words.length <= 100
+n == words[i].length
+2 <= n <= 20
+words[i] consists of lowercase English letters.
+sollution:
+class Solution:
+    def oddString(self, words: list[str]) -> str:
+        sigs = [tuple(ord(b) - ord(a) for a, b in zip(w, w[1:])) for w in words]
+        for i in range(len(words)):
+            if sigs.count(sigs[i]) == 1:
+                return words[i]
+
+5. 599. Minimum Index Sum of Two Lists
+Easy
+Topics
+premium lock icon
+Companies
+Given two arrays of strings list1 and list2, find the common strings with the least index sum.
+
+A common string is a string that appeared in both list1 and list2.
+
+A common string with the least index sum is a common string such that if it appeared at list1[i] and list2[j] then i + j should be the minimum value among all the other common strings.
+
+Return all the common strings with the least index sum. Return the answer in any order.
+
+ 
+
+Example 1:
+
+Input: list1 = ["Shogun","Tapioca Express","Burger King","KFC"], list2 = ["Piatti","The Grill at Torrey Pines","Hungry Hunter Steakhouse","Shogun"]
+Output: ["Shogun"]
+Explanation: The only common string is "Shogun".
+Example 2:
+
+Input: list1 = ["Shogun","Tapioca Express","Burger King","KFC"], list2 = ["KFC","Shogun","Burger King"]
+Output: ["Shogun"]
+Explanation: The common string with the least index sum is "Shogun" with index sum = (0 + 1) = 1.
+Example 3:
+
+Input: list1 = ["happy","sad","good"], list2 = ["sad","happy","good"]
+Output: ["sad","happy"]
+Explanation: There are three common strings:
+"happy" with index sum = (0 + 1) = 1.
+"sad" with index sum = (1 + 0) = 1.
+"good" with index sum = (2 + 2) = 4.
+The strings with the least index sum are "sad" and "happy".
+ 
+
+Constraints:
+
+1 <= list1.length, list2.length <= 1000
+1 <= list1[i].length, list2[i].length <= 30
+list1[i] and list2[i] consist of spaces ' ' and English letters.
+All the strings of list1 are unique.
+All the strings of list2 are unique.
+There is at least a common string between list1 and list2.
+solution:
+class Solution:
+    def findRestaurant(self, list1: List[str], list2: List[str]) -> List[str]:
+        idx = {w: i for i, w in enumerate(list1)}
+        sums = {w: idx[w] + j for j, w in enumerate(list2) if w in idx}
+
+        mn = min(sums.values())
+        return [w for w, s in sums.items() if s == mn]
+
+l = 5

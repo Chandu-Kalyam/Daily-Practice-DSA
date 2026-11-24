@@ -1,0 +1,224 @@
+Leetcode:
+1. 4030. Check ASCII Palindromic
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s consisting of lowercase English letters.
+
+Construct a binary string by replacing each character in s with the 8-bit binary representation of its ASCII value, including leading zeros, while preserving the original order of the characters.
+
+Return true if the resulting binary string is a palindrome. Otherwise, return false.
+
+ 
+
+Example 1:
+
+Input: s = "ff"
+
+Output: true
+
+Explanation:
+
+The ASCII value of f is 102, whose 8-bit binary representation is 01100110.
+Thus, the binary string is 0110011001100110.
+Since this binary string is a palindrome, the output is true.
+Example 2:
+
+Input: s = "leet"
+
+Output: false
+
+Explanation:
+
+The ASCII values of l, e, e, and t are 108, 101, 101, and 116, respectively.
+Their 8-bit binary representations are 01101100, 01100101, 01100101, and 01110100.
+Thus, the binary string is 01101100011001010110010101110100.
+Since this binary string is not a palindrome, the output is false.
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists of lowercase English letters.
+solution:
+class Solution:
+    def isPalindromic(self, s: str) -> bool:
+        binary = ''.join(format(ord(c), '08b') for c in s)
+        return binary == binary[::-1]
+
+2. 67. Add Binary
+Solved
+Easy
+Topics
+premium lock icon
+Companies
+Given two binary strings a and b, return their sum as a binary string.
+
+ 
+
+Example 1:
+
+Input: a = "11", b = "1"
+Output: "100"
+Example 2:
+
+Input: a = "1010", b = "1011"
+Output: "10101"
+ 
+
+Constraints:
+
+1 <= a.length, b.length <= 104
+a and b consist only of '0' or '1' characters.
+Each string does not contain leading zeros except for the zero itself.
+solution:
+class Solution:
+    def addBinary(self, a: str, b: str) -> str:
+        total = int(a,2) + int(b,2)
+        return bin(total)[2:]
+
+3. 2027. Minimum Moves to Convert String
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s consisting of n characters which are either 'X' or 'O'.
+
+A move is defined as selecting three consecutive characters of s and converting them to 'O'. Note that if a move is applied to the character 'O', it will stay the same.
+
+Return the minimum number of moves required so that all the characters of s are converted to 'O'.
+
+ 
+
+Example 1:
+
+Input: s = "XXX"
+Output: 1
+Explanation: XXX -> OOO
+We select all the 3 characters and convert them in one move.
+Example 2:
+
+Input: s = "XXOX"
+Output: 2
+Explanation: XXOX -> OOOX -> OOOO
+We select the first 3 characters in the first move, and convert them to 'O'.
+Then we select the last 3 characters and convert them so that the final string contains all 'O's.
+Example 3:
+
+Input: s = "OOOO"
+Output: 0
+Explanation: There are no 'X's in s to convert.
+ 
+
+Constraints:
+
+3 <= s.length <= 1000
+s[i] is either 'X' or 'O'.
+solution:
+import re
+
+class Solution:
+    def minimumMoves(self, s: str) -> int:
+        return len(re.findall(r'X.{0,2}', s))
+
+4. 520. Detect Capital
+Easy
+Topics
+premium lock icon
+Companies
+We define the usage of capitals in a word to be right when one of the following cases holds:
+
+All letters in this word are capitals, like "USA".
+All letters in this word are not capitals, like "leetcode".
+Only the first letter in this word is capital, like "Google".
+Given a string word, return true if the usage of capitals in it is right.
+
+ 
+
+Example 1:
+
+Input: word = "USA"
+Output: true
+Example 2:
+
+Input: word = "FlaG"
+Output: false
+ 
+
+Constraints:
+
+1 <= word.length <= 100
+word consists of lowercase and uppercase English letters.
+solution:
+class Solution:
+    def detectCapitalUse(self, word: str) -> bool:
+        if word == word.upper():
+            return True
+        elif word == word.lower():
+            return True
+        elif word[0].isupper() and word[1:].islower():
+            return True
+        return False
+
+5. 3707. Equal Score Substrings
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s consisting of lowercase English letters.
+
+The score of a string is the sum of the positions of its characters in the alphabet, where 'a' = 1, 'b' = 2, ..., 'z' = 26.
+
+Determine whether there exists an index i such that the string can be split into two non-empty substrings s[0..i] and s[(i + 1)..(n - 1)] that have equal scores.
+
+Return true if such a split exists, otherwise return false.
+
+ 
+
+Example 1:
+
+Input: s = "adcb"
+
+Output: true
+
+Explanation:
+
+Split at index i = 1:
+
+Left substring = s[0..1] = "ad" with score = 1 + 4 = 5
+Right substring = s[2..3] = "cb" with score = 3 + 2 = 5
+Both substrings have equal scores, so the output is true.
+
+Example 2:
+
+Input: s = "bace"
+
+Output: false
+
+Explanation:​​​​​​
+
+​​​​​​​No split produces equal scores, so the output is false.
+
+ 
+
+Constraints:
+
+2 <= s.length <= 100
+s consists of lowercase English letters.
+soluton:
+from itertools import accumulate
+
+class Solution:
+    def scoreBalance(self, s: str) -> bool:
+        values = [ord(c) - 96 for c in s]
+        total = sum(values)
+        return any(2 * left == total for left in accumulate(values[:-1]))
+
+l = 5
+

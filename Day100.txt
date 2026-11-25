@@ -1,0 +1,342 @@
+Leetcode:
+3934. Smallest Unique Subarray
+Attempted
+Hard
+Topics
+premium lock icon
+Companies
+Hint
+You are given an integer array nums.
+
+Find the minimum length of a subarray that is not identical to any other subarray in nums.
+
+Return an integer denoting the minimum possible length of such a subarray.
+
+Two subarrays are considered identical if they have the same length and the same elements in corresponding positions.
+
+ 
+
+Example 1:
+
+Input: nums = [3,3,3]
+
+Output: 3
+
+Explanation:
+
+Subarrays of length 1: [3] → appears 3 times
+Subarrays of length 2: [3, 3] → appears 2 times
+Subarrays of length 3: [3, 3, 3] → appears once
+The subarray [3, 3, 3] is unique, so the smallest unique subarray length is 3.
+
+Example 2:
+
+Input: nums = [2,1,2,3,3]
+
+Output: 1
+
+Explanation:
+
+Subarrays of length 1:
+
+[2] → appears 2 times
+[1] → appears once
+[3] → appears 2 times
+The subarray [1] is unique, so the smallest unique subarray length is 1.
+Example 3:
+
+Input: nums = [1,1,2,2,1]
+
+Output: 2
+
+Explanation:
+
+Subarrays of length 1:
+
+[1] → appears 3 times
+[2] → appears 2 times
+Subarrays of length 2:
+
+[1, 1] → appears once
+[1, 2] → appears once
+[2, 2] → appears once
+[2, 1] → appears once
+There is at least one subarray of length 2 that is unique, so the smallest unique subarray length is 2.
+ 
+
+Constraints:
+
+1 <= nums.length <= 105
+1 <= nums[i] <= 105
+solution:
+from typing import List
+
+class Solution:
+    def smallestUniqueSubarray(self, nums: List[int]) -> int:
+        n = len(nums)
+        if n == 1:
+            return 1
+
+        # Coordinate-compress values
+        vals = sorted(set(nums))
+        comp = {v: i for i, v in enumerate(vals)}
+        a = [comp[x] for x in nums]
+
+        # Suffix array by prefix doubling
+        sa = list(range(n))
+        rank = a[:]
+        k = 1
+        while k < n:
+            sa.sort(key=lambda i: (rank[i], rank[i + k] if i + k < n else -1))
+            new_rank = [0] * n
+            for idx in range(1, n):
+                prev, cur = sa[idx - 1], sa[idx]
+                prev_key = (rank[prev], rank[prev + k] if prev + k < n else -1)
+                cur_key = (rank[cur], rank[cur + k] if cur + k < n else -1)
+                new_rank[cur] = new_rank[prev] + (prev_key != cur_key)
+            rank = new_rank
+            if rank[sa[-1]] == n - 1:
+                break
+            k <<= 1
+
+        # Kasai LCP
+        rank_pos = [0] * n
+        for i, p in enumerate(sa):
+            rank_pos[p] = i
+
+        lcp = [0] * (n - 1)
+        h = 0
+        for i in range(n):
+            r = rank_pos[i]
+            if r == 0:
+                continue
+            j = sa[r - 1]
+            while i + h < n and j + h < n and a[i + h] == a[j + h]:
+                h += 1
+            lcp[r - 1] = h
+            if h:
+                h -= 1
+
+        # Shortest unique substring
+        ans = n
+        for i in range(n):
+            r = rank_pos[i]
+            mx = 0
+            if r > 0:
+                mx = max(mx, lcp[r - 1])
+            if r < n - 1:
+                mx = max(mx, lcp[r])
+            cand = mx + 1
+            if cand <= n - i and cand < ans:
+                ans = cand
+        return ans
+
+2. 3838. Weighted Word Mapping
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given an array of strings words, where each string represents a word containing lowercase English letters.
+
+You are also given an integer array weights of length 26, where weights[i] represents the weight of the ith lowercase English letter.
+
+The weight of a word is defined as the sum of the weights of its characters.
+
+For each word, take its weight modulo 26 and map the result to a lowercase English letter using reverse alphabetical order (0 -> 'z', 1 -> 'y', ..., 25 -> 'a').
+
+Return a string formed by concatenating the mapped characters for all words in order.
+
+ 
+
+Example 1:
+
+Input: words = ["abcd","def","xyz"], weights = [5,3,12,14,1,2,3,2,10,6,6,9,7,8,7,10,8,9,6,9,9,8,3,7,7,2]
+
+Output: "rij"
+
+Explanation:
+
+The weight of "abcd" is 5 + 3 + 12 + 14 = 34. The result modulo 26 is 34 % 26 = 8, which maps to 'r'.
+The weight of "def" is 14 + 1 + 2 = 17. The result modulo 26 is 17 % 26 = 17, which maps to 'i'.
+The weight of "xyz" is 7 + 7 + 2 = 16. The result modulo 26 is 16 % 26 = 16, which maps to 'j'.
+Thus, the string formed by concatenating the mapped characters is "rij".
+
+Example 2:
+
+Input: words = ["a","b","c"], weights = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+
+Output: "yyy"
+
+Explanation:
+
+Each word has weight 1. The result modulo 26 is 1 % 26 = 1, which maps to 'y'.
+
+Thus, the string formed by concatenating the mapped characters is "yyy".
+
+Example 3:
+
+Input: words = ["abcd"], weights = [7,5,3,4,3,5,4,9,4,2,2,7,10,2,5,10,6,1,2,2,4,1,3,4,4,5]
+
+Output: "g"
+
+Explanation:​​​​​​​
+
+The weight of "abcd" is 7 + 5 + 3 + 4 = 19. The result modulo 26 is 19 % 26 = 19, which maps to 'g'.
+
+Thus, the string formed by concatenating the mapped characters is "g".
+
+ 
+
+Constraints:
+
+1 <= words.length <= 100
+1 <= words[i].length <= 10
+weights.length == 26
+1 <= weights[i] <= 100
+words[i] consists of lowercase English letters.
+solution:
+class Solution:
+    def mapWordWeights(self, words: List[str], weights: List[int]) -> str:
+        return ''.join(
+            chr(122 - sum(weights[b - 97] for b in w.encode()) % 26)
+            for w in words
+        )
+
+3. 1678. Goal Parser Interpretation
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You own a Goal Parser that can interpret a string command. The command consists of an alphabet of "G", "()" and/or "(al)" in some order. The Goal Parser will interpret "G" as the string "G", "()" as the string "o", and "(al)" as the string "al". The interpreted strings are then concatenated in the original order.
+
+Given the string command, return the Goal Parser's interpretation of command.
+
+ 
+
+Example 1:
+
+Input: command = "G()(al)"
+Output: "Goal"
+Explanation: The Goal Parser interprets the command as follows:
+G -> G
+() -> o
+(al) -> al
+The final concatenated result is "Goal".
+Example 2:
+
+Input: command = "G()()()()(al)"
+Output: "Gooooal"
+Example 3:
+
+Input: command = "(al)G(al)()()G"
+Output: "alGalooG"
+ 
+
+Constraints:
+
+1 <= command.length <= 100
+command consists of "G", "()", and/or "(al)" in some order.
+solution:
+class Solution:
+    def interpret(self, command: str) -> str:
+        return command.replace("()", "o").replace("(al)", "al")
+
+4. 1614. Maximum Nesting Depth of the Parentheses
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a valid parentheses string s, return the nesting depth of s. The nesting depth is the maximum number of nested parentheses.
+
+ 
+
+Example 1:
+
+Input: s = "(1+(2*3)+((8)/4))+1"
+
+Output: 3
+
+Explanation:
+
+Digit 8 is inside of 3 nested parentheses in the string.
+
+Example 2:
+
+Input: s = "(1)+((2))+(((3)))"
+
+Output: 3
+
+Explanation:
+
+Digit 3 is inside of 3 nested parentheses in the string.
+
+Example 3:
+
+Input: s = "()(())((()()))"
+
+Output: 3
+
+ 
+
+Constraints:
+
+1 <= s.length <= 100
+s consists of digits 0-9 and characters '+', '-', '*', '/', '(', and ')'.
+It is guaranteed that parentheses expression s is a VPS.
+solution:
+from itertools import accumulate
+
+class Solution:
+    def maxDepth(self, s: str) -> int:
+        return max(accumulate(1 if c == '(' else -1 if c == ')' else 0 for c in s))
+
+5. 2325. Decode the Message
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given the strings key and message, which represent a cipher key and a secret message, respectively. The steps to decode message are as follows:
+
+Use the first appearance of all 26 lowercase English letters in key as the order of the substitution table.
+Align the substitution table with the regular English alphabet.
+Each letter in message is then substituted using the table.
+Spaces ' ' are transformed to themselves.
+For example, given key = "happy boy" (actual key would have at least one instance of each letter in the alphabet), we have the partial substitution table of ('h' -> 'a', 'a' -> 'b', 'p' -> 'c', 'y' -> 'd', 'b' -> 'e', 'o' -> 'f').
+Return the decoded message.
+
+ 
+
+Example 1:
+
+
+Input: key = "the quick brown fox jumps over the lazy dog", message = "vkbs bs t suepuv"
+Output: "this is a secret"
+Explanation: The diagram above shows the substitution table.
+It is obtained by taking the first appearance of each letter in "the quick brown fox jumps over the lazy dog".
+Example 2:
+
+
+Input: key = "eljuxhpwnyrdgtqkviszcfmabo", message = "zwx hnfx lqantp mnoeius ycgk vcnjrdb"
+Output: "the five boxing wizards jump quickly"
+Explanation: The diagram above shows the substitution table.
+It is obtained by taking the first appearance of each letter in "eljuxhpwnyrdgtqkviszcfmabo".
+ 
+
+Constraints:
+
+26 <= key.length <= 2000
+key consists of lowercase English letters and ' '.
+key contains every letter in the English alphabet ('a' to 'z') at least once.
+1 <= message.length <= 2000
+message consists of lowercase English letters and ' '.
+solution:
+class Solution:
+    def decodeMessage(self, key: str, message: str) -> str:
+        table = dict(zip(dict.fromkeys(key.replace(' ', '')), 'abcdefghijklmnopqrstuvwxyz'))
+        return ''.join(table.get(c, c) for c in message)
+
+l = 5

@@ -1,0 +1,235 @@
+Leetcode:
+1. 3931. Check Adjacent Digit Differences
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given a string s consisting of digits.
+
+Return true if the absolute difference between every pair of adjacent digits is at most 2, otherwise return false.
+
+The absolute difference between a and b is defined as abs(a - b).
+
+ 
+
+Example 1:
+
+Input: s = "132"
+
+Output: true
+
+Explanation:
+
+The absolute difference between digits at s[0] and s[1] is abs(1 - 3) = 2.
+The absolute difference between digits at s[1] and s[2] is abs(3 - 2) = 1.
+Since both differences are at most 2, the answer is true.
+Example 2:
+
+Input: s = "129"
+
+Output: false
+
+Explanation:
+
+The absolute difference between digits at s[0] and s[1] is abs(1 - 2) = 1.
+The absolute difference between digits at s[1] and s[2] is abs(2 - 9) = 7, which is greater than 2.
+Therefore, the answer is false.
+ 
+
+Constraints:
+
+2 <= s.length <= 100
+s consists only of digits.
+solution:
+class Solution:
+    def isAdjacentDiffAtMostTwo(self, s: str) -> bool:
+        res = []
+        for i in range(len(s) - 1):
+            res.append(abs((int(s[i]) - int(s[i + 1]))))
+        
+        return all(r <= 2 for r in res)
+
+2. 500. Keyboard Row
+Easy
+Topics
+premium lock icon
+Companies
+Given an array of strings words, return the words that can be typed using letters of the alphabet on only one row of American keyboard like the image below.
+
+Note that the strings are case-insensitive, both lowercased and uppercased of the same letter are treated as if they are at the same row.
+
+In the American keyboard:
+
+the first row consists of the characters "qwertyuiop",
+the second row consists of the characters "asdfghjkl", and
+the third row consists of the characters "zxcvbnm".
+
+ 
+
+Example 1:
+
+Input: words = ["Hello","Alaska","Dad","Peace"]
+
+Output: ["Alaska","Dad"]
+
+Explanation:
+
+Both "a" and "A" are in the 2nd row of the American keyboard due to case insensitivity.
+
+Example 2:
+
+Input: words = ["omk"]
+
+Output: []
+
+Example 3:
+
+Input: words = ["adsdf","sfd"]
+
+Output: ["adsdf","sfd"]
+
+ 
+
+Constraints:
+
+1 <= words.length <= 20
+1 <= words[i].length <= 100
+words[i] consists of English letters (both lowercase and uppercase). 
+solution:
+class Solution:
+    def findWords(self, words: list[str]) -> list[str]:
+        rows = [
+            set("qwertyuiop"),
+            set("asdfghjkl"),
+            set("zxcvbnm"),
+        ]
+        res = []
+        for w in words:
+            lower = set(w.lower())
+            if any(lower <= row for row in rows):
+                res.append(w)
+        return res
+
+3. 409. Longest Palindrome
+Easy
+Topics
+premium lock icon
+Companies
+Given a string s which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.
+
+Letters are case sensitive, for example, "Aa" is not considered a palindrome.
+
+ 
+
+Example 1:
+
+Input: s = "abccccdd"
+Output: 7
+Explanation: One longest palindrome that can be built is "dccaccd", whose length is 7.
+Example 2:
+
+Input: s = "a"
+Output: 1
+Explanation: The longest palindrome that can be built is "a", whose length is 1.
+ 
+
+Constraints:
+
+1 <= s.length <= 2000
+s consists of lowercase and/or uppercase English letters only.
+solution:
+from collections import Counter
+
+class Solution:
+    def longestPalindrome(self, s: str) -> int:
+        counts = Counter(s).values()
+        length = sum(c // 2 * 2 for c in counts)
+        return length + (1 if any(c % 2 for c in counts) else 0)
+
+4. 2839. Check if Strings Can be Made Equal With Operations I
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given two strings s1 and s2, both of length 4, consisting of lowercase English letters.
+
+You can apply the following operation on any of the two strings any number of times:
+
+Choose any two indices i and j such that j - i = 2, then swap the two characters at those indices in the string.
+Return true if you can make the strings s1 and s2 equal, and false otherwise.
+
+ 
+
+Example 1:
+
+Input: s1 = "abcd", s2 = "cdab"
+Output: true
+Explanation: We can do the following operations on s1:
+- Choose the indices i = 0, j = 2. The resulting string is s1 = "cbad".
+- Choose the indices i = 1, j = 3. The resulting string is s1 = "cdab" = s2.
+Example 2:
+
+Input: s1 = "abcd", s2 = "dacb"
+Output: false
+Explanation: It is not possible to make the two strings equal.
+ 
+
+Constraints:
+
+s1.length == s2.length == 4
+s1 and s2 consist only of lowercase English letters.
+solution:
+class Solution:
+    def canBeEqual(self, s1: str, s2: str) -> bool:
+        return sorted(s1[0::2]) == sorted(s2[0::2]) and sorted(s1[1::2]) == sorted(s2[1::2])
+
+5. 2224. Minimum Number of Operations to Convert Time
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+You are given two strings current and correct representing two 24-hour times.
+
+24-hour times are formatted as "HH:MM", where HH is between 00 and 23, and MM is between 00 and 59. The earliest 24-hour time is 00:00, and the latest is 23:59.
+
+In one operation you can increase the time current by 1, 5, 15, or 60 minutes. You can perform this operation any number of times.
+
+Return the minimum number of operations needed to convert current to correct.
+
+ 
+
+Example 1:
+
+Input: current = "02:30", correct = "04:35"
+Output: 3
+Explanation:
+We can convert current to correct in 3 operations as follows:
+- Add 60 minutes to current. current becomes "03:30".
+- Add 60 minutes to current. current becomes "04:30".
+- Add 5 minutes to current. current becomes "04:35".
+It can be proven that it is not possible to convert current to correct in fewer than 3 operations.
+Example 2:
+
+Input: current = "11:00", correct = "11:01"
+Output: 1
+Explanation: We only have to add one minute to current, so the minimum number of operations needed is 1.
+ 
+
+Constraints:
+
+current and correct are in the format "HH:MM"
+current <= correct
+solution:
+class Solution:
+    def convertTime(self, current: str, correct: str) -> int:
+        def to_min(t):
+            h, m = map(int, t.split(':'))
+            return h * 60 + m
+
+        d = to_min(correct) - to_min(current)
+        return (d // 60) + (d % 60 // 15) + (d % 15 // 5) + (d % 5)
+
+l = 5

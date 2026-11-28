@@ -1,0 +1,224 @@
+Leetcode:
+1. 1078. Occurrences After Bigram
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given two strings first and second, consider occurrences in some text of the form "first second third", where second comes immediately after first, and third comes immediately after second.
+
+Return an array of all the words third for each occurrence of "first second third".
+
+ 
+
+Example 1:
+
+Input: text = "alice is a good girl she is a good student", first = "a", second = "good"
+Output: ["girl","student"]
+Example 2:
+
+Input: text = "we will we will rock you", first = "we", second = "will"
+Output: ["we","rock"]
+ 
+
+Constraints:
+
+1 <= text.length <= 1000
+text consists of lowercase English letters and spaces.
+All the words in text are separated by a single space.
+1 <= first.length, second.length <= 10
+first and second consist of lowercase English letters.
+text will not have any leading or trailing spaces.
+solution:
+class Solution:
+    def findOcurrences(self, text: str, first: str, second: str) -> list[str]:
+        words = text.split()
+        res = []
+        for i in range(2, len(words)):
+            if words[i - 2] == first and words[i - 1] == second:
+                res.append(words[i])
+        return res
+
+2. 2299. Strong Password Checker II
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+A password is said to be strong if it satisfies all the following criteria:
+
+It has at least 8 characters.
+It contains at least one lowercase letter.
+It contains at least one uppercase letter.
+It contains at least one digit.
+It contains at least one special character. The special characters are the characters in the following string: "!@#$%^&*()-+".
+It does not contain 2 of the same character in adjacent positions (i.e., "aab" violates this condition, but "aba" does not).
+Given a string password, return true if it is a strong password. Otherwise, return false.
+
+ 
+
+Example 1:
+
+Input: password = "IloveLe3tcode!"
+Output: true
+Explanation: The password meets all the requirements. Therefore, we return true.
+Example 2:
+
+Input: password = "Me+You--IsMyDream"
+Output: false
+Explanation: The password does not contain a digit and also contains 2 of the same character in adjacent positions. Therefore, we return false.
+Example 3:
+
+Input: password = "1aB!"
+Output: false
+Explanation: The password does not meet the length requirement. Therefore, we return false.
+ 
+
+Constraints:
+
+1 <= password.length <= 100
+password consists of letters, digits, and special characters: "!@#$%^&*()-+".
+solution:
+class Solution:
+    def strongPasswordCheckerII(self, password: str) -> bool:
+        if len(password) < 8:
+            return False
+
+        has_lower = has_upper = has_digit = has_special = False
+        specials = set("!@#$%^&*()-+")
+
+        for i, c in enumerate(password):
+            if c.islower():
+                has_lower = True
+            elif c.isupper():
+                has_upper = True
+            elif c.isdigit():
+                has_digit = True
+            elif c in specials:
+                has_special = True
+
+            if i > 0 and password[i] == password[i - 1]:
+                return False
+
+        return has_lower and has_upper and has_digit and has_special
+
+3. 1796. Second Largest Digit in a String
+Attempted
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given an alphanumeric string s, return the second largest numerical digit that appears in s, or -1 if it does not exist.
+
+An alphanumeric string is a string consisting of lowercase English letters and digits.
+
+ 
+
+Example 1:
+
+Input: s = "dfa12321afd"
+Output: 2
+Explanation: The digits that appear in s are [1, 2, 3]. The second largest digit is 2.
+Example 2:
+
+Input: s = "abc1111"
+Output: -1
+Explanation: The digits that appear in s are [1]. There is no second largest digit. 
+ 
+
+Constraints:
+
+1 <= s.length <= 500
+s consists of only lowercase English letters and digits.
+solution:
+class Solution:
+    def secondHighest(self, s: str) -> int:
+        digits = sorted(set(int(c) for c in s if c.isdigit()))
+        return digits[-2] if len(digits) >= 2 else -1
+
+4. 541. Reverse String II
+Easy
+Topics
+premium lock icon
+Companies
+Given a string s and an integer k, reverse the first k characters for every 2k characters counting from the start of the string.
+
+If there are fewer than k characters left, reverse all of them. If there are less than 2k but greater than or equal to k characters, then reverse the first k characters and leave the other as original.
+
+ 
+
+Example 1:
+
+Input: s = "abcdefg", k = 2
+Output: "bacdfeg"
+Example 2:
+
+Input: s = "abcd", k = 2
+Output: "bacd"
+ 
+
+Constraints:
+
+1 <= s.length <= 104
+s consists of only lowercase English letters.
+1 <= k <= 104
+solution:
+class Solution:
+    def reverseStr(self, s: str, k: int) -> str:
+        chars = list(s)
+        for i in range(0, len(chars), 2 * k):
+            chars[i:i + k] = chars[i:i + k][::-1]
+        return ''.join(chars)
+
+5. 3216. Lexicographically Smallest String After a Swap
+Easy
+Topics
+premium lock icon
+Companies
+Hint
+Given a string s containing only digits, return the lexicographically smallest string that can be obtained after swapping adjacent digits in s with the same parity at most once.
+
+Digits have the same parity if both are odd or both are even. For example, 5 and 9, as well as 2 and 4, have the same parity, while 6 and 9 do not.
+
+ 
+
+Example 1:
+
+Input: s = "45320"
+
+Output: "43520"
+
+Explanation:
+
+s[1] == '5' and s[2] == '3' both have the same parity, and swapping them results in the lexicographically smallest string.
+
+Example 2:
+
+Input: s = "001"
+
+Output: "001"
+
+Explanation:
+
+There is no need to perform a swap because s is already the lexicographically smallest.
+
+ 
+
+Constraints:
+
+2 <= s.length <= 100
+s consists only of digits.
+solution:
+class Solution:
+    def getSmallestString(self, s: str) -> str:
+        chars = list(s)
+        for i in range(len(chars) - 1):
+            a, b = chars[i], chars[i + 1]
+            if a > b and int(a) % 2 == int(b) % 2:
+                chars[i], chars[i + 1] = b, a
+                break
+        return ''.join(chars)
+
+l = 5
+
